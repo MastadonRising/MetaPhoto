@@ -4,7 +4,7 @@ import "./App.css";
 // import ReactFilestack from "filestack-react";
 // require('dotenv').config()
 import ImageUploadFS from "./ImageUploadFileStack";
-import ImageUploadx from "./ImageUpload'";
+import ImageUploadx from "./Components/ImageUpload";
 
 function App() {
   console.log(process.env);
@@ -20,22 +20,6 @@ function App() {
       <p className="App-intro">
         To get started, open the picker and upload your image.
       </p>
-
-      {/* <ReactFilestack
-        apikey={YOUR_API_KEY}
-        // actionOptions={PickerOptions}
-        componentDisplayMode={{
-          type: "button",
-          customText: "Click here to open picker",
-          customClass: "some-custom-class",
-        }}
-        onSuccess={(results) => {
-          console.log(results);
-        }}
-      /> */}
-      <br></br>
-      <br></br>
-      <br></br>
       <ImageUploadx />
       {/* <img src={image} alt="Is this your upload?"></img> */}
     </div>
