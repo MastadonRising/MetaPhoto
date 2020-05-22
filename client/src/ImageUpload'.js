@@ -4,7 +4,7 @@ import Axios from "axios";
 
 function ImageUploadx() {
   const [exifTags, setExifTags] = useState({});
-  const [currentGPS, setCurrentGPS] = useState({ lat: 38.417, lon: -121.463 });
+  const [currentGPS, setCurrentGPS] = useState({ lat: 37.423, lon: -122.084 });
   const [climbRoutes, setClimbRoutes] = useState([]);
 
   useEffect(() => {
@@ -95,9 +95,18 @@ function ImageUploadx() {
       </table>
       <div>
         <h4>Climbs Near You</h4>
-        <ul>
+        <ul style={{ textAlign: "left", listStyle: "none" }}>
           {climbRoutes.map((i) => (
-            <li>{i.name}</li>
+            <a href={i.url} style={{ textDecoration: "none" }}>
+              <li>
+                <img
+                  style={{ marginRight: "2rem" }}
+                  src={i.imgSqSmall}
+                  alt="thumbnail of route"
+                ></img>
+                {`${i.name}, Rating: ${i.rating}, Popularity: ${i.stars}/5`}
+              </li>
+            </a>
           ))}
         </ul>
       </div>
