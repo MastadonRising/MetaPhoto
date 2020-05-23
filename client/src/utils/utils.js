@@ -28,26 +28,28 @@ export default {
   useSortableData: function (
     items,
     config = {
-      key: "first_name",
+      key: "name",
       direction: "ascending",
     }
   ) {
     const [sortConfig, setSortConfig] = useState(config);
 
     const sortedItems = useMemo(() => {
-      let sortableItems = [...items];
-      if (sortConfig !== null) {
-        sortableItems.sort((a, b) => {
-          if (a[sortConfig.key] < b[sortConfig.key]) {
-            return sortConfig.direction === "ascending" ? -1 : 1;
-          }
-          if (a[sortConfig.key] > b[sortConfig.key]) {
-            return sortConfig.direction === "ascending" ? 1 : -1;
-          }
-          return 0;
-        });
+      if (items.length > 0) {
+        let sortableItems = [...items];
+        if (sortConfig !== null) {
+          sortableItems.sort((a, b) => {
+            if (a[sortConfig.key] < b[sortConfig.key]) {
+              return sortConfig.direction === "ascending" ? -1 : 1;
+            }
+            if (a[sortConfig.key] > b[sortConfig.key]) {
+              return sortConfig.direction === "ascending" ? 1 : -1;
+            }
+            return 0;
+          });
+        }
+        return sortableItems;
       }
-      return sortableItems;
     }, [items, sortConfig]);
 
     const requestSort = (key) => {

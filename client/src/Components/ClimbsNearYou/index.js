@@ -1,54 +1,13 @@
-import React, { useState, useMemo, useEffect, useContext } from "react";
+import React, { useState, useMemo, useContext } from "react";
 import "./style.css";
-import API from "../../utils/API";
 import ReactLoading from "react-loading";
 import LocalClimbsContext from "../../utils/LocalClimbsContext";
-
-function useSortableData(
-  items,
-  config = {
-    key: "name",
-    direction: "ascending",
-  }
-) {
-  const [sortConfig, setSortConfig] = useState(config);
-
-  const sortedItems = useMemo(() => {
-    if (items.length > 0) {
-      let sortableItems = [...items];
-      if (sortConfig !== null) {
-        sortableItems.sort((a, b) => {
-          if (a[sortConfig.key] < b[sortConfig.key]) {
-            return sortConfig.direction === "ascending" ? -1 : 1;
-          }
-          if (a[sortConfig.key] > b[sortConfig.key]) {
-            return sortConfig.direction === "ascending" ? 1 : -1;
-          }
-          return 0;
-        });
-      }
-      return sortableItems;
-    }
-  }, [items, sortConfig]);
-
-  const requestSort = (key) => {
-    let direction = "ascending";
-    if (
-      sortConfig &&
-      sortConfig.key === key &&
-      sortConfig.direction === "ascending"
-    ) {
-      direction = "descending";
-    }
-    setSortConfig({ key, direction });
-  };
-
-  return { items: sortedItems, requestSort, sortConfig };
-}
+import UTILS from "../../utils/utils";
 
 function ClimbsNearYou() {
+  const [sortKey, setSortKey] = useState("name");
   const { routes } = useContext(LocalClimbsContext);
-  const { items: localClimbs, requestSort, sortConfig } = useSortableData(
+  const { items: localClimbs, requestSort, sortConfig } = UTILS.useSortableData(
     routes
   );
   const getClassNamesFor = (name) => {
@@ -71,14 +30,23 @@ function ClimbsNearYou() {
         />
       ) : (
         <div>
+          <span>Sort by: </span>
+          <select
+            onChange={(e) => {
+              setSortKey(e.target.value);
+            }}
+          >
+            <option value="name">Name</option>
+            <option value="rating">Rating</option>
+            <option value="stars">Popularity</option>
+          </select>
           <button
             type="button"
             onClick={() => {
-              requestSort(`name`);
+              requestSort(sortKey);
             }}
-            className={getClassNamesFor("name")}
           >
-            SORTIFYING
+            <span className={getClassNamesFor(sortKey)}></span>
           </button>
           <ul style={{ textAlign: "left", listStyle: "none" }}>
             {localClimbs.map((i, index) => (
