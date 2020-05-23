@@ -12,19 +12,19 @@ import LocalClimbsContext from "../../utils/LocalClimbsContext";
 function ImageUploadx() {
   const [exifData, setexifData] = useState({});
   const [routes, setRoutes] = useState({});
-  const [loadState, setLoadState] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [uploadedImage, setUploadedImage] = useState(
-    "/images/rock-climb-unsplash-wOverlay-papyrus.jpg"
+    "/images/rock-climb-unsplash-wOverlay.jpg"
   );
   const [currentGPS, setCurrentGPS] = useState({ lat: 37.423, lon: -122.084 });
 
   // removes loader when image ready to render
   useEffect(() => {
-    setLoadState(true);
     API.getRoutesbyLatLon(currentGPS).then((response, err) => {
       if (err) throw err;
       setRoutes(response.data.routes);
     });
+    setLoading(false); // as it relates to the effect dependencies
   }, [uploadedImage]);
 
   function handleChange({
@@ -32,12 +32,13 @@ function ImageUploadx() {
       files: [file],
     },
   }) {
-    setLoadState(false); // stop loadey mcloader
+    setLoading(true); // start loadey mcloader when user inputs file
     if (file && file.name) {
-      AWS.uploadToS3andRetrieve(file).then((upload) =>
-        setUploadedImage(upload)
-      );
+      // AWS.uploadToS3andRetrieve(file).then((upload) =>
+      //   setUploadedImage(upload)
+      // );
 
+      setUploadedImage("/images/rock-climb-unsplash-wOverlay-papyrus.jpg");
       EXIF.getData(file, function () {
         if (this) {
           let lat = UTILS.convertToDecimalDeg(
@@ -69,19 +70,20 @@ function ImageUploadx() {
             onChange={handleChange}
             style={{ margin: "0 auto 1rem" }}
           />
-          {!loadState ? (
-            <ReactLoading
-              height="128px"
-              width="128px"
-              className="loader"
-              type={"bars"}
-              color={"black"}
-            />
-          ) : (
+          <ExifTable exifdata={exifData} />
+          {!loading ? (
             <img
               src={uploadedImage}
               alt="User uploaded file"
               style={{ width: "100%" }}
+            />
+          ) : (
+            <ReactLoading
+              height="auto"
+              width="auto"
+              className="loader"
+              type={"bars"}
+              color={"black"}
             />
           )}
           <button
@@ -92,7 +94,7 @@ function ImageUploadx() {
             SAVE IMAGE TO PROFILE
           </button>
         </div>
-        <ExifTable exifdata={exifData} />
+
         <ClimbsNearYou />
       </LocalClimbsContext.Provider>
     </>
