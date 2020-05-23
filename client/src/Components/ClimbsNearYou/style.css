@@ -1,0 +1,16 @@
+
+ul > a {
+  color: #0077ff;
+  display: flex;
+  text-decoration: none;
+  margin-bottom: 0.42rem;
+}
+
+ul > a:hover {
+  transition: ease-in 0.2s;
+  opacity: 0.69;
+  color: #0000ff;
+}
+ul > a > img {
+  margin-right: 0.5rem;
+}

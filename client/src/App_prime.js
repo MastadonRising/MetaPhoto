@@ -3,13 +3,10 @@ import logo from "./logo.svg";
 import "./App.css";
 // import ReactFilestack from "filestack-react";
 // require('dotenv').config()
-import ImageUploadFS from "./ImageUploadFileStack";
 import ImageUploadx from "./Components/ImageUpload";
 
 function App() {
-  console.log(process.env);
-  // const YOUR_API_KEY = `A3aWEEqJ0RHOqD6biKd4iz`;
-  // const [image, setImage] = useState("");
+  // console.log(process.env);
 
   return (
     <div className="App">
@@ -21,7 +18,6 @@ function App() {
         To get started, open the picker and upload your image.
       </p>
       <ImageUploadx />
-      {/* <img src={image} alt="Is this your upload?"></img> */}
     </div>
   );
 }
