@@ -1,21 +1,58 @@
-import React, { Component } from "react";
-import logo from "./logo.svg";
-import "./App.css";
+import React from "react";
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Link
+} from "react-router-dom";
+import { Menu } from 'semantic-ui-react'
+import Home from './components/pages/Home'
+import Explore from './components/pages/Explore'
+import MyAccount from './components/pages/MyAccount'
 
-class App extends Component {
-  render() {
-    return (
-      <div className="App">
-        <div className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h2>Welcome to React</h2>
-        </div>
-        <p className="App-intro">
-          To get started, edit <code>src/App.js</code> and save to reload.
-        </p>
+export default function App() {
+  return (
+    <Router>
+      <div>
+        <nav style={{float: 'left'}}>
+          <Menu vertical>
+            <Menu.Item
+              as={Link}
+              to="/"
+              name='Home'
+            />
+            <Menu.Item
+              as={Link}
+              to="/explore"
+              name='Explore'
+            />
+            <Menu.Item
+              as={Link}
+              to="/myaccount"
+              name='My Account'
+            />
+          </Menu>
+        </nav>
+
+        {/* A <Switch> looks through its children <Route>s and
+            renders the first one that matches the current URL. */}
+        <Switch>
+          <Route path="/explore">
+            <Explore />
+          </Route>
+          <Route path="/myaccount">
+            <MyAccount />
+          </Route>
+          <Route path="/">
+            <Home />
+          </Route>
+        </Switch>
       </div>
-    );
-  }
+    </Router>
+  );
 }
 
-export default App;
+
+
+
+
