@@ -1,4 +1,3 @@
-
 ul > a {
   color: #0077ff;
   display: flex;
@@ -13,4 +12,11 @@ ul > a:hover {
 }
 ul > a > img {
   margin-right: 0.5rem;
+}
+.ascending::after {
+  content: "🔼";
+}
+
+.descending::after {
+  content: "🔽";
 }
