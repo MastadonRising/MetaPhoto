@@ -38,11 +38,7 @@ function ImageUploadx() {
       //   setUploadedImage(upload)
       // );
 
-<<<<<<< HEAD:src/Components/ImageUpload/index.js
-      // setUploadedImage("/images/rock-climb-unsplash-wOverlay-papyrus.jpg");
-=======
       setUploadedImage("/images/rock-climb-unsplash-wOverlay-papyrus.jpg");
->>>>>>> 9fc434b6439893dfc444fcd611f6a4b41f2e2f2b:client/src/Components/ImageUpload/index.js
       EXIF.getData(file, function () {
         if (this) {
           let lat = UTILS.convertToDecimalDeg(
