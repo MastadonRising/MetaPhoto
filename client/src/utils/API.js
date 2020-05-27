@@ -7,6 +7,6 @@ export default {
     return axios.get(queryURI);
   },
   getResources: function () {
-    return axios.get("/api/test");
+    return axios.get("/api/resources");
   },
 };

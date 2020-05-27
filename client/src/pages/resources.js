@@ -1,23 +1,31 @@
-import React, { Component } from "react";
+import React, { useState, useEffect } from "react";
 import API from "../utils/API";
 
-class Resources extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {};
-  }
-  componentDidMount() {
-    API.getResources().then((res) => console.log(JSON.stringify(res)));
-    console.log("working");
-  }
+function Resources() {
+  const [resources, setResources] = useState([]);
 
-  render() {
-    return (
-      <div>
-        <h4>hello</h4>
-      </div>
-    );
+  useEffect(() => {
+    getAllResources();
+  }, []);
+
+  function getAllResources() {
+    API.getResources()
+      .then((data) => setResources(data.data))
+      .catch((err) => console.log(err));
   }
+  // .then((res) =>
+  //   JSON.stringify(res)
+  // );
+  // console.log("working");
+
+  return (
+    <div>
+      <h4>Climbing Resources</h4>
+      {resources.map((resource, index) => {
+        return <span key={resource._id}>{resource.name}</span>;
+      })}
+    </div>
+  );
 }
 
 export default Resources;

@@ -1,18 +1,33 @@
 import React from "react";
-import { HashRouter, Route, Switch } from "react-router-dom";
-import "./index.css";
+import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
+import { Menu } from "semantic-ui-react";
+import MyAccount from "./pages/MyAccount";
 import Upload from "./pages/upload";
-import Explore from "./pages/explore";
-import Resources from "./pages/resources";
+import Explore from "./pages/Explore";
+import Resources from "./pages/Resources";
+import "./index.css";
 import "./App.css";
 
-function App() {
+export default function App() {
   return (
-    <HashRouter basename="/">
+    <Router>
       <div>
+        <nav style={{ float: "left" }}>
+          <Menu vertical>
+            <Menu.Item as={Link} to="/" name="Home" />
+            <Menu.Item as={Link} to="/explore" name="Explore" />
+            <Menu.Item as={Link} to="/myaccount" name="My Account" />
+          </Menu>
+        </nav>
+
+        {/* A <Switch> looks through its children <Route>s and
+            renders the first one that matches the current URL. */}
         <Switch>
-          <Route exact path={["/", "/explore"]}>
+          <Route exact path={["/explore", "/"]}>
             <Explore />
+          </Route>
+          <Route exact path="/myaccount">
+            <MyAccount />
           </Route>
           <Route exact path="/resources">
             <Resources />
@@ -22,8 +37,6 @@ function App() {
           </Route>
         </Switch>
       </div>
-    </HashRouter>
+    </Router>
   );
 }
-
-export default App;
