@@ -2,7 +2,7 @@ const express = require("express");
 const path = require("path");
 const logger = require(`morgan`);
 const mongoose = require("mongoose");
-const router = require("./routes/api/routes");
+const router = require("./routes/routes");
 const compression = require(`compression`);
 const PORT = process.env.PORT || 3001;
 const app = express();
@@ -18,6 +18,7 @@ app.use(express.json());
 app.use(logger("dev"));
 app.use(compression());
 
+app.use(router);
 // Send every request to the React app
 // Define any API routes before this runs
 app.get("*", function (req, res) {
@@ -28,7 +29,6 @@ mongoose.connect(
   process.env.MONGODB_URI || "mongodb://localhost/reactMetaPhotodb",
   { useNewUrlParser: true, useUnifiedTopology: true }
 );
-app.use(router);
 app.listen(PORT, function () {
   console.log(`🌎 ==> API server now on port ${PORT}!`);
 });

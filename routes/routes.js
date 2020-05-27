@@ -1,6 +1,6 @@
 const router = require("express").Router();
-const routesController = require("../../controllers/routesController");
-const resourcesController = require("../../controllers/resourcesController");
+const routesController = require("../controllers/routesController");
+const resourcesController = require("../controllers/resourcesController");
 
 // Matches with "/api/books"
 // router.route("/routes").post(routesController.createroutes);
@@ -9,5 +9,3 @@ const resourcesController = require("../../controllers/resourcesController");
 router.route("/routes/api:id").get(routesController.findAll);
 // .put(routesController.update)
 // .delete(routesController.remove);
-router.route("/api/resources").get(resourcesController.test);
-module.exports = router;
