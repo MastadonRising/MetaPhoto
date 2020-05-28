@@ -1,14 +1,19 @@
 import React, { Component } from "react";
+import API from "../utils/API";
 
-class Resources extends Component {
+class Explore extends Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      position: {},
+    };
   }
+
   componentDidMount() {
     navigator.geolocation.getCurrentPosition(function (position) {
-      console.log("Latitude is :", position.coords.latitude);
-      console.log("Longitude is :", position.coords.longitude);
+      API.getRoutesbyLatLon(position).then((res) =>
+        console.log(JSON.stringify(res.data.routes))
+      );
     });
   }
 
@@ -21,4 +26,5 @@ class Resources extends Component {
   }
 }
 
-export default Resources;
+export default Explore;
+// this.setState({ routes: res.data.routes})

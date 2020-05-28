@@ -4,12 +4,6 @@ import UTILS from "../../utils/utils";
 
 // expects an Exif data model as exported with exif-js
 function ExifTable({ exifdata }) {
-  const latinify = (word) =>
-    word
-      .split(``)
-      .filter((i) => i.match(/^[ -~]+$/))
-      .join(``);
-
   return (
     <>
       <table
@@ -46,16 +40,21 @@ function ExifTable({ exifdata }) {
             <td>Make/Model: </td>
             <td>
               {exifdata.data
-                ? latinify(exifdata.data.Make) +
+                ? UTILS.latinify(exifdata.data.Make) +
                   "/" +
-                  latinify(exifdata.data.Model)
+                  UTILS.latinify(exifdata.data.Model)
                 : `No Make/Model Found`}
             </td>
           </tr>
           <tr>
-            <td>Other</td>
+            <td>Image Resolution</td>
             <td>
-              {exifdata.data ? console.log(exifdata.data) : `Nothing Found`}
+              {exifdata.data
+                ? UTILS.convertResolution(
+                    exifdata.data.PixelXDimension,
+                    exifdata.data.PixelYDimension
+                  )
+                : `Nothing Found`}
             </td>
           </tr>
         </tbody>

@@ -36,7 +36,7 @@ const UserSchema = new Schema({
   },
   favorites: [
     {
-      type: " ",
+      type: "",
       Id: "",
     },
   ],
