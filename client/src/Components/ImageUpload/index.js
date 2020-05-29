@@ -74,7 +74,7 @@ function ImageUploadx() {
           {!loading ? (
             <img
               src={uploadedImage}
-              alt="User uploaded file"
+              alt="User-uploaded file"
               style={{ width: "100%" }}
             />
           ) : (
