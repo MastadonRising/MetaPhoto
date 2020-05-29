@@ -1,29 +1,61 @@
 {
+<<<<<<< HEAD
   "name": "meta_photo",
+=======
+  "name": "metaphoto_v2",
+>>>>>>> Mastadon
   "version": "0.1.0",
   "private": true,
   "proxy": "http://localhost:3001/",
   "dependencies": {
+<<<<<<< HEAD
     "aws-amplify": "3.0.13",
     "axios": "^0.18.0",
+=======
+    "@testing-library/jest-dom": "^4.2.4",
+    "@testing-library/react": "^9.5.0",
+    "@testing-library/user-event": "^7.2.1",
+    "axios": "0.19.2",
+>>>>>>> Mastadon
     "exif-js": "2.3.0",
     "filestack-react": "3.1.0",
-    "react": "^16.6.3",
-    "react-dom": "^16.6.3",
+    "if-env": "^1.0.4",
+    "react": "^16.13.1",
+    "react-dom": "^16.13.1",
     "react-loading": "2.0.3",
+<<<<<<< HEAD
     "react-router-dom": "^5.1.2",
     "react-scripts": "^2.1.1"
+=======
+    "react-router-dom": "^5.2.0",
+    "react-scripts": "3.4.1",
+    "semantic-ui-react": "^0.88.2"
+>>>>>>> Mastadon
   },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "test": "react-scripts test --env=jsdom",
-    "eject": "react-scripts eject"
+    "test": "react-scripts test",
+    "eject": "react-scripts eject",
+    "heroku-postbuild": "npm run build"
   },
-  "browserslist": [
-    ">0.2%",
-    "not dead",
-    "not ie <= 11",
-    "not op_mini all"
-  ]
+  "eslintConfig": {
+    "extends": "react-app"
+  },
+  "devDependencies": {
+    "concurrently": "^4.1.0",
+    "nodemon": "^1.18.7"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  }
 }

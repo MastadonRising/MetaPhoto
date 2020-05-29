@@ -1,5 +1,5 @@
 {
-    "dev": {
+    "providers": {
         "awscloudformation": {
             "AuthRoleName": "amplify-metaphotov2-dev-125409-authRole",
             "UnauthRoleArn": "arn:aws:iam::271154935383:role/amplify-metaphotov2-dev-125409-unauthRole",

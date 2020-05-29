@@ -1,15 +1,1 @@
-{
-	"auth": {
-		"metaphoto07b19b4e": {
-			"service": "Cognito",
-			"providerPlugin": "awscloudformation",
-			"dependsOn": []
-		}
-	},
-	"storage": {
-		"metaphoto": {
-			"service": "S3",
-			"providerPlugin": "awscloudformation"
-		}
-	}
-}
+{}

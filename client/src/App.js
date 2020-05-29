@@ -1,37 +1,42 @@
-import React, { Component } from "react";
-import logo from "./logo.svg";
+import React from "react";
+import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
+import { Menu } from "semantic-ui-react";
+import MyAccount from "./pages/MyAccount";
+import Upload from "./pages/upload";
+import Explore from "./pages/Explore";
+import Resources from "./pages/Resources";
+import "./index.css";
 import "./App.css";
-import ReactFilestack from "filestack-react";
 
-class App extends Component {
-  render() {
-    const YOUR_API_KEY = `A3aWEEqJ0RHOqD6biKd4iz`;
-    return (
-      <div className="App">
-        <div className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h2>Welcome to MetaPhoto</h2>
-        </div>
-        <p className="App-intro">
-          To get started, open the picker and upload your image.
-        </p>
+export default function App() {
+  return (
+    <Router>
+      <div>
+        <nav style={{ float: "left" }}>
+          <Menu vertical>
+            <Menu.Item as={Link} to="/" name="Home" />
+            <Menu.Item as={Link} to="/explore" name="Explore" />
+            <Menu.Item as={Link} to="/myaccount" name="My Account" />
+          </Menu>
+        </nav>
 
-        <ReactFilestack
-          apikey={YOUR_API_KEY}
-          // actionOptions={PickerOptions}
-          componentDisplayMode={{
-            type: "button",
-            customText: "Click here to open picker",
-            customClass: "some-custom-class",
-          }}
-          onSuccess={(results)=>{
-            console.log(results)
-          
-          }}
-        />
+        {/* A <Switch> looks through its children <Route>s and
+            renders the first one that matches the current URL. */}
+        <Switch>
+          <Route exact path={["/explore", "/"]}>
+            <Explore />
+          </Route>
+          <Route exact path="/myaccount">
+            <MyAccount />
+          </Route>
+          <Route exact path="/resources">
+            <Resources />
+          </Route>
+          <Route exact path="/upload">
+            <Upload />
+          </Route>
+        </Switch>
       </div>
-    );
-  }
+    </Router>
+  );
 }
-
-export default App;
