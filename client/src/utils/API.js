@@ -9,4 +9,14 @@ export default {
   getResources: function () {
     return axios.get("/api/resources");
   },
+
+  postPhoto: function (data) {
+    let Photo = {
+      photoID: data.handle,
+      url: data.url,
+      userID: 1,
+      routeID: 1,
+    };
+    return axios.post("/api/photo", Photo);
+  },
 };

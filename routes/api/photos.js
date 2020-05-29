@@ -1,10 +1,13 @@
 const router = require("express").Router();
 const photoController = require("../../controllers/photosController");
 
-router.route("/").get(photoController.findAll).post(photoController.create);
+router
+  .route("/api/photo")
+  .get(photoController.findAll)
+  .post(photoController.create);
 
 router
-  .route("/:id")
+  .route("/api/photo:id")
   .get(photoController.findAll)
   .put(photoController.update)
   .delete(photoController.remove);

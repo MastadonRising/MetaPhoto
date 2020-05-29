@@ -13,7 +13,6 @@ function Resources() {
       .then((data) => setResources(data.data))
       .catch((err) => console.log(err));
   }
-
   return (
     <div>
       <h4>Climbing Resources</h4>
