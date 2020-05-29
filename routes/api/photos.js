@@ -8,6 +8,7 @@ router
 
 router
   .route("/api/photo:id")
+  .post(photoController.like)
   .get(photoController.findAll)
   .put(photoController.update)
   .delete(photoController.remove);
