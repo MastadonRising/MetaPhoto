@@ -1,7 +1,7 @@
 const express = require("express");
 const path = require("path");
 const logger = require(`morgan`);
-// const mongoose = require("mongoose");
+const mongoose = require("mongoose");
 const compression = require(`compression`);
 const PORT = process.env.PORT || 3001;
 const app = express();
@@ -24,10 +24,10 @@ app.get("*", function (req, res) {
 });
 
 // Connect to the Mongo DB if being used
-// mongoose.connect(
-//   process.env.MONGODB_URI || "mongodb://localhost/reactMetaPhotodb",
-//   { useNewUrlParser: true, useUnifiedTopology: true }
-// );
+mongoose.connect(
+  process.env.MONGODB_URI || "mongodb://localhost/reactMetaPhotodb",
+  { useNewUrlParser: true, useUnifiedTopology: true }
+);
 
 app.listen(PORT, function () {
   console.log(`🌎 ==> API server now on port ${PORT}!`);

@@ -1,9 +1,8 @@
 import React from "react";
 import logo from "./logo.svg";
 import "./App.css";
-// import ReactFilestack from "filestack-react";
-// require('dotenv').config()
 import ImageUploadx from "./Components/ImageUpload";
+import UserRatings from "./Components/UserRatings";
 
 function App() {
   // console.log(process.env);
@@ -17,6 +16,7 @@ function App() {
       <p className="App-intro">
         To get started, open the picker and upload your image.
       </p>
+      <UserRatings />
       <ImageUploadx />
     </div>
   );
