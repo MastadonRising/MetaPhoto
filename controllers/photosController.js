@@ -18,14 +18,11 @@ module.exports = {
       .then((dbModel) => res.json(dbModel))
       .catch((err) => res.status(422).json(err));
   },
-<<<<<<< HEAD
-=======
   like: function (req, res) {
     db.Photos.update({ _id: req.params.id }, { $push: { likes: req.body } })
       .then((dbModel) => res.json(dbModel))
       .catch((err) => res.status(422).json(err));
   },
->>>>>>> Mastadon
   remove: function (req, res) {
     db.Photos.findById({ _id: req.params.id })
       .then((dbModel) => dbModel.remove())

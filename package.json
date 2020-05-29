@@ -1,13 +1,7 @@
 {
-<<<<<<< HEAD
-  "name": "meta_photo",
-  "version": "1.0.0",
-  "description": "",
-=======
   "name": "metaphoto_v2",
   "version": "0.1.0",
   "private": true,
->>>>>>> Mastadon
   "main": "server.js",
   "dependencies": {
     "@testing-library/jest-dom": "^4.2.4",
@@ -46,15 +40,6 @@
     "concurrently": "^4.1.0",
     "nodemon": "^1.18.7"
   },
-<<<<<<< HEAD
-  "dependencies": {
-    "axios": "^0.18.0",
-    "compression": "1.7.4",
-    "express": "^4.16.3",
-    "if-env": "^1.0.4",
-    "mongoose": "^5.3.16",
-    "morgan": "1.10.0"
-=======
   "browserslist": {
     "production": [
       ">0.2%",
@@ -66,6 +51,5 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
->>>>>>> Mastadon
   }
 }
