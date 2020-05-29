@@ -9,4 +9,30 @@ export default {
   getResources: function () {
     return axios.get("/api/resources");
   },
+
+  postPhoto: function (data) {
+    let Photo = {
+      photoID: data.handle,
+      url: data.url,
+      userID: 1,
+      routeID: 1,
+    };
+    return axios.post("/api/photo", Photo);
+  },
+
+  postLike: function (data) {
+    let Like = {
+      likeID: data.likeID,
+      type: data.type,
+      userID: data.userID,
+    };
+    return axios.post("/api/photo" + data.photoID, Like);
+  },
+
+  signUpUser: function (data) {
+    return axios.post("/api/user", data);
+  },
+  deleteUserAccount: function (id) {
+    return axios.delete("/api/user" + id);
+  },
 };

@@ -13,11 +13,6 @@ function Resources() {
       .then((data) => setResources(data.data))
       .catch((err) => console.log(err));
   }
-  // .then((res) =>
-  //   JSON.stringify(res)
-  // );
-  // console.log("working");
-
   return (
     <div>
       <h4>Climbing Resources</h4>
