@@ -2,7 +2,7 @@ import React from "react";
 import logo from "./logo.svg";
 import "./App.css";
 import ImageUploadx from "./Components/ImageUpload";
-import UserRatings from "./Components/UserRatings";
+import PhotoRatings from "./Components/PhotoRatings";
 
 function App() {
   // console.log(process.env);
@@ -16,7 +16,7 @@ function App() {
       <p className="App-intro">
         To get started, open the picker and upload your image.
       </p>
-      <UserRatings />
+      <PhotoRatings />
       <ImageUploadx />
     </div>
   );

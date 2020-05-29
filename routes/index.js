@@ -1,13 +1,6 @@
 const router = require("express").Router();
-const photoRoutes = require("./api/photos");
-const resourcesRoutes = require("./api/resources");
-const routesRoutes = require("./api/routes");
-const resourcesController = require("../controllers/resourcesController");
+const apiRoutes = require("./api");
 // Book routes
-router.use("/photo", photoRoutes);
-router.use("/api/resources", resourcesRoutes);
-router.use("/routes", routesRoutes);
-
-router.route("/api/resources").get(resourcesController.findAll);
+router.use("/api", apiRoutes);
 
 module.exports = router;

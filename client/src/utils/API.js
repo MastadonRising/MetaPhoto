@@ -8,6 +8,14 @@ export default {
   },
 
   createUser: function (user) {
-    axios.post(`/user`, user).then((response) => response);
+    axios.post(`/api/users`, user).then((response) => response);
+  },
+
+  getUserInformation: function () {
+    return axios.get(`/api/users`);
+  },
+
+  getPhotoInformation: function () {
+    return axios.get(`/api/photos`);
   },
 };

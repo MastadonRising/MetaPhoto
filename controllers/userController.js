@@ -14,6 +14,7 @@ module.exports = {
       .catch((err) => res.status(422).json(err));
   },
   createUser: function (req, res) {
+    console.log(`hi kids!`,req.body)
     db.User.create(req.body)
       .then((dbModel) => res.json(dbModel))
       .catch((err) => res.status(422).json(err));
@@ -37,7 +38,7 @@ module.exports = {
   },
   removeFavorite: function (req, res) {
     let {favType, FavID} = req.body
-    db.User.update({ _id: req.params.id }, { $pull: { favorites: { $elemMatch: {type:favType, Id= FavID }} })
+    db.User.update({ _id: req.params.id }, { $pull: { favorites: { $elemMatch: {type:favType, Id: FavID }} }})
       .then((dbModel) => dbModel.remove())
       .then((dbModel) => res.json(dbModel))
       .catch((err) => res.status(422).json(err));
