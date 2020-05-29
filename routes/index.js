@@ -27,7 +27,10 @@ router
   .put(resourcesController.update)
   .delete(resourcesController.remove);
 
-router.route("/routes/api:id").get(routesController.findAll);
+router
+  .route("/routes/api:id")
+  .get(routesController.findAll)
+  .post(routesController.create);
 
 router
   .route("/api/user")
@@ -39,6 +42,7 @@ router
   .get(userController.findById)
   .put(userController.updateUser)
   .delete(userController.removeUser);
+
 router.route("/api/favorite:id").post(userController.addFavorite);
 
 module.exports = router;

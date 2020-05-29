@@ -32,4 +32,7 @@ export default {
   signUpUser: function (data) {
     return axios.post("/api/user", data);
   },
+  deleteUserAccount: function (id) {
+    return axios.delete("/api/user" + id);
+  },
 };
