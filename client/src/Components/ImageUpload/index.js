@@ -3,7 +3,7 @@ import "./style.css";
 import ReactLoading from "react-loading";
 import EXIF from "exif-js";
 import UTILS from "../../utils/utils";
-import AWS from "../../utils/AWS";
+// import AWS from "../../utils/AWS";
 import API from "../../utils/API";
 import ClimbsNearYou from "../ClimbsNearYou";
 import ExifTable from "../ExifTable";
@@ -12,11 +12,7 @@ import LocalClimbsContext from "../../utils/LocalClimbsContext";
 function ImageUploadx() {
   const [exifData, setexifData] = useState({});
   const [routes, setRoutes] = useState({});
-<<<<<<< HEAD
-  const [loadState, setLoadState] = useState(false);
-=======
   const [loading, setLoading] = useState(true);
->>>>>>> Mastadon
   const [uploadedImage, setUploadedImage] = useState(
     "/images/rock-climb-unsplash-wOverlay.jpg"
   );
@@ -24,30 +20,19 @@ function ImageUploadx() {
 
   // removes loader when image ready to render
   useEffect(() => {
-<<<<<<< HEAD
-    setLoadState(true);
-=======
->>>>>>> Mastadon
     API.getRoutesbyLatLon(currentGPS).then((response, err) => {
       if (err) throw err;
       setRoutes(response.data.routes);
     });
-<<<<<<< HEAD
-=======
     setLoading(false); // as it relates to the effect dependencies
->>>>>>> Mastadon
-  }, [uploadedImage]);
+  }, [uploadedImage, currentGPS]);
 
   function handleChange({
     target: {
       files: [file],
     },
   }) {
-<<<<<<< HEAD
-    setLoadState(false); // stop loadey mcloader
-=======
     setLoading(true); // start loadey mcloader when user inputs file
->>>>>>> Mastadon
     if (file && file.name) {
       // AWS.uploadToS3andRetrieve(file).then((upload) =>
       //   setUploadedImage(upload)
@@ -85,27 +70,13 @@ function ImageUploadx() {
             onChange={handleChange}
             style={{ margin: "0 auto 1rem" }}
           />
-<<<<<<< HEAD
-          {!loadState ? (
-            <ReactLoading
-              height="128px"
-              width="128px"
-              className="loader"
-              type={"bars"}
-              color={"black"}
-            />
-          ) : (
-=======
           <ExifTable exifdata={exifData} />
           {!loading ? (
->>>>>>> Mastadon
             <img
               src={uploadedImage}
               alt="User uploaded file"
               style={{ width: "100%" }}
             />
-<<<<<<< HEAD
-=======
           ) : (
             <ReactLoading
               height="auto"
@@ -114,7 +85,6 @@ function ImageUploadx() {
               type={"bars"}
               color={"black"}
             />
->>>>>>> Mastadon
           )}
           <button
             onClick={() => {
@@ -124,11 +94,6 @@ function ImageUploadx() {
             SAVE IMAGE TO PROFILE
           </button>
         </div>
-<<<<<<< HEAD
-        <ExifTable exifdata={exifData} />
-=======
-
->>>>>>> Mastadon
         <ClimbsNearYou />
       </LocalClimbsContext.Provider>
     </>

@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useContext } from "react";
 import "./style.css";
 import UserRatingsContext from "../../utils/UserRatingsContext";
 import API from "../../utils/API";
@@ -6,16 +6,16 @@ import API from "../../utils/API";
 function UserRatings() {
   const { userRatings } = useContext(UserRatingsContext);
   const [newRatings, setNewRatings] = useState(userRatings);
-  useEffect(() => {
-    // do something here, perhaps
-    console.log(userRatings);
-    API.createUser({
-      firstName: "Gus",
-      lastName: "Valenzuela",
-      email: "fake@fakemail.com",
-      hardestClimb: "Life",
-    });
-  }, []);
+  console.log(userRatings);
+  API.createUser({
+    firstName: "Gus",
+    lastName: "Valenzuela",
+    email: "fake@fakemail.com",
+    hardestClimb: "Life",
+  });
+  // useEffect(() => {
+  //   // do something here, perhaps
+  // }, []);
 
   function handleVoting(type) {
     if (type === "up") {

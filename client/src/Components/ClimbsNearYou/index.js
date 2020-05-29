@@ -1,8 +1,4 @@
-<<<<<<< HEAD
 import React, { useState, useContext } from "react";
-=======
-import React, { useState, useMemo, useContext } from "react";
->>>>>>> Mastadon
 import "./style.css";
 import ReactLoading from "react-loading";
 import LocalClimbsContext from "../../utils/LocalClimbsContext";

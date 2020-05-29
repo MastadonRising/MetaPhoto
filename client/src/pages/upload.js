@@ -1,16 +1,19 @@
-import React, { useState, useEffect } from "react";
+import React, {
+  // useState,
+  useEffect,
+} from "react";
 import ImageUploadFS from "../utils/ImageUploadFileStack";
 import ReactFilestack from "filestack-react";
 import logo from "../logo.svg";
-import API from "../utils/API";
+// import API from "../utils/API";
 
 function Upload() {
   const YOUR_API_KEY = `A3aWEEqJ0RHOqD6biKd4iz`;
 
   useEffect(() => {}, []);
-  function storePhoto(res) {
-    API.postPhoto(res);
-  }
+  // function storePhoto(res) {
+  //   API.postPhoto(res);
+  // }
   return (
     <div className="App">
       <div className="App-header">

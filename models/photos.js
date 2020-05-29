@@ -2,11 +2,6 @@ const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
 const PhotosSchema = new Schema({
-<<<<<<< HEAD
-  url: { type: String, required: true },
-  userID: { type: String, required: true },
-  routeID: { type: String, required: false },
-=======
   photoID: { type: String, required: true },
   url: { type: String, required: true },
   userID: { type: String, required: true },
@@ -14,11 +9,10 @@ const PhotosSchema = new Schema({
   likes: [
     {
       likeID: { type: String, require: true },
-      type: { Type: String, require: true },
-      userID: { $ref: "user", $id: "" },
+      typeOf: { Type: String },
+      userID: [{ type: Schema.Types.ObjectId, ref: 'User' }],
     },
   ],
->>>>>>> Mastadon
   date: { type: Date, default: Date.now },
 });
 
