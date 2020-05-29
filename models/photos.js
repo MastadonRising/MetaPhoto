@@ -9,8 +9,8 @@ const PhotosSchema = new Schema({
   likes: [
     {
       likeID: { type: String, require: true },
-      type: { Type: String, require: true },
-      userID: { $ref: "user", $id: "" },
+      type: { type: String, require: true },
+      userID: { type: String, require: true },
     },
   ],
   date: { type: Date, default: Date.now },

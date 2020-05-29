@@ -19,4 +19,17 @@ export default {
     };
     return axios.post("/api/photo", Photo);
   },
+
+  postLike: function (data) {
+    let Like = {
+      likeID: data.likeID,
+      type: data.type,
+      userID: data.userID,
+    };
+    return axios.post("/api/photo" + data.photoID, Like);
+  },
+
+  signUpUser: function (data) {
+    return axios.post("/api/user", data);
+  },
 };

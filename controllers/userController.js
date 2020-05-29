@@ -36,8 +36,11 @@ module.exports = {
       .catch((err) => res.status(422).json(err));
   },
   removeFavorite: function (req, res) {
-    let {favType, FavID} = req.body
-    db.User.update({ _id: req.params.id }, { $pull: { favorites: { $elemMatch: {type:favType, Id= FavID }} })
+    let { favType, FavID } = req.body;
+    db.User.update(
+      { _id: req.params.id },
+      { $pull: { favorites: { $elemMatch: { type: favType, Id: FavID } } } }
+    )
       .then((dbModel) => dbModel.remove())
       .then((dbModel) => res.json(dbModel))
       .catch((err) => res.status(422).json(err));
