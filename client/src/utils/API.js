@@ -18,4 +18,8 @@ export default {
   getPhotoInformation: function () {
     return axios.get(`/api/photos`);
   },
+
+  savePhoto: function(photo){
+    return axios.post(`/api/photos`,photo)
+  }
 };

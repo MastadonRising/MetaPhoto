@@ -20,7 +20,7 @@ function Explore() {
       <div>
         <h4>Climbing Resources</h4>
         {localClimbs.map((climbs, index) => {
-          return <img key={climbs.name} src={climbs.imgSqSmall}></img>;
+          return <img alt={climbs.name} key={climbs.name} src={climbs.imgSqSmall}></img>;
         })}
       </div>
     </div>

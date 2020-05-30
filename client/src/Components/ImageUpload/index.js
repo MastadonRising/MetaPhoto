@@ -9,6 +9,7 @@ import ClimbsNearYou from "../ClimbsNearYou";
 import ExifTable from "../ExifTable";
 import LocalClimbsContext from "../../utils/LocalClimbsContext";
 
+
 function ImageUploadx() {
   const [exifData, setexifData] = useState({});
   const [routes, setRoutes] = useState({});
@@ -27,6 +28,10 @@ function ImageUploadx() {
     setLoading(false); // as it relates to the effect dependencies
   }, [uploadedImage, currentGPS]);
 
+  function handlePhotoSave() {
+    console.log(`clicky`);
+  }
+
   function handleChange({
     target: {
       files: [file],
@@ -37,6 +42,12 @@ function ImageUploadx() {
       // AWS.uploadToS3andRetrieve(file).then((upload) =>
       //   setUploadedImage(upload)
       // );
+
+      API.savePhoto({
+        url: "fakeurl",
+        userID: "dsf32565454sdf",
+        routeID: "",
+      })
 
       setUploadedImage("/images/rock-climb-unsplash-wOverlay-papyrus.jpg");
       EXIF.getData(file, function () {
@@ -88,7 +99,7 @@ function ImageUploadx() {
           )}
           <button
             onClick={() => {
-              return;
+              handlePhotoSave();
             }}
           >
             SAVE IMAGE TO PROFILE

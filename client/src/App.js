@@ -1,25 +1,47 @@
 import React from "react";
-import logo from "./logo.svg";
+import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
+import { Menu } from "semantic-ui-react";
+import MyAccount from "./pages/MyAccount";
+import Upload from "./pages/upload";
+import Explore from "./pages/explore.js";
+import Resources from "./pages/resources.js";
+import GRVTest from "./pages/grvtest.js";
+import "./index.css";
 import "./App.css";
-import ImageUploadx from "./Components/ImageUpload";
-import PhotoRatings from "./Components/PhotoRatings";
 
-function App() {
-  // console.log(process.env);
-
+export default function App() {
   return (
-    <div className="App">
-      <div className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <h2>Welcome to MetaPhoto</h2>
+    <Router>
+      <div>
+        <nav style={{ float: "left" }}>
+          <Menu vertical>
+            <Menu.Item as={Link} to="/" name="Home" />
+            <Menu.Item as={Link} to="/explore" name="Explore" />
+            <Menu.Item as={Link} to="/myaccount" name="My Account" />
+            <Menu.Item as={Link} to="/myaccount" name="My Account" />
+          </Menu>
+        </nav>
+
+        {/* A <Switch> looks through its children <Route>s and
+            renders the first one that matches the current URL. */}
+        <Switch>
+          <Route exact path={["/explore", "/"]}>
+            <Explore />
+          </Route>
+          <Route exact path="/myaccount">
+            <MyAccount />
+          </Route>
+          <Route exact path="/resources">
+            <Resources />
+          </Route>
+          <Route exact path="/upload">
+            <Upload />
+          </Route>
+          <Route exact path="/grv">
+            <GRVTest />
+          </Route>
+        </Switch>
       </div>
-      <p className="App-intro">
-        To get started, open the picker and upload your image.
-      </p>
-      <PhotoRatings />
-      <ImageUploadx />
-    </div>
+    </Router>
   );
 }
-
-export default App;
