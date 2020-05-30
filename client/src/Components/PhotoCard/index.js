@@ -30,7 +30,7 @@ const CardExampleCard = ({ photos }) =>
       );
     })
   ) : (
-    <h4>"react"</h4>
+    <h4></h4>
   );
 
 export default CardExampleCard;
