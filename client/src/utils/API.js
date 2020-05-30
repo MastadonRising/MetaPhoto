@@ -11,13 +11,21 @@ export default {
   },
 
   postPhoto: function (data) {
-    let Photo = {
-      photoID: data.handle,
-      url: data.url,
-      userID: 1,
-      routeID: 1,
-    };
-    return axios.post("/api/photo", Photo);
+    data.filesUploaded.forEach((photo) => {
+      console.log(photo);
+      if (photo.status === "Stored") {
+        let Photo = {
+          photoID: photo.handle,
+          url: photo.url,
+          userID: 1,
+          routeID: 1,
+        };
+        console.log(Photo);
+        return axios.post("/api/photo", Photo).then((res) => console.log(res));
+      } else {
+        alert(`Photo: ${photo.filename} failed to upload`);
+      }
+    });
   },
 
   postLike: function (data) {

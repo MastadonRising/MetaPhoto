@@ -6,13 +6,13 @@ const PhotosSchema = new Schema({
   url: { type: String, required: true },
   userID: { type: String, required: true },
   routeID: { type: String, required: false },
-  likes: [
-    {
-      likeID: { type: String, require: true },
-      type: { type: String, require: true },
-      userID: { type: String, require: true },
-    },
-  ],
+  // likes: [
+  //   {
+  //     likeID: { type: String, require: true },
+  //     type: { type: String, require: true },
+  //     userID: { type: String, require: true },
+  //   },
+  // ],
   date: { type: Date, default: Date.now },
 });
 
