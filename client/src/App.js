@@ -8,6 +8,10 @@ import Resources from "./pages/resources.js";
 import GRVTest from "./pages/grvtest.js";
 import "./index.css";
 import "./App.css";
+const client = require("filestack-js").init(
+  process.env.REACT_APP_FILESTACK_KEY
+);
+require(`dotenv`).config()
 
 export default function App() {
   return (
@@ -38,7 +42,7 @@ export default function App() {
             <Upload />
           </Route>
           <Route exact path="/grv">
-            <GRVTest />
+            <GRVTest client={client} />
           </Route>
         </Switch>
       </div>

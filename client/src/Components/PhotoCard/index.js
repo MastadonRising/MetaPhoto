@@ -1,36 +1,40 @@
 import React from "react";
-import { Card, Icon, Image } from "semantic-ui-react";
+import { Card, Button, Image } from "semantic-ui-react";
 
-const CardExampleCard = ({ photos }) =>
-  photos.length ? (
-    photos.map((photo) => {
-      return (
-        <Card>
-          <Image
-            src="/images/rock-climb-unsplash-icon.jpg"
-            wrapped
-            ui={false}
-          />
-          <Card.Content>
-            <Card.Header>{photo.name}</Card.Header>
-            <Card.Meta>
-              <span className="date">{photo._id}</span>
-            </Card.Meta>
-            <Card.Description>
-              Matthew is a musician living in Nashville.
-            </Card.Description>
-          </Card.Content>
-          <Card.Content extra>
-            <a>
-              <Icon name="user" />
-              22 Friends
-            </a>
-          </Card.Content>
-        </Card>
-      );
-    })
-  ) : (
-    <h4></h4>
+const CardExampleCard = ({ photos }) => {
+  return (
+    <Card.Group>
+      {photos.length ? (
+        photos.map((photo, index) => {
+          return (
+            <Card key={index}>
+              <Card.Content>
+                <Image
+                  floated="right"
+                  size="mini"
+                  src="/images/rock-climb-unsplash-icon-150x150.jpg"
+                />
+                <Card.Header>{photo.routeID}</Card.Header>
+                <Card.Meta>Uploaded by {photo.userID}</Card.Meta>
+              </Card.Content>
+              <Card.Content extra>
+                <div className="ui two buttons">
+                  <Button basic color="green">
+                    Approve
+                  </Button>
+                  <Button basic color="red">
+                    Decline
+                  </Button>
+                </div>
+              </Card.Content>
+            </Card>
+          );
+        })
+      ) : (
+        <h4>Loading</h4>
+      )}
+    </Card.Group>
   );
+};
 
 export default CardExampleCard;

@@ -9,6 +9,7 @@ import logo from "../logo.svg";
 
 function Upload() {
   const YOUR_API_KEY = `A3aWEEqJ0RHOqD6biKd4iz`;
+  console.log(process.env.REACT_APP_FILESTACK_KEY)
 
   useEffect(() => {}, []);
   // function storePhoto(res) {

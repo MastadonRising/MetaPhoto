@@ -9,7 +9,6 @@ import ClimbsNearYou from "../ClimbsNearYou";
 import ExifTable from "../ExifTable";
 import LocalClimbsContext from "../../utils/LocalClimbsContext";
 
-
 function ImageUploadx() {
   const [exifData, setexifData] = useState({});
   const [routes, setRoutes] = useState({});
@@ -47,7 +46,7 @@ function ImageUploadx() {
         url: "fakeurl",
         userID: "dsf32565454sdf",
         routeID: "",
-      })
+      });
 
       setUploadedImage("/images/rock-climb-unsplash-wOverlay-papyrus.jpg");
       EXIF.getData(file, function () {
@@ -68,6 +67,8 @@ function ImageUploadx() {
       });
     }
   }
+
+  console.log(process.env)
 
   return (
     <>
