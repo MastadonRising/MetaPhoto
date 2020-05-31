@@ -3,8 +3,10 @@ import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import { Menu } from "semantic-ui-react";
 import MyAccount from "./pages/MyAccount";
 import Upload from "./pages/upload";
-import Explore from "./pages/Explore";
-import Resources from "./pages/Resources";
+import Explore from "./pages/explore";
+import Resources from "./pages/resources";
+import SignUp from "./pages/SignUp";
+import LogIn from "./pages/LogIn";
 import "./index.css";
 import "./App.css";
 
@@ -34,6 +36,12 @@ export default function App() {
           </Route>
           <Route exact path="/upload">
             <Upload />
+          </Route>
+          <Route exact path="/login">
+            <LogIn />
+          </Route>
+          <Route exact path="/signup">
+            <SignUp />
           </Route>
         </Switch>
       </div>

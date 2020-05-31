@@ -53,4 +53,37 @@ export default {
   deleteUserAccount: function (id) {
     return axios.delete("/api/user" + id);
   },
+
+  register: function (registerUsername, registerPassword) {
+    axios({
+      method: "POST",
+      data: {
+        username: registerUsername,
+        password: registerPassword,
+      },
+      withCredentials: true,
+      url: "http://localhost:3001/register",
+    }).then((res) => console.log(res));
+  },
+  login: function (loginUsername, loginPassword) {
+    axios({
+      method: "POST",
+      data: {
+        username: loginUsername,
+        password: loginPassword,
+      },
+      withCredentials: true,
+      url: "http://localhost:3001/login",
+    }).then((res) => console.log(res));
+  },
+  getUser: function (setData) {
+    axios({
+      method: "GET",
+      withCredentials: true,
+      url: "http://localhost:3001/user",
+    }).then((res) => {
+      setData(res.data);
+      console.log(res.data);
+    });
+  },
 };
