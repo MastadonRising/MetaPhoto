@@ -5,6 +5,7 @@ import EXIF from "exif-js";
 import UTILS from "../utils/utils";
 import ExifTable from "../Components/ExifTable";
 import ClimbsNearYou from "../Components/ClimbsNearYou";
+import PhotoRatings from "../Components/PhotoRatings"
 
 function App({ client }) {
   // setting up upload picker
@@ -200,12 +201,12 @@ function App({ client }) {
           }}
         >
           <h1>Upload your image above to begin</h1>
-          <h3>10 Climbs Near Your Location:</h3>
-          <ClimbsNearYou size={10} routes={routes} />
+          <h3>Climbs Near Your Location:</h3>
+          <ClimbsNearYou size={1} routes={routes} />
         </div>
       )}
       {/* {photoSet.length < 0 ? <PhotoCard photos={photoSet} /> : <h4>Loading</h4>} */}
-      {/* <PhotoRatings /> */}
+      <PhotoRatings />
       {/* <ImageUploadx /> */}
     </div>
   );

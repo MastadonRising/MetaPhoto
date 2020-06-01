@@ -3,53 +3,86 @@ import "./style.css";
 import API from "../../utils/API";
 
 function PhotoRatings() {
-  const [newRatings, setNewRatings] = useState({ likes: 0, dislikes: 1 });
-  // removes loader when image ready to render
+  const [newRatings, setNewRatings] = useState([]);
+  const [newUpdate, setNewUpdate] = useState({});
+
   useEffect(() => {
     API.getPhotoInformation().then((response, err) => {
       if (err) throw err;
       setNewRatings(response.data);
     });
-  }, []);
+  }, [newUpdate]);
 
-  useEffect(() => {
-    console.log(newRatings);
-  }, [newRatings]);
-
-  function handleVoting(type) {
+  function handleVoting(evt, type) {
     if (type === "up") {
-      // setNewRatings({ ...userRatings, likes: userRatings.likes++ });
       console.log(`♥‿♥`);
+      API.updatePhoto(evt.target.id, {
+        upLikes: Number(evt.target.dataset.uplikes) + 1,
+      }).then(() => {
+        setNewUpdate({ ...newUpdate });     // "tricking" it to refresh photoratings
+      });
     } else {
-      // setNewRatings({ ...userRatings, dislikes: userRatings.dislikes++ });
       console.log(`(ಥ⌣ಥ)`);
+      API.updatePhoto(evt.target.id, {
+        downLikes: Number(evt.target.dataset.downlikes) + 1,
+      });
+      setNewUpdate({ ...newUpdate });     // "tricking" it to refresh photoratings
     }
   }
 
   return (
     <div>
-      <button
-        onClick={() => {
-          handleVoting(`up`);
-        }}
-      >
-        <span
-          role="img"
-          aria-label="Call Me Emoji"
-          style={{ fontSize: "3rem" }}
-        >
-          🤙
-        </span>
-      </button>
-      <button
-        onClick={() => {
-          handleVoting(`down`);
-        }}
-      >
-        <span role="img" aria-label="Poo Emoji" style={{ fontSize: "3rem" }}>
-          💩
-        </span>
-      </button>
+      {newRatings.length ? (
+        newRatings.map((photo) => (
+          <div>
+            <img
+              style={{ display: "block", maxWidth: "175px" }}
+              src={photo.url}
+              alt={photo.url}
+            ></img>
+            <button
+              id={photo._id}
+              data-uplikes={photo.upLikes}
+              data-downlikes={photo.downLikes}
+              onClick={(evt) => {
+                handleVoting(evt, `up`);
+              }}
+            >
+              <span
+                id={photo._id}
+                data-uplikes={photo.upLikes}
+                data-downlikes={photo.downLikes}
+                role="img"
+                aria-label="Call Me Emoji"
+                style={{ fontSize: "1.5rem" }}
+              >
+                {photo.upLikes} 🤙
+              </span>
+            </button>
+            <button
+              id={photo._id}
+              data-uplikes={photo.upLikes}
+              data-downlikes={photo.downLikes}
+              onClick={(evt) => {
+                handleVoting(evt, `down`);
+              }}
+            >
+              <span
+                id={photo._id}
+                data-uplikes={photo.upLikes}
+                data-downlikes={photo.downLikes}
+                role="img"
+                aria-label="Poo Emoji"
+                style={{ fontSize: "1.5rem" }}
+              >
+                {photo.downLikes} 💩
+              </span>
+            </button>
+          </div>
+        ))
+      ) : (
+        <p>NO PHOTOS FOUND IN DATABASE</p>
+      )}
     </div>
   );
 }

@@ -6,11 +6,11 @@ router
   .get(photoController.findAll)
   .post(photoController.create);
 
-// router
-//   .route("/:id")
-//   .post(photoController.like)
-//   .get(photoController.findAll)
-//   .put(photoController.update)
-//   .delete(photoController.remove);
+router
+  .route("/:id")
+  // .post(photoController.like)
+  // .get(photoController.findAll)
+  .put(photoController.update)
+  // .delete(photoController.remove);
 
 module.exports = router;
