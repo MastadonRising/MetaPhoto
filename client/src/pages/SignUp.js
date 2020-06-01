@@ -1,10 +1,12 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import API from "../utils/API";
 
 function SignUp() {
   const [registerUsername, setRegisterUsername] = useState("");
   const [registerPassword, setRegisterPassword] = useState("");
-  const [data, setData] = useState(null);
+  function register() {
+    API.register(registerUsername, registerPassword);
+  }
 
   return (
     <div className="App">
@@ -21,9 +23,7 @@ function SignUp() {
           onChange={(e) => setRegisterPassword(e.target.value)}
         />
 
-        <button onClick={API.register(registerUsername, registerPassword)}>
-          Submit
-        </button>
+        <button onClick={register}>Submit</button>
       </div>
     </div>
   );

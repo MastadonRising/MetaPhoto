@@ -1,12 +1,16 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import API from "../utils/API";
-import { set } from "mongoose";
 
 function LogIn() {
   const [loginUsername, setLoginUsername] = useState("");
   const [loginPassword, setLoginPassword] = useState("");
   const [data, setData] = useState(null);
-
+  function login() {
+    API.login(loginUsername, loginPassword);
+  }
+  function getUser() {
+    API.getUser(setData);
+  }
   return (
     <div className="App">
       <div>
@@ -22,15 +26,13 @@ function LogIn() {
           onChange={(e) => setLoginPassword(e.target.value)}
         />
 
-        <button onClick={API.login(loginUsername, loginPassword)}>
-          Submit
-        </button>
+        <button onClick={login}>Submit</button>
       </div>
 
       <div>
         <h1>Get User</h1>
 
-        <button onClick={API.getUser(setData)}>Submit</button>
+        <button onClick={getUser}>Submit</button>
 
         {data ? <h1>Welcome Back {data.username}</h1> : null}
       </div>
