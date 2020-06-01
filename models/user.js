@@ -9,6 +9,7 @@ const UserSchema = new mongoose.Schema(
     username: {
       type: String,
       lowercase: true,
+      unique: true,
       required: [true, "can't be blank"],
       match: [/^[a-zA-Z0-9]+$/, "is invalid"],
       index: true,
@@ -25,19 +26,19 @@ const UserSchema = new mongoose.Schema(
       lowercase: true,
       // required: true,
     },
-    // email: {
-    //   type: String,
-    //   trim: true,
-    //   lowercase: true,
-    //   index: true,
-    //   unique: true,
-    //   required: "Email address is required",
-    //   validate: [validateEmail, "Please fill a valid email address"],
-    //   match: [
-    //     /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/,
-    //     "Please fill a valid email address",
-    //   ],
-    // },
+    email: {
+      type: String,
+      trim: true,
+      lowercase: true,
+      index: true,
+      unique: true,
+      required: "Email address is required",
+      validate: [validateEmail, "Please fill a valid email address"],
+      match: [
+        /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/,
+        "Please fill a valid email address",
+      ],
+    },
     password: {
       type: String,
       required: [true, "can't be blank"],

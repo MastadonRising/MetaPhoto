@@ -1,4 +1,15 @@
 import React, { useState } from "react";
+import { Link } from "react-router-dom";
+import {
+  Button,
+  Form,
+  Grid,
+  Header,
+  Segment,
+  Icon,
+  Divider,
+  Message,
+} from "semantic-ui-react";
 import API from "../utils/API";
 
 function LogIn() {
@@ -12,31 +23,43 @@ function LogIn() {
     API.getUser(setData);
   }
   return (
-    <div className="App">
-      <div>
-        <h1>Login</h1>
+    <Grid textAlign="center" verticalAlign="middle">
+      <Grid.Column style={{ maxWidth: 450 }}>
+        <Divider horizontal hidden />
+        <Header as="h2" textAlign="center">
+          <Icon name="users" size="mini" /> Log-in to your account
+        </Header>
+        <Form size="large">
+          <Segment>
+            <Form.Input
+              fluid
+              icon="user"
+              iconPosition="left"
+              placeholder="E-mail address"
+              onChange={(e) => setLoginUsername(e.target.value)}
+            />
+            <Form.Input
+              fluid
+              icon="lock"
+              iconPosition="left"
+              placeholder="Password"
+              type="password"
+              onChange={(e) => setLoginPassword(e.target.value)}
+            />
 
-        <input
-          placeholder="username"
-          onChange={(e) => setLoginUsername(e.target.value)}
-        />
-
-        <input
-          placeholder="password"
-          onChange={(e) => setLoginPassword(e.target.value)}
-        />
-
-        <button onClick={login}>Submit</button>
-      </div>
-
-      <div>
-        <h1>Get User</h1>
-
-        <button onClick={getUser}>Submit</button>
-
-        {data ? <h1>Welcome Back {data.username}</h1> : null}
-      </div>
-    </div>
+            <Button icon="sign in alternate" fluid basic size="large">
+              Login
+            </Button>
+            <Message attached="bottom" style={{ width: "99%", margin: "auto" }}>
+              New to us?{" "}
+              <Button basic as={Link} to="/signup" name="signup">
+                Sign Up
+              </Button>
+            </Message>
+          </Segment>
+        </Form>
+      </Grid.Column>
+    </Grid>
   );
 }
 
