@@ -6,14 +6,26 @@ import UTILS from "../utils/utils";
 import ClimbsNearYou from "../Components/ClimbsNearYou";
 
 function App({ client }) {
-  // co nst [photoSet, setPhotoSet] = useState([]);
+  // setting up upload picker 
+  // let options = {
+  //   displayMode: "inline",
+  //   container: ".picker-content",
+  //   maxFiles: 1,
+  //   accept: ["image/jpeg", "image/jpg", "image/png"],
+  //   fromSources: ["local_file_system"],
+  //   uploadInBackground: false,
+  // };
+  // var picker = client.picker(options);
+  // picker.open();
+
+  // const [photoSet, setPhotoSet] = useState([]);
   const [exifDATA, setExifDATA] = useState(null);
   const [routes, setRoutes] = useState({});
   const [currentGPS, setCurrentGPS] = useState({ lat: 37.423, lon: -122.084 });
 
-  // useEffect(() => {
-  //   API.getPhotoInformation().then((res) => setPhotoSet(res.data));
-  // }, []);
+  useEffect(() => {
+    // API.getPhotoInformation().then((res) => setPhotoSet(res.data));
+  }, []);
 
   useEffect(() => {
     API.getRoutesbyLatLon(currentGPS).then((response, err) => {
@@ -75,7 +87,7 @@ function App({ client }) {
       };
       // using the client passed down from App
       client
-        .upload(file, { onRetry })
+        .upload(file, { onRetry, concurrency: 10 })
         .then((res) => {
           console.log("success: ", res);
 
@@ -100,6 +112,7 @@ function App({ client }) {
   return (
     <div style={{ clear: "both", padding: "2rem" }}>
       {/* <ImageUploadx /> */}
+      <div className="picker-content" style={{ clear: "both", padding: "2rem" }}></div>
       <input
         type="file"
         id="file"
