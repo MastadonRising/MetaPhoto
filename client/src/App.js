@@ -22,7 +22,7 @@ export default function App() {
             <Menu.Item as={Link} to="/" name="Home" />
             <Menu.Item as={Link} to="/explore" name="Explore" />
             <Menu.Item as={Link} to="/myaccount" name="My Account" />
-            <Menu.Item as={Link} to="/myaccount" name="My Account" />
+            <Menu.Item as={Link} to="/grv" name="GRV Test Playground" />
           </Menu>
         </nav>
 

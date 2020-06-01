@@ -1,12 +1,10 @@
-import React, { useState, useContext } from "react";
+import React, { useState } from "react";
 import "./style.css";
 import ReactLoading from "react-loading";
-import LocalClimbsContext from "../../utils/LocalClimbsContext";
 import UTILS from "../../utils/utils";
 
-function ClimbsNearYou() {
+function ClimbsNearYou({routes}) {
   const [sortKey, setSortKey] = useState("name");
-  const { routes } = useContext(LocalClimbsContext);
   const { items: localClimbs, requestSort, sortConfig } = UTILS.useSortableData(
     routes
   );

@@ -25,15 +25,9 @@ function ImageUploadx() {
       setRoutes(response.data.routes);
     });
     setLoading(false); // as it relates to the effect dependencies
-<<<<<<< HEAD:src/Components/ImageUpload/index.js
-  }, [uploadedImage]);
-=======
   }, [uploadedImage, currentGPS]);
 
-  function handlePhotoSave() {
-    console.log(`clicky`);
-  }
->>>>>>> 58bcdb96b145b2ba4c08d947448bd28e1fe98820:src/pages/Components/ImageUpload/index.js
+  
 
   function handleChange({
     target: {
@@ -45,15 +39,8 @@ function ImageUploadx() {
       // AWS.uploadToS3andRetrieve(file).then((upload) =>
       //   setUploadedImage(upload)
       // );
-<<<<<<< HEAD:src/Components/ImageUpload/index.js
-=======
 
-      API.savePhoto({
-        url: "fakeurl",
-        userID: "dsf32565454sdf",
-        routeID: "",
-      });
->>>>>>> 58bcdb96b145b2ba4c08d947448bd28e1fe98820:src/pages/Components/ImageUpload/index.js
+      
 
       setUploadedImage("/images/rock-climb-unsplash-wOverlay-papyrus.jpg");
       EXIF.getData(file, function () {
@@ -72,10 +59,11 @@ function ImageUploadx() {
           console.log("No EXIF data found in image '" + file.name + "'.");
         }
       });
+
+      console.log(exifData)
     }
   }
 
-  console.log(process.env)
 
   return (
     <>
@@ -93,11 +81,7 @@ function ImageUploadx() {
           {!loading ? (
             <img
               src={uploadedImage}
-<<<<<<< HEAD:src/Components/ImageUpload/index.js
-              alt="User uploaded file"
-=======
               alt="User-uploaded file"
->>>>>>> 58bcdb96b145b2ba4c08d947448bd28e1fe98820:src/pages/Components/ImageUpload/index.js
               style={{ width: "100%" }}
             />
           ) : (
@@ -111,16 +95,12 @@ function ImageUploadx() {
           )}
           <button
             onClick={() => {
-              handlePhotoSave();
+              // handlePhotoSave();
             }}
           >
             SAVE IMAGE TO PROFILE
           </button>
         </div>
-<<<<<<< HEAD:src/Components/ImageUpload/index.js
-
-=======
->>>>>>> 58bcdb96b145b2ba4c08d947448bd28e1fe98820:src/pages/Components/ImageUpload/index.js
         <ClimbsNearYou />
       </LocalClimbsContext.Provider>
     </>
