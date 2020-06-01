@@ -3,10 +3,11 @@ import React, { useState, useEffect } from "react";
 import API from "../utils/API";
 import EXIF from "exif-js";
 import UTILS from "../utils/utils";
+import ExifTable from "../Components/ExifTable";
 import ClimbsNearYou from "../Components/ClimbsNearYou";
 
 function App({ client }) {
-  // setting up upload picker 
+  // setting up upload picker
   // let options = {
   //   displayMode: "inline",
   //   container: ".picker-content",
@@ -20,38 +21,75 @@ function App({ client }) {
 
   // const [photoSet, setPhotoSet] = useState([]);
   const [exifDATA, setExifDATA] = useState(null);
+  const [imgToUpload, setImgToUpload] = useState({
+    url: null,
+    ready: false,
+    imgMedURL: "",
+    imgSmURL: "",
+  });
   const [routes, setRoutes] = useState({});
   const [currentGPS, setCurrentGPS] = useState({ lat: 37.423, lon: -122.084 });
 
   useEffect(() => {
+    // if already processed
+    if (imgToUpload.ready) {
+      return;
+    }
+    if (
+      imgToUpload.url !== null &&
+      imgToUpload.uploadComplete &&
+      imgToUpload.transform
+    ) {
+      console.log(imgToUpload);
+      let transformedSMUrl = client.transform(imgToUpload.url, {
+        // re
+        resize: {
+          width: 250,
+        },
+      });
+
+      client
+        .storeURL(transformedSMUrl)
+        .then((res) =>
+          setImgToUpload({ ...imgToUpload, imgSmURL: res.url, ready: true })
+        );
+    } else {
+      // if no transformation is wanted
+      setImgToUpload({ ...imgToUpload, ready: true });
+    }
     // API.getPhotoInformation().then((res) => setPhotoSet(res.data));
-  }, []);
+  }, [imgToUpload, client]);
 
   useEffect(() => {
-    API.getRoutesbyLatLon(currentGPS).then((response, err) => {
-      if (err) throw err;
-      setRoutes(response.data.routes);
-    });
+    if (!isNaN(currentGPS.lat)) {
+      API.getRoutesbyLatLon(currentGPS).then((response, err) => {
+        if (err) throw err;
+        setRoutes(response.data.routes);
+      });
+    }
+
+    // console.log(currentGPS)
   }, [currentGPS]);
 
   function handleUpload(upload) {
-    if (!upload.confirm) {
-      return;
+    if (imgToUpload.ready) {
+      let newPhotoObj = {
+        url: imgToUpload.url,
+        imgSmURL: imgToUpload.imgSmURL,
+        imgMedURL: imgToUpload.imgMedURL,
+        userID: "MP_XXXXXX",
+        route: upload.route,
+        routesID: upload.route.id,
+        exifDATA: exifDATA,
+      };
+
+      console.log(`Photo Obj saved to DB`, newPhotoObj);
+
+      API.savePhoto(newPhotoObj).then(() => {
+        setExifDATA(null);
+      });
+      // reset exifData to null after loaded to db
     }
-
-    let newPhotoObj = {
-      url: "",
-      userID: "",
-      route: upload.route,
-      routesID: upload.route.id,
-      exifDATA: exifDATA,
-    };
-
-    console.log(newPhotoObj);
-
-    // API.savePhoto(newPhotoObj)
-    // reset exifData to null after loaded to db
-    // setExifDATA(null)
   }
 
   function handleInputChange({
@@ -80,30 +118,39 @@ function App({ client }) {
         }
       });
 
+      // using the client passed down from App
       const onRetry = (obj) => {
         console.log(
           `Retrying ${obj.location} for ${obj.filename}. Attempt ${obj.attempt} of 10.`
         );
       };
-      // using the client passed down from App
+      const onProgress = (evt) => {
+        evt.totalPercent === 100
+          ? setImgToUpload({ ...imgToUpload, uploadComplete: true })
+          : setImgToUpload({ ...imgToUpload, uploadComplete: false });
+      };
+
+      // development = retrieving to avoid upload calls
       client
-        .upload(file, { onRetry, concurrency: 10 })
+        .retrieve("ZLSjsWWT6KmxKoFqM9AE", { metadata: true })
         .then((res) => {
           console.log("success: ", res);
-
-          let transformedUrl = client.transform(
-            res.url,
-            {
-              flip: true,
-            },
-            true
-          );
-
-          client.storeURL(transformedUrl).then((res) => console.log(res));
-        })
-        .catch((err) => {
-          console.log(err);
+          setImgToUpload({
+            ...imgToUpload,
+            url: "https://cdn.filestackcontent.com/DulGvQm4RuifSaqBCJJV",
+            uploadComplete: true,
+          });
         });
+
+      // client
+      //   .upload(file, { onRetry, onProgress }, {})
+      //   .then((res) => {
+      //     console.log("success: ", res);
+      //     setImgToUpload({ ...imgToUpload, url: res.url, transform: false });
+      //   })
+      //   .catch((err) => {
+      //     console.log(err);
+      //   });
     }
   }
 
@@ -112,7 +159,10 @@ function App({ client }) {
   return (
     <div style={{ clear: "both", padding: "2rem" }}>
       {/* <ImageUploadx /> */}
-      <div className="picker-content" style={{ clear: "both", padding: "2rem" }}></div>
+      <div
+        className="picker-content"
+        style={{ clear: "both", padding: "2rem" }}
+      ></div>
       <input
         type="file"
         id="file"
@@ -121,14 +171,24 @@ function App({ client }) {
         onChange={(event) => handleInputChange(event)}
         style={{ margin: "0 auto 1rem" }}
       />
+      <div style={{ clear: "both", padding: "1rem" }}>
+        <a href="http://localhost:3001/api/photos"> PHOTOS API </a>
+      </div>
+
       {exifDATA !== null ? (
         <div>
-          <h4>Are any of these the location of your climb?</h4>
+          <img
+            style={{ maxWidth: "250px" }}
+            src={imgToUpload.url}
+            alt={exifDATA.filename}
+          ></img>
+          <ExifTable exifdata={{ data: exifDATA }} />
+          <h2 style={{ color: "red", fontWeight: "800" }}>
+            Are any of these the location of your climb?
+          </h2>
           <ClimbsNearYou size={5} routes={routes} />
-          <button
-            onClick={() => handleUpload({ confirm: true, route: routes[0] })}
-          >
-            upload
+          <button onClick={() => handleUpload({ route: routes[0] })}>
+            upload/save
           </button>
         </div>
       ) : (

@@ -8,10 +8,11 @@ import Resources from "./pages/resources.js";
 import GRVTest from "./pages/grvtest.js";
 import "./index.css";
 import "./App.css";
+
 const client = require("filestack-js").init(
-  process.env.REACT_APP_FILESTACK_KEY
+  `AxJQ9mGYFQj2CSqy5OS6Iz` || process.env.REACT_APP_FILESTACK_KEYZZZZZ
 );
-require(`dotenv`).config()
+require(`dotenv`).config();
 
 export default function App() {
   return (
