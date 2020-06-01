@@ -8,7 +8,6 @@ const PhotosSchema = new Schema({
   routeID: { type: String, required: false },
   likes: [
     {
-      likeID: { type: String, require: true },
       type: { type: String, require: true },
       userID: { type: String, require: true },
     },
