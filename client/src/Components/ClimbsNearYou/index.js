@@ -3,10 +3,13 @@ import "./style.css";
 import ReactLoading from "react-loading";
 import UTILS from "../../utils/utils";
 
-function ClimbsNearYou({routes}) {
+function ClimbsNearYou({ routes, size }) {
   const [sortKey, setSortKey] = useState("name");
+  // console.log(routes);
   const { items: localClimbs, requestSort, sortConfig } = UTILS.useSortableData(
-    routes
+    routes.length
+      ? routes.filter((i, index) => (index < size ? i : null))
+      : {}
   );
   const getClassNamesFor = (name) => {
     if (!sortConfig) {
@@ -17,7 +20,6 @@ function ClimbsNearYou({routes}) {
 
   return (
     <div>
-      <h4>Climbs Near You</h4>
       {!routes.length ? (
         <ReactLoading
           height="128px"
