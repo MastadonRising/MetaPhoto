@@ -7,8 +7,14 @@ import Explore from "./pages/explore";
 import Resources from "./pages/resources";
 import SignUp from "./pages/SignUp";
 import LogIn from "./pages/LogIn";
+import GRVTest from "./pages/grvtest.js";
 import "./index.css";
 import "./App.css";
+
+const client = require("filestack-js").init(
+  `AH2nffwSZT3PqqE34NAj8z` || process.env.REACT_APP_FILESTACK_KEYZZZZZ
+);
+require(`dotenv`).config();
 
 export default function App() {
   return (
@@ -19,6 +25,7 @@ export default function App() {
             <Menu.Item as={Link} to="/" name="Home" />
             <Menu.Item as={Link} to="/explore" name="Explore" />
             <Menu.Item as={Link} to="/myaccount" name="My Account" />
+            <Menu.Item as={Link} to="/grv" name="GRV Test Playground" />
           </Menu>
         </nav>
 
@@ -42,6 +49,9 @@ export default function App() {
           </Route>
           <Route exact path="/signup">
             <SignUp />
+          </Route>
+          <Route exact path="/grv">
+            <GRVTest client={client} />
           </Route>
         </Switch>
       </div>
