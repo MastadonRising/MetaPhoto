@@ -4,8 +4,11 @@ const Schema = mongoose.Schema;
 const PhotosSchema = new Schema({
   // photoID: { type: String, required: true },
   url: { type: String, required: true },
+  handle: { type: String, required: false },
   userID: { type: String, required: true },
   routeID: { type: String, required: false }, // url
+  routes: [],
+  exifdata: {},
   likes: [
     {
       // likeID: { type: String, require: true },

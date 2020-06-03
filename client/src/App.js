@@ -71,7 +71,7 @@ export default function App() {
             <Resources />
           </Route>
           <Route exact path="/upload">
-            <Upload />
+            <Upload  client={client}/>
           </Route>
           <Route exact path="/login">
             <LogIn />

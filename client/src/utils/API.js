@@ -25,9 +25,14 @@ export default {
   getPhoto: function () {
     return axios.get("/api/photo");
   },
+  postSinglePhoto: function (photo) {
+    return axios.post("/api/photo", photo).then((res) => {
+      // console.log(res);
+    });
+  },
   postPhoto: function (data) {
     data.filesUploaded.forEach((photo) => {
-      console.log(photo);
+      // console.log(photo);
       if (photo.status === "Stored") {
         let Photo = {
           photoID: photo.handle,
@@ -35,8 +40,10 @@ export default {
           userID: 1,
           routeID: 1,
         };
-        console.log(Photo);
-        return axios.post("/api/photo", Photo).then((res) => console.log(res));
+        // console.log(Photo);
+        return axios.post("/api/photo", Photo).then((res) => {
+          // console.log(res);
+        });
       } else {
         alert(`Photo: ${photo.filename} failed to upload`);
       }
@@ -82,7 +89,7 @@ export default {
       },
       withCredentials: true,
       url: "http://localhost:3001/login",
-    }).then((res) => res.data)
+    }).then((res) => res.data);
   },
   getUser: function (setData) {
     axios({

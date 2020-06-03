@@ -29,7 +29,9 @@ function App({ client }) {
     imgSmURL: "",
   });
   const [routes, setRoutes] = useState({});
-  const [currentGPS, setCurrentGPS] = useState({ coords: {latitude: 37.423, longitude: -122.084} });
+  const [currentGPS, setCurrentGPS] = useState({
+    coords: { latitude: 37.423, longitude: -122.084 },
+  });
 
   useEffect(() => {
     // if already processed
@@ -112,7 +114,7 @@ function App({ client }) {
             this.exifdata.GPSLongitude
           );
           // console.log(`lat: ${lat}, lon: ${lon}`);
-          setCurrentGPS({ coords: {latitude: lat, longitude: lon} });
+          setCurrentGPS({ coords: { latitude: lat, longitude: lon } });
         } else {
           console.log("No EXIF data found in image '" + file.name + "'.");
         }
@@ -220,6 +222,20 @@ function App({ client }) {
       {/* {photoSet.length < 0 ? <PhotoCard photos={photoSet} /> : <h4>Loading</h4>} */}
       <PhotoRatings />
       {/* <ImageUploadx /> */}
+
+      {/* <ReactFilestack
+        apikey={YOUR_API_KEY}
+        componentDisplayMode={{
+          type: "button",
+          customText: "Click here to open picker",
+          customClass: "some-custom-class",
+        }}
+        onSuccess={(results) => {
+
+          API.postPhoto(results);
+
+        }}
+      /> */}
     </div>
   );
 }
