@@ -18,7 +18,7 @@ function Explore() {
   }, []);
 
   function getLocalClimbs(data) {
-    API.getRoutesbyLatLon(data).then((data) => {
+    API.getRoutesByNavigator(data).then((data) => {
       console.log(data);
       setLocalClimbs(data.data.routes);
     });

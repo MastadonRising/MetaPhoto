@@ -29,7 +29,7 @@ function App({ client }) {
     imgSmURL: "",
   });
   const [routes, setRoutes] = useState({});
-  const [currentGPS, setCurrentGPS] = useState({ lat: 37.423, lon: -122.084 });
+  const [currentGPS, setCurrentGPS] = useState({ coords: {latitude: 37.423, longitude: -122.084} });
 
   useEffect(() => {
     // if already processed
@@ -62,8 +62,8 @@ function App({ client }) {
   }, [imgToUpload, client]);
 
   useEffect(() => {
-    if (!isNaN(currentGPS.lat)) {
-      API.getRoutesbyLatLon(currentGPS).then((response, err) => {
+    if (!isNaN(currentGPS.coords.latitude)) {
+      API.getRoutesByNavigator(currentGPS).then((response, err) => {
         if (err) throw err;
         setRoutes(response.data.routes);
       });
@@ -86,9 +86,9 @@ function App({ client }) {
       console.log(`Photo Obj saved to DB`, newPhotoObj);
 
       API.savePhoto(newPhotoObj).then(() => {
-        // reset exifData to null after loaded to db
         setExifDATA(null);
       });
+      // reset exifData to null after loaded to db
     }
   }
 
@@ -112,7 +112,7 @@ function App({ client }) {
             this.exifdata.GPSLongitude
           );
           // console.log(`lat: ${lat}, lon: ${lon}`);
-          setCurrentGPS({ lat: lat, lon: lon });
+          setCurrentGPS({ coords: {latitude: lat, longitude: lon} });
         } else {
           console.log("No EXIF data found in image '" + file.name + "'.");
         }

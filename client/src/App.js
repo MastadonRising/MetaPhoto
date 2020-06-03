@@ -82,6 +82,9 @@ export default function App() {
           <Route exact path="/signup">
             <SignUp />
           </Route>
+          <Route exact path="/grv">
+            <GRVTest client={client} />
+          </Route>
         </Switch>
       </div>
     </Router>
