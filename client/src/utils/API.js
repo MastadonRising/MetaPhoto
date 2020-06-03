@@ -54,19 +54,24 @@ export default {
     return axios.delete("/api/user" + id);
   },
 
-  register: function (registerUsername, registerPassword) {
+  register: function (registerUsername, registerPassword, registerFirstName, registerLastName, registerEmail) {
+    console.log(registerPassword, registerUsername, registerFirstName, registerLastName, registerEmail)
+
     axios({
       method: "POST",
       data: {
         username: registerUsername,
         password: registerPassword,
+        firstName: registerFirstName,
+        lastName: registerLastName,
+        email: registerEmail
       },
       withCredentials: true,
       url: "http://localhost:3001/register",
     }).then((res) => console.log(res));
   },
   login: function (loginUsername, loginPassword) {
-    axios({
+    return axios({
       method: "POST",
       data: {
         username: loginUsername,
@@ -74,7 +79,7 @@ export default {
       },
       withCredentials: true,
       url: "http://localhost:3001/login",
-    }).then((res) => console.log(res));
+    }).then((res) => res.data)
   },
   getUser: function (setData) {
     axios({
@@ -83,7 +88,7 @@ export default {
       url: "http://localhost:3001/user",
     }).then((res) => {
       setData(res.data);
-      console.log(res.data);
+      console.log(res);
     });
   },
 };

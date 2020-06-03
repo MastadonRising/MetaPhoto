@@ -1,5 +1,5 @@
-import React from "react";
-import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
+import React, { useState } from "react";
+import { BrowserRouter as Router, Switch, Route, Link, Redirect } from "react-router-dom";
 import { Menu } from "semantic-ui-react";
 import MyAccount from "./pages/MyAccount";
 import Upload from "./pages/upload";
@@ -11,21 +11,37 @@ import "./index.css";
 import "./App.css";
 
 export default function App() {
+  const [state, setState] = useState({
+    loggedIn: false
+  })
+
+  function updateLogIn(status) {
+    setState({loggedIn: status})
+  }
+  
   return (
     <Router>
       <div>
         <nav style={{ float: "left" }}>
           <Menu vertical>
-            <Menu.Item as={Link} to="/" name="Home" />
+            <Menu.Item as={Link} onClick={(state.loggedIn) ? () => setState({loggedIn: false}) : null} to='/' name={(state.loggedIn) ? 'Log Out' : 'Home'} />
             <Menu.Item as={Link} to="/explore" name="Explore" />
             <Menu.Item as={Link} to="/myaccount" name="My Account" />
+            <Menu.Item as={Link} to="/resources" name='Resources' />
+            <Menu.Item as={Link} to="/upload" name='Upload' />
+
           </Menu>
         </nav>
 
         {/* A <Switch> looks through its children <Route>s and
             renders the first one that matches the current URL. */}
         <Switch>
-          <Route exact path={["/explore", "/"]}>
+        <Route exact path={"/"}>
+            {(!state.loggedIn) ? 
+            <LogIn state={state} logginer={updateLogIn} /> :
+            <Redirect to='/myaccount' />}
+          </Route>
+          <Route exact path={"/explore"}>
             <Explore />
           </Route>
           <Route exact path="/myaccount">

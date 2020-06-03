@@ -44,6 +44,7 @@ module.exports = {
   },
   authenticate: function (req, res, next) {
     passport.authenticate("local", (err, user, info) => {
+      console.log(req.session)
       if (err) throw err;
 
       if (!user) res.send("No User Exists");

@@ -46,7 +46,9 @@ router
 router.route("/api/favorite:id").post(userController.addFavorite);
 
 router.route("/login").post(userController.authenticate);
+
 router.route("/register").post(userController.createUser);
+
 router.route("/user").get(userController.getUser);
 
 module.exports = router;

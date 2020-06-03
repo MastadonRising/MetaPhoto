@@ -1,4 +1,14 @@
-[
+const mongoose = require("mongoose");
+const db = require("../models");
+
+// This file empties the Books collection and inserts the books below
+
+mongoose.connect(
+  process.env.MONGODB_URI ||
+  "mongodb://localhost/reactMetaPhotodb"
+);
+
+const resourceSeed = [
   {
     name: "REI",
     url: "https://www.rei.com/h/climbing",
@@ -19,4 +29,16 @@
       "https://scontent.fsac1-1.fna.fbcdn.net/v/t1.0-9/23561592_10156120267134467_3629986482978573633_n.jpg?_nc_cat=100&_nc_sid=09cbfe&_nc_ohc=chbTsgultYYAX8nR839&_nc_ht=scontent.fsac1-1.fna&oh=4dd80ab2dcea4a183633ffab4e50309b&oe=5EEF3233",
     desc: "Glossary of common rock climbing terms",
   },
-];
+]
+
+db.Resources
+  .remove({})
+  .then(() => db.Resources.collection.insertMany(resourceSeed))
+  .then(data => {
+    console.log(data.result.n + " records inserted!");
+    process.exit(0);
+  })
+  .catch(err => {
+    console.error(err);
+    process.exit(1);
+  });

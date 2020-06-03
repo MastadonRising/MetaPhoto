@@ -3,6 +3,7 @@ import ImageUploadFS from "../utils/ImageUploadFileStack";
 import ReactFilestack from "filestack-react";
 import logo from "../logo.svg";
 import API from "../utils/API";
+import { Container, Header } from "semantic-ui-react";
 
 function Upload() {
   const YOUR_API_KEY = `A3aWEEqJ0RHOqD6biKd4iz`;
@@ -12,11 +13,8 @@ function Upload() {
   //   API.postPhoto(res);
   // }
   return (
-    <div className="App">
-      <div className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <h2>Welcome to MetaPhoto</h2>
-      </div>
+    <Container>
+      <Header as='h1'>Upload Photos</Header>
       <p className="App-intro">
         To get started, open the picker and upload your image.
       </p>
@@ -37,7 +35,7 @@ function Upload() {
           // );
         }}
       />
-    </div>
+    </Container>
   );
 }
 
