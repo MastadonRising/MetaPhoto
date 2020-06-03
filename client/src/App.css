@@ -1,3 +1,11 @@
+body,html {
+  margin: 0;
+  padding: 0;
+  height: 100vh;
+}
+* {
+  box-sizing: border-box;
+}
 .App {
   text-align: center;
 }
@@ -27,7 +35,9 @@
 .App-link {
   color: #61dafb;
 }
-
+.ui menu {
+  background-color: #8297cc;
+}
 @keyframes App-logo-spin {
   from {
     transform: rotate(0deg);

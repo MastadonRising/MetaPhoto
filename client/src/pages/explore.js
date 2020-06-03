@@ -1,8 +1,18 @@
 import React, { useState, useEffect } from "react";
+import {
+  Header,
+  Container,
+  Input,
+  Button,
+  Divider,
+  Grid,
+} from "semantic-ui-react";
+import Card from "../Components/card";
 import API from "../utils/API";
 
 function Explore() {
   const [localClimbs, setLocalClimbs] = useState([]);
+  const [searchTerm, setSearchTerm] = useState([]);
   useEffect(() => {
     navigator.geolocation.getCurrentPosition(getLocalClimbs);
   }, []);
@@ -15,15 +25,49 @@ function Explore() {
   }
 
   return (
-    <div>
-      <h4>Using geolocation JavaScript API in React</h4>
-      <div>
-        <h4>Climbing Resources</h4>
-        {localClimbs.map((climbs, index) => {
-          return <img alt={climbs.name} key={climbs.name} src={climbs.imgSqSmall}></img>;
+    <Container>
+      <Header as="h1">
+        Climbing Routes Near {searchTerm ? searchTerm : "You!"}
+      </Header>
+
+      <Divider horizontal />
+      <Container textAlign="center">
+        <Input
+          style={{ width: "400px" }}
+          placeholder="City,   State"
+          onChange={(e) => setSearchTerm(e.target.value)}
+          icon={{
+            as: Button,
+            content: "search",
+            onClick: () => {
+              API.getRoutesbySearch(searchTerm).then((res) => {
+                let coordsObj = {
+                  coords: {
+                    latitude: res.data.results[0].locations[0].latLng.lat,
+                    longitude: res.data.results[0].locations[0].latLng.lng,
+                  },
+                };
+                API.getRoutesbyLatLon(coordsObj).then((data) =>
+                  setLocalClimbs(data.data.routes)
+                );
+              });
+            },
+          }}
+        />
+      </Container>
+
+      <Divider horizontal />
+
+      <Grid columns="4">
+        {localClimbs.map((route, index) => {
+          return (
+            <Grid.Column key={route.id}>
+              <Card {...route} />
+            </Grid.Column>
+          );
         })}
-      </div>
-    </div>
+      </Grid>
+    </Container>
   );
 }
 
