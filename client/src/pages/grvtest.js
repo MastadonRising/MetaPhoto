@@ -5,7 +5,7 @@ import EXIF from "exif-js";
 import UTILS from "../utils/utils";
 import ExifTable from "../Components/ExifTable";
 import ClimbsNearYou from "../Components/ClimbsNearYou";
-import PhotoRatings from "../Components/PhotoRatings"
+import PhotoRatings from "../Components/PhotoRatings";
 
 function App({ client }) {
   // setting up upload picker
@@ -68,7 +68,6 @@ function App({ client }) {
         setRoutes(response.data.routes);
       });
     }
-
     // console.log(currentGPS)
   }, [currentGPS]);
 
@@ -87,9 +86,9 @@ function App({ client }) {
       console.log(`Photo Obj saved to DB`, newPhotoObj);
 
       API.savePhoto(newPhotoObj).then(() => {
+        // reset exifData to null after loaded to db
         setExifDATA(null);
       });
-      // reset exifData to null after loaded to db
     }
   }
 
@@ -131,27 +130,40 @@ function App({ client }) {
           : setImgToUpload({ ...imgToUpload, uploadComplete: false });
       };
 
-      // development = retrieving to avoid upload calls
-      client
-        .retrieve("ZLSjsWWT6KmxKoFqM9AE", { metadata: true })
-        .then((res) => {
-          console.log("success: ", res);
-          setImgToUpload({
-            ...imgToUpload,
-            url: "https://cdn.filestackcontent.com/DulGvQm4RuifSaqBCJJV",
-            uploadComplete: true,
-          });
-        });
+      // setImgToUpload({
+      //   ...imgToUpload,
+      //   url: "https://cdn.filestackcontent.com/DulGvQm4RuifSaqBCJJV",
+      //   uploadComplete: true,
+      // });
 
+      // development = retrieving to avoid upload calls
       // client
-      //   .upload(file, { onRetry, onProgress }, {})
+      //   .retrieve("ZLSjsWWT6KmxKoFqM9AE", { metadata: true })
       //   .then((res) => {
       //     console.log("success: ", res);
-      //     setImgToUpload({ ...imgToUpload, url: res.url, transform: false });
-      //   })
-      //   .catch((err) => {
-      //     console.log(err);
+      //     setImgToUpload({
+      //       ...imgToUpload,
+      //       url: "https://cdn.filestackcontent.com/DulGvQm4RuifSaqBCJJV",
+      //       uploadComplete: true,
+      //     });
       //   });
+
+      console.log(process.env);
+
+      client
+        .upload(file, { onRetry, onProgress }, {})
+        .then((res) => {
+          console.log("success: ", res);
+          setImgToUpload({ ...imgToUpload, url: res.url, transform: false });
+        })
+        .catch((err) => {
+          setImgToUpload({
+            ...imgToUpload,
+            url: "/images/rock-climb-unsplash-icon-150x150.jpg",
+            transform: false,
+          });
+          console.log(err);
+        });
     }
   }
 

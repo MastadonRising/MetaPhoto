@@ -21,6 +21,9 @@ export default {
   updatePhoto: function (id, data) {
     return axios.put(`/api/photos/` + id, data);
   },
+  updatePhotoLikes: function (id, data) {
+    return axios.post(`/api/photos/` + id, data);
+  },
 
   savePhoto: function (photo) {
     return axios.post(`/api/photos`, photo);

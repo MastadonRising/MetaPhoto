@@ -10,7 +10,7 @@ import "./index.css";
 import "./App.css";
 
 const client = require("filestack-js").init(
-  `AxJQ9mGYFQj2CSqy5OS6Iz` || process.env.REACT_APP_FILESTACK_KEYZZZZZ
+  process.env.REACT_APP_FILESTACK_KEY
 );
 require(`dotenv`).config();
 

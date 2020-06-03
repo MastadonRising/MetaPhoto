@@ -19,6 +19,7 @@ module.exports = {
       .catch((err) => res.status(422).json(err));
   },
   like: function (req, res) {
+    console.log(req.body);
     db.Photos.update({ _id: req.params.id }, { $push: { likes: req.body } })
       .then((dbModel) => res.json(dbModel))
       .catch((err) => res.status(422).json(err));
