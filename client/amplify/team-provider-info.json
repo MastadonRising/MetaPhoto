@@ -1,0 +1,15 @@
+{
+    "dev": {
+        "awscloudformation": {
+            "AuthRoleName": "amplify-metaphotov2-dev-125409-authRole",
+            "UnauthRoleArn": "arn:aws:iam::271154935383:role/amplify-metaphotov2-dev-125409-unauthRole",
+            "AuthRoleArn": "arn:aws:iam::271154935383:role/amplify-metaphotov2-dev-125409-authRole",
+            "Region": "us-west-2",
+            "DeploymentBucketName": "amplify-metaphotov2-dev-125409-deployment",
+            "UnauthRoleName": "amplify-metaphotov2-dev-125409-unauthRole",
+            "StackName": "amplify-metaphotov2-dev-125409",
+            "StackId": "arn:aws:cloudformation:us-west-2:271154935383:stack/amplify-metaphotov2-dev-125409/2b9d1500-9d2f-11ea-b638-02a1b3d9eece",
+            "AmplifyAppId": "d2b252y8rd6bsg"
+        }
+    }
+}

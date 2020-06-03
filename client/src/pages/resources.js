@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
-import API from "../utils/API";
-import Card from '../Components/card'
+import Card from "../Components/card";
 import { Grid, Header } from "semantic-ui-react";
+import API from "../utils/API";
+
 function Resources() {
   const [resources, setResources] = useState([]);
 
@@ -14,17 +15,16 @@ function Resources() {
       .then((data) => setResources(data.data))
       .catch((err) => console.log(err));
   }
-  // .then((res) =>
-  //   JSON.stringify(res)
-  // );
-  // console.log("working");
-  
   return (
     <div>
-      <Header as='h1'>Climbing Resources</Header>
+      <Header as="h1">Climbing Resources</Header>
       <Grid columns={resources.length}>
         {resources.map((resource, index) => {
-          return <Grid.Column key={resource.name}><Card  {...resource} /></Grid.Column>;
+          return (
+            <Grid.Column key={resource.name}>
+              <Card {...resource} />
+            </Grid.Column>
+          );
         })}
       </Grid>
     </div>
