@@ -17,13 +17,13 @@ function LogIn(props) {
   console.log(props)
   const [loginUsername, setLoginUsername] = useState("");
   const [loginPassword, setLoginPassword] = useState("");
-  const [data, setData] = useState(props.state);
+  const [data, setData] = useState(props.loggedIn);
 
   function login() {
     API.login(loginUsername, loginPassword).then(data => {
       (data === 'Successfully Authenticated') ?
-        props.logginer( 'true' ) :
-        setData({ loggedIn: 'false' })
+        props.stateChanger( true ) :
+        setData({ loggedIn: false })
     })
   }
   function getUser() {
@@ -32,13 +32,13 @@ function LogIn(props) {
 
   return (
     <Container>
-      <Header as="h1">
+      <Header as="h1" id='heading'>
         Login or Register
       </Header>
       <Grid textAlign="center" verticalAlign="middle">
         <Grid.Column style={{ maxWidth: 450 }}>
           <Divider horizontal hidden />
-          {(data.loggedIn) ?
+          {(props.loggedIn) ?
             <Redirect to='/myaccount' /> :
             <div><Header as="h2" textAlign="center">
               <Icon name="users" size="mini" /> Log-in to your account

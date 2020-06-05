@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { BrowserRouter as Router, Switch, Route, Link, Redirect } from "react-router-dom";
 import { Menu } from "semantic-ui-react";
 import MyAccount from "./pages/MyAccount";
+import Home from './pages/home'
 import Upload from "./pages/upload";
 import Explore from "./pages/explore";
 import Resources from "./pages/resources";
@@ -37,9 +38,7 @@ export default function App() {
             renders the first one that matches the current URL. */}
         <Switch>
         <Route exact path={"/"}>
-            {(!state.loggedIn) ? 
-            <LogIn state={state} logginer={updateLogIn} /> :
-            <Redirect to='/myaccount' />}
+            <Home {...state} stateChanger={updateLogIn} />
           </Route>
           <Route exact path={"/explore"}>
             <Explore />
@@ -54,7 +53,7 @@ export default function App() {
             <Upload />
           </Route>
           <Route exact path="/login">
-            <LogIn />
+            <LogIn {...state} stateChanger={updateLogIn}  />
           </Route>
           <Route exact path="/signup">
             <SignUp />

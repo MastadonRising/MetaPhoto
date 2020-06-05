@@ -2,7 +2,7 @@ import React from "react";
 import { Card, Image, Button, Icon } from "semantic-ui-react";
 
 const CardExampleCard = (props) => (
-  <Card style={{ height: "400px" }}>
+  <Card style={{ height: "350px" }}>
     {/* {console.log(props)} */}
     {props.photo ? (
       <Image style={{ height: "150px" }} src={props.photo} ui={false} />
@@ -22,7 +22,7 @@ const CardExampleCard = (props) => (
       </Card.Description>
     </Card.Content>
     <Card.Content
-      style={{ textAlign: "center", backgroundColor: "#8397cc" }}
+      style={{ textAlign: "center" }}
       extra
     >
       <Button basic as="a" href={props.url} target="blank">

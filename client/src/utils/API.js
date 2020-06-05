@@ -68,7 +68,11 @@ export default {
       },
       withCredentials: true,
       url: "http://localhost:3001/register",
-    }).then((res) => console.log(res));
+    }).then((res) => {
+      (res.data === 'User Already Exists') ? 
+      alert('Sorry, A user with that username already exists!') :
+      console.log(res)
+    });
   },
   login: function (loginUsername, loginPassword) {
     return axios({

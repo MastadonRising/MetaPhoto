@@ -26,8 +26,8 @@ function Explore() {
 
   return (
     <Container>
-      <Header as="h1">
-        Climbing Routes Near {searchTerm ? searchTerm : "You!"}
+      <Header id='heading' as="h1">
+        Climbing Routes Nearby {searchTerm ? searchTerm : "You!"}
       </Header>
 
       <Divider horizontal />
@@ -58,7 +58,7 @@ function Explore() {
 
       <Divider horizontal />
 
-      <Grid columns="4">
+      <Grid id='cardGrid' columns="4">
         {localClimbs.map((route, index) => {
           return (
             <Grid.Column key={route.id}>

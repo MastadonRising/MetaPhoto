@@ -18,7 +18,7 @@ function Users() {
 
   return (
     <Container>
-      <Header as='h1'>Using geolocation JavaScript API in React</Header>
+      <Header id='heading' as='h1'>Using geolocation JavaScript API in React</Header>
       <div>
         <h4>User Photos</h4>
         {UserPhotos.map((photos, index) => {

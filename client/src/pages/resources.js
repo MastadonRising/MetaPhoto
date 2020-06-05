@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import Card from "../Components/card";
-import { Grid, Header } from "semantic-ui-react";
+import { Grid, Header, Container } from "semantic-ui-react";
 import API from "../utils/API";
 
 function Resources() {
@@ -16,8 +16,8 @@ function Resources() {
       .catch((err) => console.log(err));
   }
   return (
-    <div>
-      <Header as="h1">Climbing Resources</Header>
+    <Container>
+      <Header id='heading' as="h1" >Climbing Resources</Header>
       <Grid columns={resources.length}>
         {resources.map((resource, index) => {
           return (
@@ -27,7 +27,7 @@ function Resources() {
           );
         })}
       </Grid>
-    </div>
+    </Container>
   );
 }
 
