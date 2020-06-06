@@ -20,7 +20,6 @@ function Explore() {
 
   function getLocalClimbs(data) {
     API.getRoutesByNavigator(data).then((data) => {
-      console.log(data);
       setLocalClimbs(data.data.routes);
     });
   }
@@ -48,7 +47,7 @@ function Explore() {
                     longitude: res.data.results[0].locations[0].latLng.lng,
                   },
                 };
-                API.getRoutesbyLatLon(coordsObj).then((data) =>
+                API.getRoutesByNavigator(coordsObj).then((data) =>
                   setLocalClimbs(data.data.routes)
                 );
               });

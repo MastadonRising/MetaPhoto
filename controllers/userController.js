@@ -68,6 +68,7 @@ module.exports = {
   },
 
   createUser: function (req, res) {
+    console.log("here is the shit you want to see", req.body);
     db.User.findOne({ username: req.body.username }, async (err, doc) => {
       if (err) throw err;
       if (doc) res.send("User Already Exists");
@@ -87,5 +88,9 @@ module.exports = {
   },
   getUser: function (req, res) {
     res.send(req.user); // The req.user stores the entire user that has been authenticated inside of it.
+  },
+  logout: function (req, res) {
+    req.logout();
+    res.redirect("/");
   },
 };

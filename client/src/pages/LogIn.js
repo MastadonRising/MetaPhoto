@@ -13,23 +13,24 @@ import {
 } from "semantic-ui-react";
 import API from "../utils/API";
 
-function LogIn(props) {
-  console.log(props)
+function logout() {
+  API.logout();
+}
+function LogIn() {
+
   const [loginUsername, setLoginUsername] = useState("");
   const [loginPassword, setLoginPassword] = useState("");
   // const [data, setData] = useState(props.loggedIn);
 
   function login() {
-    API.login(loginUsername, loginPassword).then(response => {
-      console.log(response);
-      (response.data === 'Successfully Authenticated') ?
-        props.stateChanger(true) :
-        props.stateChanger(false)
-    })
+
+    console.log("Logging In");
+    API.login(loginUsername, loginPassword);
   }
-  // function getUser() {
-  //   API.getUser(setData);
-  // }
+  function getUser() {
+    API.getUser(setData);
+
+
 
   return (
     <Container>
@@ -63,18 +64,24 @@ function LogIn(props) {
                     onChange={(e) => setLoginPassword(e.target.value)}
                   />
 
-                  <Button
-                    icon="sign in alternate"
-                    fluid
-                    basic
-                    size="large"
-                    onClick={login}
-                    content='Login' />
-                    
-                  <Message attached="bottom" style={{ width: "99%", margin: "auto" }}>
-                    New to us?
-                    <Button basic as={Link} to="/signup" name="signup">
-                      Sign Up
+
+            <Button
+              icon="sign in alternate"
+              fluid
+              basic
+              size="large"
+              onClick={login}
+            >
+              Login
+            </Button>
+            <Button
+              icon="sign in alternate"
+              fluid
+              basic
+              size="large"
+              onClick={logout}
+            >
+              Login
             </Button>
                   </Message>
                 </Segment>

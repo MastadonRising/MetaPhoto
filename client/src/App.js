@@ -25,6 +25,7 @@ export default function App() {
   return (
     <Router>
       <Container>
+<<<<<<< HEAD
         <nav style={{ float: "left" }}>
           <Menu vertical>
             <Menu.Item as={Link} to='/' name='Home'/>
@@ -39,6 +40,9 @@ export default function App() {
         {/* A <Switch> looks through its children <Route>s and
             renders the first one that matches the current URL. */}
         <Switch>
+=======
+           <Switch>
+>>>>>>> 833355d29e373542ed082a3bd0f6e17268464f69
         <Route exact path={"/"}>
             <Home {...state} stateChanger={updateLogIn} />
           </Route>
