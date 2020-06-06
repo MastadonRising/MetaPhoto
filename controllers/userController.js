@@ -44,6 +44,7 @@ module.exports = {
   },
   authenticate: function (req, res, next) {
     passport.authenticate("local", (err, user, info) => {
+      console.log(req.session)
       if (err) throw err;
 
       if (!user) res.send("No User Exists");
@@ -58,6 +59,14 @@ module.exports = {
       }
     })(req, res, next);
   },
+
+  logout: function (req, res) {
+    console.log("trying to logout....")
+    req.session.destroy()
+    req.logout()
+    res.send('/')
+  },
+
   createUser: function (req, res) {
     console.log("here is the shit you want to see", req.body);
     db.User.findOne({ username: req.body.username }, async (err, doc) => {
