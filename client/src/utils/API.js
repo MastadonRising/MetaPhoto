@@ -58,15 +58,14 @@ export default {
     console.log("step 2", NewUser);
     axios({
       method: "POST",
-      data: NewUser})
-          
+      data: NewUser,
 
       withCredentials: true,
       url: "http://localhost:3001/register",
     }).then((res) => {
-      (res.data === 'User Already Exists') ? 
-      alert('Sorry, A user with that username already exists!') :
-      console.log(res)
+      res.data === "User Already Exists"
+        ? alert("Sorry, A user with that username already exists!")
+        : console.log(res);
     });
   },
   login: function (loginUsername, loginPassword) {
@@ -78,13 +77,7 @@ export default {
       },
       withCredentials: true,
       url: "http://localhost:3001/login",
-    }).then((res) => (res))
-  },
-  logout: function() {
-    return axios({
-      method: "GET",
-      url: "http://localhost:3001/logout"
-    }).then(res => (res))
+    }).then((res) => res);
   },
   logout: function () {
     axios.get("/logout").then((res) => console.log(res));
@@ -100,7 +93,7 @@ export default {
       console.log(res);
     });
   },
-  
+
   getPhotoInformation: function () {
     return axios.get(`/api/photos`);
   },
