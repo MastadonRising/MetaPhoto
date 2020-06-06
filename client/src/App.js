@@ -1,8 +1,7 @@
-import React, { useState } from "react";
+import React from "react";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
-import { Menu, Container, Button } from "semantic-ui-react";
+import { Menu } from "semantic-ui-react";
 import MyAccount from "./pages/MyAccount";
-import Home from './pages/home'
 import Upload from "./pages/upload";
 import Explore from "./pages/explore";
 import Resources from "./pages/resources";
@@ -11,7 +10,6 @@ import LogIn from "./pages/LogIn";
 import GRVTest from "./pages/grvtest.js";
 import "./index.css";
 import "./App.css";
-import API from "./utils/API";
 
 const client = require("filestack-js").init(
   `AH2nffwSZT3PqqE34NAj8z` || process.env.REACT_APP_FILESTACK_KEYZZZZZ
@@ -19,21 +17,13 @@ const client = require("filestack-js").init(
 require(`dotenv`).config();
 
 export default function App() {
-  const [state, setState] = useState({
-    loggedIn: false
-  })
-  function updateLogIn(status) {
-    setState({loggedIn: status})
-  }
-  
   return (
     <Router>
-      <Container>
-           <Switch>
-        <Route exact path={"/"}>
-            <Home {...state} stateChanger={updateLogIn} />
-          </Route>
-          <Route exact path={"/explore"}>
+      <div>
+        {/* A <Switch> looks through its children <Route>s and
+            renders the first one that matches the current URL. */}
+        <Switch>
+          <Route exact path={["/explore", "/"]}>
             <Explore />
           </Route>
           <Route exact path="/myaccount">
@@ -46,7 +36,7 @@ export default function App() {
             <Upload />
           </Route>
           <Route exact path="/login">
-            <LogIn {...state} stateChanger={updateLogIn}  />
+            <LogIn />
           </Route>
           <Route exact path="/signup">
             <SignUp />
@@ -55,7 +45,7 @@ export default function App() {
             <GRVTest client={client} />
           </Route>
         </Switch>
-      </Container>
+      </div>
     </Router>
   );
 }
