@@ -28,17 +28,16 @@ app.use(
     credentials: true,
   })
 );
-app.use(
-  session({
-    secret: "secretcode",
-    resave: true,
-    saveUninitialized: true,
-  })
-);
 
 app.use(cookieParser("secretcode"));
+app.use(session({
+  secret: 'keyboard cat',
+  resave: false,
+  saveUninitialized: false,
+  // cookie: { secure: true }
+}))
 app.use(passport.initialize());
-app.use(passport.session());
+app.use(passport.session())
 require("./config/passportConfig")(passport);
 app.use(logger("dev"));
 app.use(compression());

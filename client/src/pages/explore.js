@@ -9,6 +9,7 @@ import {
 } from "semantic-ui-react";
 import Card from "../Components/card";
 import API from "../utils/API";
+import Parallax from '../Components/parallax'
 
 function Explore() {
   const [localClimbs, setLocalClimbs] = useState([]);
@@ -26,8 +27,8 @@ function Explore() {
 
   return (
     <Container>
-      <Header as="h1">
-        Climbing Routes Near {searchTerm ? searchTerm : "You!"}
+      <Header id='heading' as="h1">
+        Climbing Routes Nearby {searchTerm ? searchTerm : "You!"}
       </Header>
 
       <Divider horizontal />
@@ -55,10 +56,10 @@ function Explore() {
           }}
         />
       </Container>
-
+          <Parallax />
       <Divider horizontal />
-
-      <Grid columns="4">
+      
+      <Grid id='cardGrid' columns="4">
         {localClimbs.map((route, index) => {
           return (
             <Grid.Column key={route.id}>
