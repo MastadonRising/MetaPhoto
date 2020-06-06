@@ -5,7 +5,7 @@ import logo from "../logo.svg";
 import API from "../utils/API";
 
 function Upload() {
-  const YOUR_API_KEY = `A3aWEEqJ0RHOqD6biKd4iz`;
+  const YOUR_API_KEY = `AH2nffwSZT3PqqE34NAj8z`;
 
   // useEffect(() => {}, []);
   // function storePhoto(res) {

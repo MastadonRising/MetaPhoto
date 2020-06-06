@@ -20,14 +20,15 @@ function SignUp() {
   const [registerLastName, setRegisterLastName] = useState("");
   const [registerEmail, setRegisterEmail] = useState("");
   function register() {
+    console.log("registering");
     let NewUser = {
-      userName: registerUsername,
+      username: registerUsername,
       password: registerPassword,
       firstName: registerFirstName,
       lastName: registerLastName,
       email: registerEmail,
     };
-
+    console.log(NewUser);
     API.register(NewUser);
   }
 

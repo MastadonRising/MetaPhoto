@@ -11,12 +11,15 @@ import {
   Message,
 } from "semantic-ui-react";
 import API from "../utils/API";
-
+function logout() {
+  API.logout();
+}
 function LogIn() {
   const [loginUsername, setLoginUsername] = useState("");
   const [loginPassword, setLoginPassword] = useState("");
   const [data, setData] = useState(null);
   function login() {
+    console.log("Logging In");
     API.login(loginUsername, loginPassword);
   }
   function getUser() {
@@ -47,7 +50,22 @@ function LogIn() {
               onChange={(e) => setLoginPassword(e.target.value)}
             />
 
-            <Button icon="sign in alternate" fluid basic size="large">
+            <Button
+              icon="sign in alternate"
+              fluid
+              basic
+              size="large"
+              onClick={login}
+            >
+              Login
+            </Button>
+            <Button
+              icon="sign in alternate"
+              fluid
+              basic
+              size="large"
+              onClick={logout}
+            >
               Login
             </Button>
             <Message attached="bottom" style={{ width: "99%", margin: "auto" }}>

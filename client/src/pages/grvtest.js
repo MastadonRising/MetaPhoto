@@ -8,21 +8,9 @@ import ClimbsNearYou from "../Components/ClimbsNearYou";
 import PhotoRatings from "../Components/PhotoRatings";
 
 function App({ client }) {
-  // setting up upload picker
-  // let options = {
-  //   displayMode: "inline",
-  //   container: ".picker-content",
-  //   maxFiles: 1,
-  //   accept: ["image/jpeg", "image/jpg", "image/png"],
-  //   fromSources: ["local_file_system"],
-  //   uploadInBackground: false,
-  // };
-  // var picker = client.picker(options);
-  // picker.open();
-
-  // const [photoSet, setPhotoSet] = useState([]);
   const [exifDATA, setExifDATA] = useState(null);
   const [imgToUpload, setImgToUpload] = useState({
+    handle: "",
     url: null,
     ready: false,
     imgMedURL: "",
@@ -30,7 +18,7 @@ function App({ client }) {
   });
   const [routes, setRoutes] = useState({});
   const [currentGPS, setCurrentGPS] = useState({ lat: 37.423, lon: -122.084 });
-
+  const [photoroute, setPhotoRoute] = useState({});
   useEffect(() => {
     // if already processed
     if (imgToUpload.ready) {
@@ -41,7 +29,7 @@ function App({ client }) {
       imgToUpload.uploadComplete &&
       imgToUpload.transform
     ) {
-      console.log(imgToUpload);
+      console.log("step 1" + imgToUpload);
       let transformedSMUrl = client.transform(imgToUpload.url, {
         // re
         resize: {
@@ -75,18 +63,19 @@ function App({ client }) {
   function handleUpload(upload) {
     if (imgToUpload.ready) {
       let newPhotoObj = {
+        PhotoID: imgToUpload.handle,
         url: imgToUpload.url,
         imgSmURL: imgToUpload.imgSmURL,
         imgMedURL: imgToUpload.imgMedURL,
-        userID: "MP_XXXXXX",
-        route: upload.route,
+        // userID: "MP_XXXXXX",
+        // route: upload.route,
         routesID: upload.route.id,
-        exifDATA: exifDATA,
+        // exifDATA: exifDATA,
       };
 
       console.log(`Photo Obj saved to DB`, newPhotoObj);
 
-      API.savePhoto(newPhotoObj).then(() => {
+      API.postPhoto(newPhotoObj).then(() => {
         setExifDATA(null);
       });
       // reset exifData to null after loaded to db
@@ -101,6 +90,7 @@ function App({ client }) {
     // console.log(files);
     if (file && file.name) {
       EXIF.getData(file, function () {
+        console.log(this.exifdata);
         setExifDATA({ ...this.exifdata });
 
         if (this) {
@@ -132,30 +122,33 @@ function App({ client }) {
       };
 
       // development = retrieving to avoid upload calls
+      // client
+      //   .retrieve("ZLSjsWWT6KmxKoFqM9AE", { metadata: true })
+      //   .then((res) => {
+      //     console.log("success: ", res);
+      //     setImgToUpload({
+      //       ...imgToUpload,
+      //       url: "https://cdn.filestackcontent.com/DulGvQm4RuifSaqBCJJV",
+      //       uploadComplete: true,
+      //     });
+      //   });
+
       client
-        .retrieve("ZLSjsWWT6KmxKoFqM9AE", { metadata: true })
+        .upload(file, { onRetry, onProgress }, {})
         .then((res) => {
           console.log("success: ", res);
           setImgToUpload({
             ...imgToUpload,
-            url: "https://cdn.filestackcontent.com/DulGvQm4RuifSaqBCJJV",
-            uploadComplete: true,
+            url: res.url,
+            handle: res.handle,
+            transform: false,
           });
+        })
+        .catch((err) => {
+          console.log(err);
         });
-
-      // client
-      //   .upload(file, { onRetry, onProgress }, {})
-      //   .then((res) => {
-      //     console.log("success: ", res);
-      //     setImgToUpload({ ...imgToUpload, url: res.url, transform: false });
-      //   })
-      //   .catch((err) => {
-      //     console.log(err);
-      //   });
     }
   }
-
-  // console.log(`exifData is ${exifDATA}`);
 
   return (
     <div style={{ clear: "both", padding: "2rem" }}>
@@ -172,10 +165,10 @@ function App({ client }) {
         onChange={(event) => handleInputChange(event)}
         style={{ margin: "0 auto 1rem" }}
       />
-      <div style={{ clear: "both", padding: "1rem" }}>
+      {/* <div style={{ clear: "both", padding: "1rem" }}>
         <a href="http://localhost:3001/api/photos"> PHOTOS API </a>
-      </div>
-
+      </div> */}
+      {/* conditionally reneded component for selecting routes */}
       {exifDATA !== null ? (
         <div>
           <img
@@ -187,7 +180,7 @@ function App({ client }) {
           <h2 style={{ color: "red", fontWeight: "800" }}>
             Are any of these the location of your climb?
           </h2>
-          <ClimbsNearYou size={5} routes={routes} />
+          <ClimbsNearYou size={20} routes={routes} />
           <button onClick={() => handleUpload({ route: routes[0] })}>
             upload/save
           </button>

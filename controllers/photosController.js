@@ -10,8 +10,15 @@ module.exports = {
   },
   create: function (req, res) {
     console.log("getting hit");
-    console.log(req.body);
-    db.Photos.create(req.body)
+    console.log(req);
+    let photo = {
+      PhotoID: req.body.PhotoID,
+      url: req.body.url,
+      userID: req.User.id,
+      routeID: req.body.routesID,
+    };
+
+    db.Photos.create(photo)
       .then((dbModel) => res.json(dbModel))
       .catch((err) => res.status(422).json(err));
   },

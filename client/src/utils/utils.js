@@ -3,10 +3,13 @@ import { useState, useMemo } from "react";
 export default {
   // function to remove any non-latin characters (found them when uploading gopro imgs)
   latinify: function (word) {
-    return word
-      .split(``)
-      .filter((i) => i.match(/^[ -~]+$/))
-      .join(``);
+    if (word !== undefined) {
+      return word
+        .split(``)
+        .filter((i) => i.match(/^[ -~]+$/))
+        .join(``);
+    }
+    return null;
   },
 
   convertResolution: function (x, y) {
