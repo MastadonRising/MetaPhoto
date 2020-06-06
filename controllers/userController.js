@@ -59,6 +59,14 @@ module.exports = {
       }
     })(req, res, next);
   },
+
+  logout: function (req, res) {
+    console.log("trying to logout....")
+    req.session.destroy()
+    req.logout()
+    res.send('/')
+  },
+
   createUser: function (req, res) {
     db.User.findOne({ username: req.body.username }, async (err, doc) => {
       if (err) throw err;

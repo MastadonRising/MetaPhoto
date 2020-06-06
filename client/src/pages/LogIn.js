@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { Link, Redirect } from "react-router-dom";
 import {
   Button,
@@ -17,28 +17,29 @@ function LogIn(props) {
   console.log(props)
   const [loginUsername, setLoginUsername] = useState("");
   const [loginPassword, setLoginPassword] = useState("");
-  const [data, setData] = useState(props.state);
+  // const [data, setData] = useState(props.loggedIn);
 
   function login() {
-    API.login(loginUsername, loginPassword).then(data => {
-      (data === 'Successfully Authenticated') ?
-        props.logginer( 'true' ) :
-        setData({ loggedIn: 'false' })
+    API.login(loginUsername, loginPassword).then(response => {
+      console.log(response);
+      (response.data === 'Successfully Authenticated') ?
+        props.stateChanger(true) :
+        props.stateChanger(false)
     })
   }
-  function getUser() {
-    API.getUser(setData);
-  }
+  // function getUser() {
+  //   API.getUser(setData);
+  // }
 
   return (
     <Container>
-      <Header as="h1">
+      <Header as="h1" id='heading'>
         Login or Register
       </Header>
       <Grid textAlign="center" verticalAlign="middle">
         <Grid.Column style={{ maxWidth: 450 }}>
           <Divider horizontal hidden />
-          {(data.loggedIn) ?
+          {(props.loggedIn) ?
             <Redirect to='/myaccount' /> :
             <div><Header as="h2" textAlign="center">
               <Icon name="users" size="mini" /> Log-in to your account
@@ -67,11 +68,11 @@ function LogIn(props) {
                     fluid
                     basic
                     size="large"
-                    onClick={login}>
-                    Login
-          </Button>
+                    onClick={login}
+                    content='Login' />
+                    
                   <Message attached="bottom" style={{ width: "99%", margin: "auto" }}>
-                    New to us?{" "}
+                    New to us?
                     <Button basic as={Link} to="/signup" name="signup">
                       Sign Up
             </Button>

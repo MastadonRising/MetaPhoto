@@ -189,7 +189,7 @@ function Upload() {
 
   return (
     <Container>
-      <Header as="h1">Upload Photos</Header>
+      <Header id='heading' as='h1'>Upload Photos</Header>
       <p className="App-intro">
         To get started, open the picker and upload your image.
       </p>

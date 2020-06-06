@@ -33,7 +33,7 @@ function SignUp() {
 
   return (
     <Container>
-      <Header as='h1'>
+      <Header id='heading' as='h1'>
         Register your new account
       </Header>
       <Grid textAlign="center" verticalAlign="middle">

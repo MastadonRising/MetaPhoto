@@ -88,7 +88,11 @@ export default {
 
       withCredentials: true,
       url: "http://localhost:3001/register",
-    }).then((res) => console.log(res));
+    }).then((res) => {
+      (res.data === 'User Already Exists') ? 
+      alert('Sorry, A user with that username already exists!') :
+      console.log(res)
+    });
   },
   login: function (loginUsername, loginPassword) {
     return axios({
@@ -99,7 +103,13 @@ export default {
       },
       withCredentials: true,
       url: "http://localhost:3001/login",
-    }).then((res) => res.data);
+    }).then((res) => (res))
+  },
+  logout: function() {
+    return axios({
+      method: "GET",
+      url: "http://localhost:3001/logout"
+    }).then(res => (res))
   },
   getUser: function (setData) {
     axios({
