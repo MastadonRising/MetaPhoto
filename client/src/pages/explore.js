@@ -9,7 +9,6 @@ import {
 } from "semantic-ui-react";
 import Card from "../Components/card";
 import API from "../utils/API";
-import Parallax from '../Components/parallax'
 
 function Explore() {
   const [localClimbs, setLocalClimbs] = useState([]);
@@ -55,7 +54,6 @@ function Explore() {
           }}
         />
       </Container>
-          <Parallax />
       <Divider horizontal />
       
       <Grid id='cardGrid' columns="4">

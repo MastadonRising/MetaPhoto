@@ -80,10 +80,6 @@ export default {
     axios({
       method: "POST",
       data: NewUser,
-<<<<<<< HEAD
-=======
-
->>>>>>> 156c904a7cd07309c37b0a890ed7a6b2b8811522
       withCredentials: true,
       url: "http://localhost:3001/register",
     }).then((res) => {
