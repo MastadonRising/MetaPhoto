@@ -1,10 +1,16 @@
 import axios from "axios";
 
 export default {
-  // Gets all routes by lat,lon
   getRoutesbyLatLon: function (GPS) {
-    const queryURI = `https://www.mountainproject.com/data/get-routes-for-lat-lon?lat=${GPS.coords.latitude}&lon=${GPS.coords.longitude}&maxDistance=30&key=200765490-6a4f3ccdce84ab9b6225f209a2b16baf`;
+    const queryURI = `https://www.mountainproject.com/data/get-routes-for-lat-lon?lat=${GPS.lat}&lon=${GPS.lon}&maxDistance=30&key=200765490-6a4f3ccdce84ab9b6225f209a2b16baf`;
     return axios.get(queryURI);
+  },
+  getRoutesByNavigator: function (GPS) {
+    let gps = {
+      lat: GPS.coords.latitude,
+      lon: GPS.coords.longitude,
+    };
+    return this.getRoutesbyLatLon(gps);
   },
   getRoutesbySearch: function (searchTerm) {
     const geoCodeKey = "jmu2hzM4mHMBWSGPseb1cGFiAZ4CSPKI";
@@ -22,21 +28,15 @@ export default {
     return axios.get("/api/photo");
   },
   postPhoto: function (data) {
-    data.filesUploaded.forEach((photo) => {
-      console.log(photo);
-      if (photo.status === "Stored") {
-        let Photo = {
-          photoID: photo.handle,
-          url: photo.url,
-          userID: 1,
-          routeID: 1,
-        };
-        console.log(Photo);
-        return axios.post("/api/photo", Photo).then((res) => console.log(res));
-      } else {
-        alert(`Photo: ${photo.filename} failed to upload`);
-      }
-    });
+    let Photo = {
+      photoID: data.handel,
+      url: data.url,
+      imgSmURL: data.imgSmURL,
+      imgMedURL: data.imgMedURL,
+      routesID: data.routesID,
+    };
+    console.log(Photo);
+    return axios.post("/api/photo", Photo).then((res) => console.log(res));
   },
 
   postLike: function (data) {
@@ -54,18 +54,13 @@ export default {
     return axios.delete("/api/user" + id);
   },
 
-  register: function (registerUsername, registerPassword, registerFirstName, registerLastName, registerEmail) {
-    console.log(registerPassword, registerUsername, registerFirstName, registerLastName, registerEmail)
-
+  register: function (NewUser) {
+    console.log("step 2", NewUser);
     axios({
       method: "POST",
-      data: {
-        username: registerUsername,
-        password: registerPassword,
-        firstName: registerFirstName,
-        lastName: registerLastName,
-        email: registerEmail
-      },
+      data: NewUser})
+          
+
       withCredentials: true,
       url: "http://localhost:3001/register",
     }).then((res) => {
@@ -91,6 +86,10 @@ export default {
       url: "http://localhost:3001/logout"
     }).then(res => (res))
   },
+  logout: function () {
+    axios.get("/logout").then((res) => console.log(res));
+  },
+
   getUser: function (setData) {
     axios({
       method: "GET",
@@ -101,4 +100,21 @@ export default {
       console.log(res);
     });
   },
+  
+  getPhotoInformation: function () {
+    return axios.get(`/api/photos`);
+  },
 };
+
+// container: undefined
+// filename: "2020-04-14 04.16.45.jpg"
+// handle: "ObcSrDE4Qc6XuKVEI19x"
+// key: undefined
+// mimetype: (...)
+// name: (...)
+// size: (...)
+// status: "Stored"
+// type: (...)
+// uploadTags: undefined
+// url: "https://cdn.filestackcontent.com/ObcSrDE4Qc6XuKVEI19x"
+// workflows: undefined

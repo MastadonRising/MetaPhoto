@@ -52,5 +52,5 @@ router.route("/logout").get(userController.logout)
 router.route("/register").post(userController.createUser);
 
 router.route("/user").get(userController.getUser);
-
+router.route("/logout").get(userController.logout);
 module.exports = router;

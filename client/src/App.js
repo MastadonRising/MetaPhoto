@@ -8,9 +8,15 @@ import Explore from "./pages/explore";
 import Resources from "./pages/resources";
 import SignUp from "./pages/SignUp";
 import LogIn from "./pages/LogIn";
+import GRVTest from "./pages/grvtest.js";
 import "./index.css";
 import "./App.css";
 import API from "./utils/API";
+
+const client = require("filestack-js").init(
+  `AH2nffwSZT3PqqE34NAj8z` || process.env.REACT_APP_FILESTACK_KEYZZZZZ
+);
+require(`dotenv`).config();
 
 export default function App() {
   const [state, setState] = useState({
@@ -23,20 +29,7 @@ export default function App() {
   return (
     <Router>
       <Container>
-        <nav style={{ float: "left" }}>
-          <Menu vertical>
-            <Menu.Item as={Link} to='/' name='Home'/>
-            <Menu.Item as={Link} to="/explore" name="Explore" />
-            <Menu.Item as={Link} to="/myaccount" name="My Account" />
-            <Menu.Item as={Link} to="/resources" name='Resources' />
-            <Menu.Item as={Link} to="/upload" name='Upload' />
-            {(state.loggedIn) ? <Menu.Item as={Button} content='Logout' onClick={() => API.logout().then(res => console.log(res))} /> : null }
-          </Menu>
-        </nav>
-
-        {/* A <Switch> looks through its children <Route>s and
-            renders the first one that matches the current URL. */}
-        <Switch>
+           <Switch>
         <Route exact path={"/"}>
             <Home {...state} stateChanger={updateLogIn} />
           </Route>
@@ -57,6 +50,9 @@ export default function App() {
           </Route>
           <Route exact path="/signup">
             <SignUp />
+          </Route>
+          <Route exact path="/grv">
+            <GRVTest client={client} />
           </Route>
         </Switch>
       </Container>
