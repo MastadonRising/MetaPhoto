@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import API from "../utils/API";
 import EXIF from "exif-js";
 import UTILS from "../utils/utils";
+import ReactLoading from "react-loading";
 import { Container, Header } from "semantic-ui-react";
 const client = require("filestack-js").init(
   process.env.REACT_APP_FILESTACK_KEY
@@ -14,7 +15,10 @@ function Upload() {
   const [uploadedPhotos, setUploadedPhotos] = useState(null);
 
   // making stages per status codes, to keep track of steps
+  // also serves as check for all files in a multiple-upload to be ready before moving on
   useEffect(() => {
+    // first step, after extracting exifdata, locate (pun-intended) GPS coordinates in exifdata
+    // find routes per photo's GPS info
     if (status === 1) {
       handles.forEach((handle) => {
         API.getPhotoByHandle(handle).then((resp) => {
@@ -37,20 +41,17 @@ function Upload() {
                 photo.exifdata.GPSLongitudeRef,
                 photo.exifdata.GPSLongitude
               );
-              console.log(`lat: ${lat}, lon: ${lon}`);
-              // console.log(uploadedPhotos);
-              // GPS.coords.latitude
 
               API.getRoutesByNavigator({
                 coords: { latitude: lat, longitude: lon },
               }).then((resp) => {
                 console.log(resp);
+                // update routes field in the photo to API response routes data
                 API.updatePhoto(photo._id, {
                   routes: resp.data.routes,
                 }).then(() => {
                   setStatus(2);
                 });
-                // setUploadedPhotos();
               });
             } else {
               console.log("No EXIF data found in image");
@@ -64,6 +65,10 @@ function Upload() {
         });
       });
     }
+
+    // after routes have been added to a Photo's db record
+    // retrieve DB photos and filter out the current photos/handles
+    // set the current photos to our uploadedPhotos state for rendering
     if (status === 2) {
       API.getPhoto().then((respo) => {
         // filtering out only our current handles to use
@@ -72,6 +77,8 @@ function Upload() {
         );
         setUploadedPhotos(photoBlock);
 
+        // checking to see that routes are ready in each current photo's record
+        // otherwise images may be potentially rendered to user without routes
         const routeCheck = () => {
           for (let index = 0; index < photoBlock.length; index++) {
             if (photoBlock[index].routes.length < 1) {
@@ -81,6 +88,7 @@ function Upload() {
           }
         };
 
+        // once all currently uploaded photos have routes, set status 3, to get out of routecheck loop
         if (routeCheck()) {
           setStatus(3);
         }
@@ -88,8 +96,7 @@ function Upload() {
     }
 
     if (status === 3) {
-      console.log(`what now?`);
-      // setUploadedPhotos([...list]);
+      // be happy we got this far \^_^/
       setStatus(4);
     }
   }, [status, handles, list]);
@@ -106,8 +113,8 @@ function Upload() {
         API.updatePhotoByHandle(image.handle, {
           exifdata: JSON.stringify(this.exifdata),
         }).then((resp) => {
+          setStatus(1);   //
           console.log(resp);
-          setStatus(1);
           //
         });
       });
@@ -144,12 +151,13 @@ function Upload() {
     onUploadDone: (files) => {
       // Called when all files have been uploaded.
       files.userID = "INSERT_USER_ID"; // here or in the API.postPhoto
-      API.postPhoto(files); // saving files to DB
+      API.postPhoto(files); // saving files' relevant info (url, handle, etc.) to DB
       const handles = files.filesUploaded.map((each) => each.handle);
       setHandles(handles); // setting current handles to work with
       extractExifData(files.filesUploaded); // sending to EXIF extraction, needs handle and original file blob
     },
     transformations: {
+      // locking aspect ratio here
       crop: {
         aspectRatio: 1,
       },
@@ -158,12 +166,12 @@ function Upload() {
   });
 
   // all photos' data should be saved to each clickable element rendered (ie. individual route user needs to choose)
-  // checks the route clicked ("selected") and sets the routes property of our photo to the single user-selected route
   // eliminates the photo from active set once route is selected
   function handleClimbSelect(evt) {
     let selected = JSON.parse(evt.target.dataset.photodata);
     console.log(selected);
 
+    // checks the route clicked ("selected") and sets the routes property of our photo to the single user-selected route
     selected.routes.forEach((route) => {
       if (route.id === Number(evt.target.id)) {
         selected.routes = route;
@@ -172,6 +180,7 @@ function Upload() {
       }
     });
 
+    // filtering out the selected/processed photo from state to remove from render
     const newuploadedPhotos = uploadedPhotos.filter(
       (item) => item.handle !== selected.handle
     );
@@ -194,6 +203,21 @@ function Upload() {
       </button>
       <div style={{ clear: "both" }}>
         {/* only loads when something has been uploaded  */}
+
+        {status === 1 || status === 2 ? (
+          <div>
+            <h2>Please wait while we retrieve routes for your photos.</h2>
+            <ReactLoading
+              height="auto"
+              width="auto"
+              className="loader"
+              type={"bars"}
+              color={"black"}
+            />
+          </div>
+        ) : (
+          ""
+        )}
 
         {uploadedPhotos && uploadedPhotos.length ? (
           <div>
@@ -233,7 +257,7 @@ function Upload() {
             })}
           </div>
         ) : (
-          "NO IMAGE UPLOADED"
+          ""
         )}
       </div>
     </Container>
