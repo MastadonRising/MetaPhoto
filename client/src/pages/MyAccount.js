@@ -22,7 +22,7 @@ function Users() {
       <div>
         <h4>User Photos</h4>
         {UserPhotos.map((photos, index) => {
-          return <img key={photos.photoID} src={photos.url}></img>;
+          return <img alt='Here are your cards' key={photos.photoID} src={photos.url}></img>;
         })}
       </div>
     </Container>

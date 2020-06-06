@@ -83,7 +83,13 @@ export default {
       },
       withCredentials: true,
       url: "http://localhost:3001/login",
-    }).then((res) => res.data)
+    }).then((res) => (res))
+  },
+  logout: function() {
+    return axios({
+      method: "GET",
+      url: "http://localhost:3001/logout"
+    }).then(res => (res))
   },
   getUser: function (setData) {
     axios({

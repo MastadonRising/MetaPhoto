@@ -28,13 +28,6 @@ app.use(
     credentials: true,
   })
 );
-app.use(
-  session({
-    secret: "secretcode",
-    resave: true,
-    saveUninitialized: true,
-  })
-);
 
 app.use(cookieParser("secretcode"));
 app.use(session({

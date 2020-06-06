@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { Link, Redirect } from "react-router-dom";
 import {
   Button,
@@ -17,18 +17,19 @@ function LogIn(props) {
   console.log(props)
   const [loginUsername, setLoginUsername] = useState("");
   const [loginPassword, setLoginPassword] = useState("");
-  const [data, setData] = useState(props.loggedIn);
+  // const [data, setData] = useState(props.loggedIn);
 
   function login() {
-    API.login(loginUsername, loginPassword).then(data => {
-      (data === 'Successfully Authenticated') ?
-        props.stateChanger( true ) :
-        setData({ loggedIn: false })
+    API.login(loginUsername, loginPassword).then(response => {
+      console.log(response);
+      (response.data === 'Successfully Authenticated') ?
+        props.stateChanger(true) :
+        props.stateChanger(false)
     })
   }
-  function getUser() {
-    API.getUser(setData);
-  }
+  // function getUser() {
+  //   API.getUser(setData);
+  // }
 
   return (
     <Container>
@@ -67,11 +68,11 @@ function LogIn(props) {
                     fluid
                     basic
                     size="large"
-                    onClick={login}>
-                    Login
-          </Button>
+                    onClick={login}
+                    content='Login' />
+                    
                   <Message attached="bottom" style={{ width: "99%", margin: "auto" }}>
-                    New to us?{" "}
+                    New to us?
                     <Button basic as={Link} to="/signup" name="signup">
                       Sign Up
             </Button>

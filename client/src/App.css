@@ -1,7 +1,7 @@
 body,html {
   margin: 0;
   padding: 0;
-  height: 100vh;
+  height: 100%;
   background-color: #90b9ce;
 }
 * {
@@ -39,6 +39,18 @@ nav {
 .App-logo {
   height: 40vmin;
   pointer-events: none;
+}
+#para-row {
+    /* The image used */
+
+    /* Full height */
+    height: 100%;
+  
+    /* Create the parallax scrolling effect */
+    background-attachment: fixed;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
 }
 
 @media (prefers-reduced-motion: no-preference) {

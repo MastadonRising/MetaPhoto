@@ -1,7 +1,5 @@
-import React, { useState, useEffect } from "react";
-import ImageUploadFS from "../utils/ImageUploadFileStack";
+import React from "react";
 import ReactFilestack from "filestack-react";
-import logo from "../logo.svg";
 import API from "../utils/API";
 import { Container, Header } from "semantic-ui-react";
 

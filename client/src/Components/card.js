@@ -2,7 +2,7 @@ import React from "react";
 import { Card, Image, Button, Icon } from "semantic-ui-react";
 
 const CardExampleCard = (props) => (
-  <Card style={{ height: "350px" }}>
+  <Card style={{ height: "350px", minWidth: '200px' }}>
     {/* {console.log(props)} */}
     {props.photo ? (
       <Image style={{ height: "150px" }} src={props.photo} ui={false} />
@@ -10,7 +10,7 @@ const CardExampleCard = (props) => (
       <Image style={{ height: "150px" }} src={props.imgSmallMed} ui={false} />
     )}
 
-    <Card.Content>
+    <Card.Content  style={{maxHeight: '140px'}}>
       <Card.Header>{props.name} </Card.Header>
       <Card.Description>
         {props.desc ? <p>{props.desc}</p> : <p>{props.rating}</p>}

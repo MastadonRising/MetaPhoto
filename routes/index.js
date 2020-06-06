@@ -47,6 +47,8 @@ router.route("/api/favorite:id").post(userController.addFavorite);
 
 router.route("/login").post(userController.authenticate);
 
+router.route("/logout").get(userController.logout)
+
 router.route("/register").post(userController.createUser);
 
 router.route("/user").get(userController.getUser);
