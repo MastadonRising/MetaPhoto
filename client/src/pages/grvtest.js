@@ -165,9 +165,9 @@ function App({ client }) {
         onChange={(event) => handleInputChange(event)}
         style={{ margin: "0 auto 1rem" }}
       />
-      {/* <div style={{ clear: "both", padding: "1rem" }}>
+      <div style={{ clear: "both", padding: "1rem" }}>
         <a href="http://localhost:3001/api/photos"> PHOTOS API </a>
-      </div> */}
+      </div>
       {/* conditionally reneded component for selecting routes */}
       {exifDATA !== null ? (
         <div>
