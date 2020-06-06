@@ -12,6 +12,11 @@ router
   .post(photoController.create);
 
 router
+  .route("/api/photohandle:handle")
+  .get(photoController.findByHandle)
+  .put(photoController.updateWithHandle);
+
+router
   .route("/api/photo:id")
   .post(photoController.like)
   .get(photoController.findAll)

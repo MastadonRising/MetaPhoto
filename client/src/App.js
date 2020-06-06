@@ -16,10 +16,6 @@ import LogIn from "./pages/LogIn";
 import GRVTest from "./pages/grvtest.js";
 import "./index.css";
 import "./App.css";
-
-const client = require("filestack-js").init(
-  process.env.REACT_APP_FILESTACK_KEY
-);
 require(`dotenv`).config();
 
 export default function App() {
@@ -30,6 +26,7 @@ export default function App() {
   function updateLogIn(status) {
     setState({ loggedIn: status });
   }
+
 
   return (
     <Router>
@@ -71,7 +68,7 @@ export default function App() {
             <Resources />
           </Route>
           <Route exact path="/upload">
-            <Upload  client={client}/>
+            <Upload  />
           </Route>
           <Route exact path="/login">
             <LogIn />
@@ -83,7 +80,7 @@ export default function App() {
             <SignUp />
           </Route>
           <Route exact path="/grv">
-            <GRVTest client={client} />
+            <GRVTest  />
           </Route>
         </Switch>
       </div>

@@ -2,21 +2,34 @@ const db = require("../models");
 
 // Defining methods for the postsController
 module.exports = {
-  findAll: function (req, res) {
-    db.Photos.find(req.query)
+  findAll: function ({ query }, res) {
+    db.Photos.find(query)
+      .sort({ date: -1 })
+      .then((dbModel) => res.json(dbModel))
+      .catch((err) => res.status(422).json(err));
+  },
+  findByHandle: function ({ params }, res) {
+    db.Photos.find(params)
       .sort({ date: -1 })
       .then((dbModel) => res.json(dbModel))
       .catch((err) => res.status(422).json(err));
   },
   create: function (req, res) {
     console.log("getting hit");
-    // console.log(req.body);
+
+    // console.log(newImage)
+    console.log(req.body);
     db.Photos.create(req.body)
       .then((dbModel) => res.json(dbModel))
       .catch((err) => res.status(422).json(err));
   },
+  updateWithHandle: function (req, res) {
+    db.Photos.findOneAndUpdate({ handle: req.params.handle }, req.body)
+      .then((dbModel) => res.json(dbModel))
+      .catch((err) => res.status(422).json(err));
+  },
   update: function (req, res) {
-    db.Photos.findOneAndUpdate({ _id: req.params.id }, req.body)
+    db.Photos.update({ _id: req.params.id }, req.body)
       .then((dbModel) => res.json(dbModel))
       .catch((err) => res.status(422).json(err));
   },

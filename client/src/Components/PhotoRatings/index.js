@@ -7,16 +7,18 @@ function PhotoRatings() {
   const [newUpdate, setNewUpdate] = useState({});
 
   useEffect(() => {
-    API.getPhotoInformation().then((response, err) => {
-      if (err) {console.log(err)};
+    API.getPhoto().then((response, err) => {
+      if (err) {
+        console.log(err);
+      }
       setSavedPhotos(response.data);
     });
   }, [newUpdate]);
 
   function handleVoting(evt, type) {
     if (type === "up") {
-      console.log(`♥‿♥`);
-      API.updatePhotoLikes(evt.target.id, {
+      console.log(`♥‿♥`, evt.target.id);
+      API.postLike(evt.target.id, {
         typeOf: "like",
         userID: evt.target.id, // needs real userID
       }).then(() => {
@@ -24,7 +26,7 @@ function PhotoRatings() {
       });
     } else {
       console.log(`(ಥ⌣ಥ)`);
-      API.updatePhotoLikes(evt.target.id, {
+      API.postLike(evt.target.id, {
         typeOf: "dislike",
         userID: evt.target.id, // needs real userID
       });

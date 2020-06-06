@@ -3,83 +3,116 @@ import API from "../utils/API";
 import EXIF from "exif-js";
 import UTILS from "../utils/utils";
 import { Container, Header } from "semantic-ui-react";
+const client = require("filestack-js").init(
+  process.env.REACT_APP_FILESTACK_KEY
+);
 
-function Upload({ client }) {
-  const [uploadsList, setUploadsList] = useState([]);
-  const [uploadStage, setUploadStage] = useState([]);
-  const [uploadToDbList, setUploadToDbList] = useState([]);
-  const [uploadToDbReady, setuploadToDbReady] = useState(false);
+function Upload() {
+  const list = [];
+  const [status, setStatus] = useState(0);
+  const [handles, setHandles] = useState([]);
+  const [uploadedPhotos, setUploadedPhotos] = useState(null);
 
+  // making stages per status codes, to keep track of steps
   useEffect(() => {
-    API.getPhotoInformation().then((data) => {
-      // setUploadsList([...data.data.slice(4)]);
-    });
-  }, []);
+    if (status === 1) {
+      handles.forEach((handle) => {
+        API.getPhotoByHandle(handle).then((resp) => {
+          let photo = resp.data[0];
 
-  useEffect(() => {
-    if (!uploadStage.length) {
-      return;
-    }
-    uploadStage.forEach((file) => {
-      // console.log(file);
-      EXIF.getData(file.originalFile, function () {
-        if (this.exifdata) {
-          let lat = UTILS.convertToDecimalDeg(
-            this.exifdata.GPSLatitudeRef,
-            this.exifdata.GPSLatitude
-          );
-          let lon = UTILS.convertToDecimalDeg(
-            this.exifdata.GPSLongitudeRef,
-            this.exifdata.GPSLongitude
-          );
-          // console.log(`lat: ${lat}, lon: ${lon}`);
+          if (photo.exifdata) {
+            photo.exifdata = JSON.parse(photo.exifdata);
 
-          // or catch error after route api call
-          if (isNaN(lat)) {
-            let Photo = {
-              name: file.originalFile.name,
-              url: file.url,
-              handle: file.handle,
-              userID: 7,
-              routes: [],
-              exifdata: this.exifdata,
-            };
+            if (
+              photo.exifdata.GPSLongitude &&
+              photo.exifdata.GPSLongitude &&
+              photo.exifdata.GPSLatitude[0] !== null &&
+              photo.exifdata.GPSLongitude[0] !== null
+            ) {
+              let lat = UTILS.convertToDecimalDeg(
+                photo.exifdata.GPSLatitudeRef,
+                photo.exifdata.GPSLatitude
+              );
+              let lon = UTILS.convertToDecimalDeg(
+                photo.exifdata.GPSLongitudeRef,
+                photo.exifdata.GPSLongitude
+              );
+              console.log(`lat: ${lat}, lon: ${lon}`);
+              // console.log(uploadedPhotos);
+              // GPS.coords.latitude
 
-            return setUploadsList([...uploadsList, Photo]);
-          } else {
-            API.getRoutesByNavigator({
-              coords: { latitude: lat, longitude: lon },
-            }).then((routes) => {
-              let Photo = {
-                name: file.originalFile.name,
-                url: file.url,
-                handle: file.handle,
-                userID: 7,
-                routes: routes.data.routes,
-                exifdata: this.exifdata,
-              };
-              return setUploadsList([...uploadsList, Photo]);
-            });
+              API.getRoutesByNavigator({
+                coords: { latitude: lat, longitude: lon },
+              }).then((resp) => {
+                console.log(resp);
+                API.updatePhoto(photo._id, {
+                  routes: resp.data.routes,
+                }).then(() => {
+                  setStatus(2);
+                });
+                // setUploadedPhotos();
+              });
+            } else {
+              console.log("No EXIF data found in image");
+              API.updatePhoto(photo._id, {
+                routes: ["No GPS Data Found."],
+              }).then(() => {
+                setStatus(2);
+              });
+            }
           }
-        } else {
-          console.log("No EXIF data found in image");
+        });
+      });
+    }
+    if (status === 2) {
+      API.getPhoto().then((respo) => {
+        // filtering out only our current handles to use
+        const photoBlock = respo.data.filter((item) =>
+          handles.includes(item.handle)
+        );
+        setUploadedPhotos(photoBlock);
+
+        const routeCheck = () => {
+          for (let index = 0; index < photoBlock.length; index++) {
+            if (photoBlock[index].routes.length < 1) {
+              return false;
+            }
+            return true;
+          }
+        };
+
+        if (routeCheck()) {
+          setStatus(3);
         }
       });
-
-      let newUploadStage = uploadStage.filter(
-        (item) => item.handle !== file.handle
-      );
-      setUploadStage([...newUploadStage]);
-    });
-  }, [uploadStage, uploadsList]);
-
-  useEffect(() => {
-    if (!uploadToDbReady) {
-      return;
-    } else {
-      return API.postPhoto(uploadStage); //
     }
-  }, [uploadToDbReady, uploadStage]);
+
+    if (status === 3) {
+      console.log(`what now?`);
+      // setUploadedPhotos([...list]);
+      setStatus(4);
+    }
+  }, [status, handles, list]);
+
+  function extractExifData(storedImages) {
+    storedImages.forEach((image) => {
+      // (originalFile) is exclusive to using Filestack
+      EXIF.getData(image.originalFile, function () {
+        // clearing MakerNote from exifdata as it's huge and not needed right now
+        if (this.exifdata.MakerNote) {
+          this.exifdata.MakerNote = "";
+        }
+        // using handle to avoid searching for most recent uploads in photos with ID
+        API.updatePhotoByHandle(image.handle, {
+          exifdata: JSON.stringify(this.exifdata),
+        }).then((resp) => {
+          console.log(resp);
+          setStatus(1);
+          //
+        });
+      });
+    });
+  }
 
   // Filestack Picker
   const picker = client.picker({
@@ -94,44 +127,56 @@ function Upload({ client }) {
     maxFiles: 3, // defaults to 1
     maxSize: 1024 * 1024 * 10, // limiting to 10Mb , because we can
     // modalSize: [500,500], // [Width, Height]; optional
-    onCancel: () => {
-      setUploadsList([]);
-    },
+    // onCancel: () => {},
     onFileSelected: (file) => {
-      // console.log(file);
+      // if (file.size > 1000 * 1000) {
+      //   throw new Error('File too big, select something smaller than 1MB');
+      // }
     },
     onFileUploadFailed: (file, err) => {
-      console.log(file.name, err);
+      console.log(file, err);
     },
     onFileUploadFinished: (file) => {
-      // Called
-      console.log(file);
+      // Called when each file is uploaded
+      // console.log(file);
     },
-    onOpen: () => console.log("opened!"), //Called when the UI is mounted.
+    // onOpen: () => {}, //Called when the UI is mounted.
     onUploadDone: (files) => {
       // Called when all files have been uploaded.
-      console.log(files);
-      return setUploadStage([...files.filesUploaded]);
+      files.userID = "INSERT_USER_ID"; // here or in the API.postPhoto
+      API.postPhoto(files); // saving files to DB
+      const handles = files.filesUploaded.map((each) => each.handle);
+      setHandles(handles); // setting current handles to work with
+      extractExifData(files.filesUploaded); // sending to EXIF extraction, needs handle and original file blob
     },
-    uploadInBackground: false, // Start uploading immediately on file selection. can be enabled only if crop is disabled .
+    transformations: {
+      crop: {
+        aspectRatio: 1,
+      },
+    },
+    uploadInBackground: false, // can be enabled only if crop is disabled.
   });
 
+  // all photos' data should be saved to each clickable element rendered (ie. individual route user needs to choose)
+  // checks the route clicked ("selected") and sets the routes property of our photo to the single user-selected route
+  // eliminates the photo from active set once route is selected
   function handleClimbSelect(evt) {
     let selected = JSON.parse(evt.target.dataset.photodata);
+    console.log(selected);
 
     selected.routes.forEach((route) => {
       if (route.id === Number(evt.target.id)) {
-        return (selected.routes = route), (selected.routeID = route.id);
+        selected.routes = route;
+        selected.routeID = route.id;
+        API.updatePhoto(selected._id, { routes: route, routeID: route.id });
       }
     });
-    const newUploadsList = uploadsList.filter(
+
+    const newuploadedPhotos = uploadedPhotos.filter(
       (item) => item.handle !== selected.handle
     );
-    setUploadsList([...newUploadsList]);
-    setUploadToDbList([...uploadToDbList, selected]);
+    setUploadedPhotos([...newuploadedPhotos]);
   }
-
-  console.log(uploadToDbList);
 
   return (
     <Container>
@@ -149,10 +194,11 @@ function Upload({ client }) {
       </button>
       <div style={{ clear: "both" }}>
         {/* only loads when something has been uploaded  */}
-        {uploadsList.length ? (
+
+        {uploadedPhotos && uploadedPhotos.length ? (
           <div>
             <h3>Select the Climb for your photos</h3>
-            {uploadsList.map((upload, index) => {
+            {uploadedPhotos.map((upload, index) => {
               return (
                 <div key={index} style={{ clear: "both", display: "flex" }}>
                   <img
@@ -162,7 +208,7 @@ function Upload({ client }) {
                     alt={upload.name}
                   ></img>
                   <ul>
-                    {!upload.routes.length ? (
+                    {!upload.routes ? (
                       <li>No GPS DATA Found? ¯\_(ツ)_/¯</li>
                     ) : (
                       upload.routes.map((route, index) => {
@@ -176,7 +222,7 @@ function Upload({ client }) {
                               handleClimbSelect(evt);
                             }}
                           >
-                            {route.name}
+                            {route.name || route}
                           </li>
                         );
                       })
@@ -187,7 +233,7 @@ function Upload({ client }) {
             })}
           </div>
         ) : (
-          ""
+          "NO IMAGE UPLOADED"
         )}
       </div>
     </Container>
@@ -196,6 +242,8 @@ function Upload({ client }) {
 
 export default Upload;
 
+// HdPB2IAQR2mZHX09oSxp
+// JWHSLG2lS2OyMrWDM48y
 // {"filesUploaded":[{
 // "filename":"DSC_0360.JPG",
 // "handle":"a3mFhZdcTZW4ndeKhPkG",

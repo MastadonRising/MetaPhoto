@@ -25,6 +25,10 @@ export default {
   getPhoto: function () {
     return axios.get("/api/photo");
   },
+  getPhotoByHandle: function (handle) {
+    console.log(handle)
+    return axios.get("/api/photohandle" + handle);
+  },
   postSinglePhoto: function (photo) {
     return axios.post("/api/photo", photo).then((res) => {
       // console.log(res);
@@ -35,27 +39,33 @@ export default {
       // console.log(photo);
       if (photo.status === "Stored") {
         let Photo = {
-          photoID: photo.handle,
-          url: photo.url,
-          userID: 1,
+          handle: photo.handle,
+          url: "https://cdn.filestackcontent.com/" + photo.handle,
+          userID: data.userID || 1,
           routeID: 1,
         };
         // console.log(Photo);
         return axios.post("/api/photo", Photo).then((res) => {
-          // console.log(res);
+          console.log(res);
         });
       } else {
         alert(`Photo: ${photo.filename} failed to upload`);
       }
     });
   },
+  updatePhoto: function (id, photo) {
+    return axios.put("/api/photo" + id, photo);
+  },
+  updatePhotoByHandle: function (handle, photo) {
+    return axios.put("/api/photohandle" + handle, photo);
+  },
 
-  postLike: function (data) {
+  postLike: function (id, data) {
     let Like = {
-      type: data.type,
+      typeOf: data.typeOf,
       userID: data.userID,
     };
-    return axios.post("/api/photo" + data.photoID, Like);
+    return axios.post("/api/photo" + id, Like);
   },
 
   signUpUser: function (data) {
@@ -137,8 +147,5 @@ export default {
       img.src = e.target.result;
     };
     reader.readAsDataURL(file);
-  },
-  getPhotoInformation: function () {
-    return axios.get(`/api/photos`);
   },
 };
