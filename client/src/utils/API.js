@@ -26,7 +26,7 @@ export default {
     return axios.get("/api/photo");
   },
   getPhotoByHandle: function (handle) {
-    console.log(handle)
+    console.log(handle);
     return axios.get("/api/photohandle" + handle);
   },
   postSinglePhoto: function (photo) {
@@ -97,7 +97,7 @@ export default {
       },
       withCredentials: true,
       url: "http://localhost:3001/login",
-    }).then((res) => res);
+    }).then((res) => console.log(res));
   },
   logout: function () {
     axios.get("/logout").then((res) => console.log(res));

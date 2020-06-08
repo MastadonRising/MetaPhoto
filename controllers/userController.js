@@ -44,7 +44,7 @@ module.exports = {
   },
   authenticate: function (req, res, next) {
     passport.authenticate("local", (err, user, info) => {
-      console.log(req.session)
+      console.log(req.session);
       if (err) throw err;
 
       if (!user) res.send("No User Exists");
@@ -58,13 +58,6 @@ module.exports = {
         });
       }
     })(req, res, next);
-  },
-
-  logout: function (req, res) {
-    console.log("trying to logout....")
-    req.session.destroy()
-    req.logout()
-    res.send('/')
   },
 
   createUser: function (req, res) {
@@ -91,6 +84,6 @@ module.exports = {
   },
   logout: function (req, res) {
     req.logout();
-    res.redirect("/");
+    res.json({ status: "logged out" });
   },
 };
