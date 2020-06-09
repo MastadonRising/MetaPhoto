@@ -3,38 +3,41 @@ import "./style.css";
 import API from "../../utils/API";
 
 function PhotoRatings() {
-  const [newRatings, setNewRatings] = useState([]);
+  const [savedPhotos, setSavedPhotos] = useState([]);
   const [newUpdate, setNewUpdate] = useState({});
 
   useEffect(() => {
-    API.getPhotoInformation().then((response, err) => {
-      if (err) throw err;
-      setNewRatings(response.data);
+    API.getPhoto().then((response, err) => {
+      if (err) {
+        console.log(err);
+      }
+      setSavedPhotos(response.data);
     });
   }, [newUpdate]);
 
   function handleVoting(evt, type) {
     if (type === "up") {
-      console.log(`♥‿♥`);
-      API.updatePhoto(evt.target.id, {
-        upLikes: Number(evt.target.dataset.uplikes) + 1,
+      console.log(`♥‿♥`, evt.target.id);
+      API.postLike(evt.target.id, {
+        typeOf: "like",
+        userID: evt.target.id, // needs real userID
       }).then(() => {
         setNewUpdate({ ...newUpdate }); // "tricking" it to refresh photoratings
       });
     } else {
       console.log(`(ಥ⌣ಥ)`);
-      API.updatePhoto(evt.target.id, {
-        downLikes: Number(evt.target.dataset.downlikes) + 1,
+      API.postLike(evt.target.id, {
+        typeOf: "dislike",
+        userID: evt.target.id, // needs real userID
       });
       setNewUpdate({ ...newUpdate }); // "tricking" it to refresh photoratings
     }
   }
-
   return (
     <div>
-      {newRatings.length ? (
-        newRatings.map((photo) => (
-          <div>
+      {savedPhotos.length ? (
+        savedPhotos.map((photo, index) => (
+          <div key={index}>
             <img
               style={{ display: "block", maxWidth: "175px" }}
               src={photo.url}
@@ -42,40 +45,32 @@ function PhotoRatings() {
             ></img>
             <button
               id={photo._id}
-              data-uplikes={photo.upLikes}
-              data-downlikes={photo.downLikes}
               onClick={(evt) => {
                 handleVoting(evt, `up`);
               }}
             >
               <span
                 id={photo._id}
-                data-uplikes={photo.upLikes}
-                data-downlikes={photo.downLikes}
                 role="img"
                 aria-label="Call Me Emoji"
                 style={{ fontSize: "1.5rem" }}
               >
-                {photo.upLikes} 🤙
+                {photo.likes.filter((i) => i.typeOf === "like").length} 🤙
               </span>
             </button>
             <button
               id={photo._id}
-              data-uplikes={photo.upLikes}
-              data-downlikes={photo.downLikes}
               onClick={(evt) => {
                 handleVoting(evt, `down`);
               }}
             >
               <span
                 id={photo._id}
-                data-uplikes={photo.upLikes}
-                data-downlikes={photo.downLikes}
                 role="img"
                 aria-label="Poo Emoji"
                 style={{ fontSize: "1.5rem" }}
               >
-                {photo.downLikes} 💩
+                {photo.likes.filter((i) => i.typeOf === "dislike").length} 💩
               </span>
             </button>
           </div>

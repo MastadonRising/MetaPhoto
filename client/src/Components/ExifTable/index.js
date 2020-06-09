@@ -4,6 +4,8 @@ import UTILS from "../../utils/utils";
 
 // expects an Exif data model as exported with exif-js
 function ExifTable({ exifdata }) {
+  
+
   return (
     <>
       <table

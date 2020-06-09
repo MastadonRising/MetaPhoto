@@ -8,6 +8,7 @@ import {
   Grid,
 } from "semantic-ui-react";
 import Card from "../Components/card";
+import MenuBar from "../Components/Menu";
 import API from "../utils/API";
 
 function Explore() {
@@ -26,10 +27,10 @@ function Explore() {
 
   return (
     <Container>
-      <Header id='heading' as="h1">
+      <Header id="heading" as="h1">
         Climbing Routes Nearby {searchTerm ? searchTerm : "You!"}
       </Header>
-
+      <MenuBar></MenuBar>
       <Divider horizontal />
       <Container textAlign="center">
         <Input
@@ -56,8 +57,8 @@ function Explore() {
         />
       </Container>
       <Divider horizontal />
-      
-      <Grid id='cardGrid' columns="4">
+
+      <Grid id="cardGrid" columns="4">
         {localClimbs.map((route, index) => {
           return (
             <Grid.Column key={route.id}>

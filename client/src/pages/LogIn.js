@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Link, Redirect } from "react-router-dom";
+
 import {
   Button,
   Form,
@@ -8,7 +8,6 @@ import {
   Segment,
   Icon,
   Divider,
-  Message,
   Container,
 } from "semantic-ui-react";
 import API from "../utils/API";
@@ -22,12 +21,11 @@ function LogIn() {
   // const [data, setData] = useState(props.loggedIn);
 
   function login() {
-    console.log("Logging In");
     API.login(loginUsername, loginPassword);
   }
-  function getUser(setData) {
-    API.getUser(setData);
-  }
+  // function getUser(setData) {
+  //   API.getUser(setData);
+  // }
 
   return (
     <Container>

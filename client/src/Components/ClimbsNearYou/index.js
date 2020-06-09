@@ -7,7 +7,9 @@ function ClimbsNearYou({ routes, size }) {
   const [sortKey, setSortKey] = useState("name");
   // console.log(routes);
   const { items: localClimbs, requestSort, sortConfig } = UTILS.useSortableData(
-    routes.length ? routes.filter((i, index) => (index < size ? i : null)) : {}
+    routes.length
+      ? routes.filter((i, index) => (index < size ? i : null))
+      : {}
   );
   const getClassNamesFor = (name) => {
     if (!sortConfig) {

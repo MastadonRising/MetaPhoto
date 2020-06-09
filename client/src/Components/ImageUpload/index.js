@@ -3,7 +3,7 @@ import "./style.css";
 import ReactLoading from "react-loading";
 import EXIF from "exif-js";
 import UTILS from "../../utils/utils";
-import AWS from "../../utils/AWS";
+// import AWS from "../../utils/AWS";
 import API from "../../utils/API";
 import ClimbsNearYou from "../ClimbsNearYou";
 import ExifTable from "../ExifTable";
@@ -25,7 +25,9 @@ function ImageUploadx() {
       setRoutes(response.data.routes);
     });
     setLoading(false); // as it relates to the effect dependencies
-  }, [uploadedImage]);
+  }, [uploadedImage, currentGPS]);
+
+  
 
   function handleChange({
     target: {
@@ -37,6 +39,8 @@ function ImageUploadx() {
       // AWS.uploadToS3andRetrieve(file).then((upload) =>
       //   setUploadedImage(upload)
       // );
+
+      
 
       setUploadedImage("/images/rock-climb-unsplash-wOverlay-papyrus.jpg");
       EXIF.getData(file, function () {
@@ -55,8 +59,11 @@ function ImageUploadx() {
           console.log("No EXIF data found in image '" + file.name + "'.");
         }
       });
+
+      console.log(exifData)
     }
   }
+
 
   return (
     <>
@@ -74,7 +81,7 @@ function ImageUploadx() {
           {!loading ? (
             <img
               src={uploadedImage}
-              alt="User uploaded file"
+              alt="User-uploaded file"
               style={{ width: "100%" }}
             />
           ) : (
@@ -88,13 +95,12 @@ function ImageUploadx() {
           )}
           <button
             onClick={() => {
-              return;
+              // handlePhotoSave();
             }}
           >
             SAVE IMAGE TO PROFILE
           </button>
         </div>
-
         <ClimbsNearYou />
       </LocalClimbsContext.Provider>
     </>

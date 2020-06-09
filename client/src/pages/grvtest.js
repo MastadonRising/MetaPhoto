@@ -17,8 +17,10 @@ function App({ client }) {
     imgSmURL: "",
   });
   const [routes, setRoutes] = useState({});
-  const [currentGPS, setCurrentGPS] = useState({ lat: 37.423, lon: -122.084 });
-  const [photoroute, setPhotoRoute] = useState({});
+  const [currentGPS, setCurrentGPS] = useState({
+    coords: { latitude: 37.423, longitude: -122.084 },
+  });
+
   useEffect(() => {
     // if already processed
     if (imgToUpload.ready) {
@@ -50,13 +52,12 @@ function App({ client }) {
   }, [imgToUpload, client]);
 
   useEffect(() => {
-    if (!isNaN(currentGPS.lat)) {
-      API.getRoutesbyLatLon(currentGPS).then((response, err) => {
+    if (!isNaN(currentGPS.coords.latitude)) {
+      API.getRoutesByNavigator(currentGPS).then((response, err) => {
         if (err) throw err;
         setRoutes(response.data.routes);
       });
     }
-
     // console.log(currentGPS)
   }, [currentGPS]);
 
@@ -103,7 +104,7 @@ function App({ client }) {
             this.exifdata.GPSLongitude
           );
           // console.log(`lat: ${lat}, lon: ${lon}`);
-          setCurrentGPS({ lat: lat, lon: lon });
+          setCurrentGPS({ coords: { latitude: lat, longitude: lon } });
         } else {
           console.log("No EXIF data found in image '" + file.name + "'.");
         }
@@ -121,6 +122,12 @@ function App({ client }) {
           : setImgToUpload({ ...imgToUpload, uploadComplete: false });
       };
 
+      // setImgToUpload({
+      //   ...imgToUpload,
+      //   url: "https://cdn.filestackcontent.com/DulGvQm4RuifSaqBCJJV",
+      //   uploadComplete: true,
+      // });
+
       // development = retrieving to avoid upload calls
       // client
       //   .retrieve("ZLSjsWWT6KmxKoFqM9AE", { metadata: true })
@@ -133,18 +140,20 @@ function App({ client }) {
       //     });
       //   });
 
+      console.log(process.env);
+
       client
         .upload(file, { onRetry, onProgress }, {})
         .then((res) => {
           console.log("success: ", res);
-          setImgToUpload({
-            ...imgToUpload,
-            url: res.url,
-            handle: res.handle,
-            transform: false,
-          });
+          setImgToUpload({ ...imgToUpload, url: res.url, transform: false });
         })
         .catch((err) => {
+          setImgToUpload({
+            ...imgToUpload,
+            url: "/images/rock-climb-unsplash-icon-150x150.jpg",
+            transform: false,
+          });
           console.log(err);
         });
     }
@@ -201,6 +210,20 @@ function App({ client }) {
       {/* {photoSet.length < 0 ? <PhotoCard photos={photoSet} /> : <h4>Loading</h4>} */}
       <PhotoRatings />
       {/* <ImageUploadx /> */}
+
+      {/* <ReactFilestack
+        apikey={YOUR_API_KEY}
+        componentDisplayMode={{
+          type: "button",
+          customText: "Click here to open picker",
+          customClass: "some-custom-class",
+        }}
+        onSuccess={(results) => {
+
+          API.postPhoto(results);
+
+        }}
+      /> */}
     </div>
   );
 }

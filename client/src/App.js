@@ -1,6 +1,5 @@
 import React from "react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
-import { Container } from "semantic-ui-react";
 import MyAccount from "./pages/MyAccount";
 import Upload from "./pages/upload";
 import Explore from "./pages/explore";
@@ -8,18 +7,14 @@ import Resources from "./pages/resources";
 import SignUp from "./pages/SignUp";
 import LogIn from "./pages/LogIn";
 import GRVTest from "./pages/grvtest.js";
+import UserProvider from "../src/context/userContext";
 import "./index.css";
 import "./App.css";
-
-const client = require("filestack-js").init(
-  `AH2nffwSZT3PqqE34NAj8z` || process.env.REACT_APP_FILESTACK_KEYZZZZZ
-);
-require(`dotenv`).config();
 
 export default function App() {
   return (
     <Router>
-      <Container>
+      <UserProvider>
         <Switch>
           <Route exact path={["/explore", '/']}>
             <Explore />
@@ -36,15 +31,17 @@ export default function App() {
           <Route exact path="/login">
             <LogIn />
           </Route>
+          <Route exact path="/grv">
+            <GRVTest />
+          </Route>
           <Route exact path="/signup">
             <SignUp />
           </Route>
           <Route exact path="/grv">
-            <GRVTest client={client} />
+            <GRVTest />
           </Route>
         </Switch>
-      </Container>
-            
+      </UserProvider>
     </Router>
   );
 }
