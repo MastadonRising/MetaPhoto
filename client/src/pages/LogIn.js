@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-
 import {
   Button,
   Form,
@@ -9,8 +8,11 @@ import {
   Icon,
   Divider,
   Container,
+  Message,
 } from "semantic-ui-react";
 import API from "../utils/API";
+import MenuBar from "../Components/Menu"
+import { Link } from "react-router-dom";
 
 function logout() {
   API.logout();
@@ -29,9 +31,18 @@ function LogIn() {
 
   return (
     <Container>
-      <Header as="h1" id="heading">
-        Login or Register
+      
+      <Grid columns='2' verticalAlign='middle'>
+        <Grid.Column width='3' height='200px'>
+          <MenuBar />
+        </Grid.Column>
+        <Grid.Column width='13'>
+          <Header as="h1" id="heading">
+            MetaPhoto
       </Header>
+        </Grid.Column>
+      </Grid>
+
       <Grid textAlign="center" verticalAlign="middle">
         <Grid.Column style={{ maxWidth: 450 }}>
           <Divider horizontal hidden />
@@ -74,10 +85,16 @@ function LogIn() {
                 size="large"
                 onClick={logout}
               >
-                Login
+                Logout
               </Button>
             </Segment>
           </Form>
+          <Message attached="bottom" style={{ width: "99%", margin: "auto" }}>
+            New to us?
+            <Button basic as={Link} to="/signup" name="Sign Up">
+              Sign Up
+          </Button>
+          </Message>
         </Grid.Column>
       </Grid>
     </Container>

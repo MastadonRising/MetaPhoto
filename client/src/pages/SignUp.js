@@ -91,7 +91,7 @@ function SignUp() {
             </Segment>
           </Form>
           <Message attached="bottom" style={{ width: "99%", margin: "auto" }}>
-            Already a Memeber?
+            Already a Member?
             <Button basic as={Link} to="/login" name="login">
               Log In
           </Button>

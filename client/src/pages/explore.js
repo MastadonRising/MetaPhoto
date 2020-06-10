@@ -6,6 +6,8 @@ import {
   Button,
   Divider,
   Grid,
+  Checkbox,
+  Label,
 } from "semantic-ui-react";
 import Card from "../Components/card";
 import MenuBar from "../Components/Menu";
@@ -14,6 +16,7 @@ import API from "../utils/API";
 function Explore() {
   const [localClimbs, setLocalClimbs] = useState([]);
   const [searchTerm, setSearchTerm] = useState([]);
+  
   useEffect(() => {
     navigator.geolocation.getCurrentPosition(getLocalClimbs);
   }, []);
@@ -22,19 +25,19 @@ function Explore() {
     API.getRoutesByNavigator(data).then((data) => {
       setLocalClimbs(data.data.routes);
     });
-  } 
+  }
 
 
   return (
     <Container>
-      <Header id="heading" as="h1">
+      <Header as="h1" id="heading" attached='top'>
         Climbing Routes Nearby {searchTerm ? searchTerm : "You!"}
       </Header>
-      <MenuBar></MenuBar>
+      <MenuBar />
       <Divider horizontal />
-      <Container textAlign="center">
+      <Container textAlign="center" text style={{backgroundColor: 'grey'}}>
         <Input
-          style={{ width: "400px" }}
+          style={{width: "400px"}}
           placeholder="City,   State"
           onChange={(e) => setSearchTerm(e.target.value)}
           icon={{
@@ -55,6 +58,10 @@ function Explore() {
             },
           }}
         />
+        <Container text>
+          <Checkbox onChange={() => console.log('Gudo')} toggle label='Sort by Rating' /> 
+          <Checkbox  toggle label='Sort by Popularity' />
+        </Container>
       </Container>
       <Divider horizontal />
 

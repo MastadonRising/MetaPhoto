@@ -3,9 +3,10 @@ import API from "../utils/API";
 import EXIF from "exif-js";
 import UTILS from "../utils/utils";
 import ReactLoading from "react-loading";
-import { Container, Header } from "semantic-ui-react";
+import { Container, Header, Grid } from "semantic-ui-react";
+import MenuBar from '../Components/Menu'
 const client = require("filestack-js").init(
-  process.env.REACT_APP_FILESTACK_KEY
+  'ASqRy0SxoR0GwFXKGloCDz'
 );
 
 function Upload() {
@@ -189,7 +190,14 @@ function Upload() {
 
   return (
     <Container>
-      <Header id='heading' as='h1'>Upload Photos</Header>
+      <Grid columns='2' verticalAlign='middle'>
+        <Grid.Column width='3' height='200px'>
+          <MenuBar />
+        </Grid.Column>
+        <Grid.Column width='13'>
+          <Header id='heading' as='h1'>Upload Photos</Header>
+        </Grid.Column>
+      </Grid>
       <p className="App-intro">
         To get started, open the picker and upload your image.
       </p>
@@ -216,8 +224,8 @@ function Upload() {
             />
           </div>
         ) : (
-          ""
-        )}
+            ""
+          )}
 
         {uploadedPhotos && uploadedPhotos.length ? (
           <div>
@@ -235,30 +243,30 @@ function Upload() {
                     {!upload.routes ? (
                       <li>No GPS DATA Found? ¯\_(ツ)_/¯</li>
                     ) : (
-                      upload.routes.map((route, index) => {
-                        // console.log(upload);
-                        return (
-                          <li
-                            key={index}
-                            data-photodata={JSON.stringify(upload)}
-                            id={route.id || "NO_ID"}
-                            onClick={(evt) => {
-                              handleClimbSelect(evt);
-                            }}
-                          >
-                            {route.name || route}
-                          </li>
-                        );
-                      })
-                    )}
+                        upload.routes.map((route, index) => {
+                          // console.log(upload);
+                          return (
+                            <li
+                              key={index}
+                              data-photodata={JSON.stringify(upload)}
+                              id={route.id || "NO_ID"}
+                              onClick={(evt) => {
+                                handleClimbSelect(evt);
+                              }}
+                            >
+                              {route.name || route}
+                            </li>
+                          );
+                        })
+                      )}
                   </ul>
                 </div>
               );
             })}
           </div>
         ) : (
-          ""
-        )}
+            ""
+          )}
       </div>
     </Container>
   );
