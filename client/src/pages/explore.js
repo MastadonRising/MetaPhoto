@@ -6,24 +6,35 @@ import {
   Button,
   Divider,
   Grid,
+  Dropdown,
 } from "semantic-ui-react";
 import Card from "../Components/card";
 import MenuBar from "../Components/Menu";
 import API from "../utils/API";
+import { useHistory } from "react-router-dom";
 
 function Explore() {
   const [localClimbs, setLocalClimbs] = useState([]);
   const [searchTerm, setSearchTerm] = useState([]);
+  const [range, setRange] = useState([]);
   useEffect(() => {
     navigator.geolocation.getCurrentPosition(getLocalClimbs);
   }, []);
 
+  const Options = [
+    { key: 5, text: "5", value: "5" },
+    { key: 10, text: "10", value: "10" },
+    { key: 15, text: "15", value: "15" },
+    { key: 20, text: "20", value: "20" },
+    { key: 25, text: "25", value: "25" },
+    { key: 30, text: "30", value: "30" },
+  ];
   function getLocalClimbs(data) {
-    API.getRoutesByNavigator(data).then((data) => {
+    API.getRoutesByNavigator(data, range).then((data) => {
       setLocalClimbs(data.data.routes);
     });
   }
-
+  // handleChange(value) {this.setState({ range: value });}
   return (
     <Container>
       <Header id="heading" as="h1">
@@ -53,6 +64,12 @@ function Explore() {
               });
             },
           }}
+        />
+        <Dropdown
+          inline
+          options={Options}
+          defaultValue={Options[5].value}
+          // onChange={handleChange}
         />
       </Container>
       <Divider horizontal />
