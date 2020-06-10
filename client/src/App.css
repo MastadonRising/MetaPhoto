@@ -7,6 +7,9 @@ body,html {
 * {
   box-sizing: border-box;
   }
+#root {
+  padding: 15px 0;
+}
 #heading {
   background-image: url('./assets/pics/longrock.jpg');
   background-color: #cccccc;

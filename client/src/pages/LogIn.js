@@ -1,4 +1,6 @@
 import React, { useState } from "react";
+import { useHistory } from "react-router-dom";
+
 import {
   Button,
   Form,
@@ -14,20 +16,17 @@ import API from "../utils/API";
 import MenuBar from "../Components/Menu"
 import { Link } from "react-router-dom";
 
-function logout() {
-  API.logout();
-}
 function LogIn() {
   const [loginUsername, setLoginUsername] = useState("");
   const [loginPassword, setLoginPassword] = useState("");
+  const history = useHistory();
   // const [data, setData] = useState(props.loggedIn);
 
   function login() {
-    API.login(loginUsername, loginPassword);
+    API.login(loginUsername, loginPassword).then((res) => {
+      history.replace("/");
+    });
   }
-  // function getUser(setData) {
-  //   API.getUser(setData);
-  // }
 
   return (
     <Container>
@@ -71,22 +70,11 @@ function LogIn() {
               >
                 Login
               </Button>
-              <Button
-                icon="sign in alternate"
-                fluid
-                basic
-                size="large"
-                onClick={logout}
-              >
-                Logout
-              </Button>
             </Segment>
           </Form>
           <Message attached="bottom" style={{ width: "99%", margin: "auto" }}>
             New to us?
-            <Button basic as={Link} to="/signup" name="Sign Up">
-              Sign Up
-          </Button>
+            <Button basic as={Link} to="/signup" content="Sign Up" />
           </Message>
         </Grid.Column>
       </Grid>

@@ -1,31 +1,43 @@
 import React, { useContext, useState } from "react";
-import { Link } from "react-router-dom";
-import { Menu, Button, Transition, Container, Icon } from "semantic-ui-react";
+import { Menu, Button, Transition, Container } from "semantic-ui-react";
+import { Link, useHistory } from "react-router-dom";
 import UserProvider from "../context/userContext";
+import API from "../utils/API";
 
 const MenuBar = () => {
+  const history = useHistory();
+  function logout() {
+    API.logout();
+    history.push("/");
+  }
   const userData = useContext(UserProvider.context);
   const [visibleState, setVisibleState] = useState({ visible: false })
+
   console.log(userData);
 
 
   return (
     <Container>
-      <Button fluid onClick={() => setVisibleState({ visible: !visibleState.visible })} icon='server' color='white' />
+      <Button fluid onClick={() => setVisibleState({ visible: !visibleState.visible })} icon='server' />
       <Transition visible={visibleState.visible} animation='slide down' duration={500}>
-        <Menu id='navMenu' attached='bottom' widths='4'>
-          <Menu.Item as={Link} to="/explore" name="Explore" />
-          <Menu.Item as={Link} to="/myaccount" name="My Account" />
-          <Menu.Item as={Link} to="/upload" name="upload" />
-          {userData.username ? (
-            <Menu.Item as={Link} to="/logout" name="Logout" />
-          ) : (
+        {userData.username ? (
+          <Menu id='navMenu' attached='bottom' widths='5'>
+            <Menu.Item as={Link} to="/explore" name="Explore" />
+            <Menu.Item as={Link} to="/myaccount" name="My Account" />
+            <Menu.Item as={Link} to="/upload" name="upload" />
+            <Menu.Item as={Link} to="/resources" name="Resources" />
+            <Menu.Item as={Link} to="/logout" name="Logout" onClick={logout} />
+          </Menu>
+        ) : (
+            <Menu  id='navMenu' attached='bottom' widths='3'>
+              <Menu.Item as={Link} to="/explore" name="Explore" />
+              <Menu.Item as={Link} to="/resources" name="Resources" />
               <Menu.Item as={Link} to="/login" name="Login" />
-            )}
-        </Menu>
+            </Menu>
+          )}
       </Transition>
     </Container>
-  );
-};
+  )
+}
 
-export default MenuBar;
+export default MenuBar

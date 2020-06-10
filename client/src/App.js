@@ -1,11 +1,17 @@
 import React from "react";
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+} from "react-router-dom";
+
 import MyAccount from "./pages/MyAccount";
 import Upload from "./pages/upload";
 import Explore from "./pages/explore";
 import Resources from "./pages/resources";
 import SignUp from "./pages/SignUp";
 import LogIn from "./pages/LogIn";
+import LogOut from "./pages/Logout";
 import GRVTest from "./pages/grvtest.js";
 import UserProvider from "../src/context/userContext";
 import "./index.css";
@@ -20,6 +26,7 @@ export default function App() {
             <Explore />
           </Route>
           <Route exact path="/myaccount">
+            {/* {!userData.username ? <Redirect to="/" /> : <MyAccount />} */}
             <MyAccount />
           </Route>
           <Route exact path="/resources">
@@ -39,6 +46,9 @@ export default function App() {
           </Route>
           <Route exact path="/grv">
             <GRVTest />
+          </Route>
+          <Route exact path="/logout">
+            <LogOut />
           </Route>
         </Switch>
       </UserProvider>
