@@ -44,7 +44,6 @@ module.exports = {
   },
   authenticate: function (req, res, next) {
     passport.authenticate("local", (err, user, info) => {
-      console.log(req.session);
       if (err) throw err;
 
       if (!user) res.send("No User Exists");
@@ -52,7 +51,7 @@ module.exports = {
         req.logIn(user, (err) => {
           if (err) throw err;
 
-          res.send("Successfully Authenticated");
+          res.send(req.user);
 
           console.log(req.user);
         });
@@ -84,6 +83,6 @@ module.exports = {
   },
   logout: function (req, res) {
     req.logout();
-    res.json({ status: "logged out" });
+    res.json({});
   },
 };
