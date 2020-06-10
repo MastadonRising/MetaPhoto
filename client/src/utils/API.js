@@ -26,7 +26,7 @@ export default {
     return axios.get("/api/photo");
   },
   getPhotoByHandle: function (handle) {
-    console.log(handle)
+    console.log(handle);
     return axios.get("/api/photohandle" + handle);
   },
   postSinglePhoto: function (photo) {
@@ -116,6 +116,10 @@ export default {
 
   getPhotoInformation: function () {
     return axios.get(`/api/photos`);
+  },
+
+  updateUserProfilePic: function (id, data) {
+    return axios.put(`/api/user${id}`, data);
   },
 };
 

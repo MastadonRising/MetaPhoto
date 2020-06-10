@@ -7,7 +7,7 @@ import Explore from "./pages/explore";
 import Resources from "./pages/resources";
 import SignUp from "./pages/SignUp";
 import LogIn from "./pages/LogIn";
-import GRVTest from "./pages/grvtest.js";
+import Settings from "./pages/Settings.js";
 import "./index.css";
 import "./App.css";
 
@@ -33,14 +33,11 @@ export default function App() {
           <Route exact path="/login">
             <LogIn />
           </Route>
-          <Route exact path="/grv">
-            <GRVTest />
-          </Route>
           <Route exact path="/signup">
             <SignUp />
           </Route>
           <Route exact path="/grv">
-            <GRVTest  />
+            <Settings  />
           </Route>
         </Switch>
       </div>

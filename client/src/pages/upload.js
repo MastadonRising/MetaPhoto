@@ -20,12 +20,13 @@ function Upload() {
     // first step, after extracting exifdata, locate (pun-intended) GPS coordinates in exifdata
     // find routes per photo's GPS info
     if (status === 1) {
+      // looping through our handles array of current uploads and retrieving it's newly created db record
       handles.forEach((handle) => {
         API.getPhotoByHandle(handle).then((resp) => {
           let photo = resp.data[0];
 
           if (photo.exifdata) {
-            photo.exifdata = JSON.parse(photo.exifdata);
+            photo.exifdata = JSON.parse(photo.exifdata);  // stringified in exif extraction
 
             if (
               photo.exifdata.GPSLongitude &&
@@ -33,6 +34,7 @@ function Upload() {
               photo.exifdata.GPSLatitude[0] !== null &&
               photo.exifdata.GPSLongitude[0] !== null
             ) {
+              // extracted in [Degrees, Min, Sec] format, converting here to DD
               let lat = UTILS.convertToDecimalDeg(
                 photo.exifdata.GPSLatitudeRef,
                 photo.exifdata.GPSLatitude
@@ -113,7 +115,7 @@ function Upload() {
         API.updatePhotoByHandle(image.handle, {
           exifdata: JSON.stringify(this.exifdata),
         }).then((resp) => {
-          setStatus(1);   //
+          setStatus(1); //
           console.log(resp);
           //
         });
@@ -169,7 +171,7 @@ function Upload() {
   // eliminates the photo from active set once route is selected
   function handleClimbSelect(evt) {
     let selected = JSON.parse(evt.target.dataset.photodata);
-    console.log(selected);
+    // console.log(selected);
 
     // checks the route clicked ("selected") and sets the routes property of our photo to the single user-selected route
     selected.routes.forEach((route) => {
@@ -189,7 +191,9 @@ function Upload() {
 
   return (
     <Container>
-      <Header id='heading' as='h1'>Upload Photos</Header>
+      <Header id="heading" as="h1">
+        Upload Photos
+      </Header>
       <p className="App-intro">
         To get started, open the picker and upload your image.
       </p>
