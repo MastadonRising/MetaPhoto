@@ -31,18 +31,11 @@ function LogIn() {
 
   return (
     <Container>
-      
-      <Grid columns='2' verticalAlign='middle'>
-        <Grid.Column width='3' height='200px'>
-          <MenuBar />
-        </Grid.Column>
-        <Grid.Column width='13'>
-          <Header as="h1" id="heading">
-            MetaPhoto
+  
+      <Header attached='top' as="h1" id="heading">
+        MetaPhoto
       </Header>
-        </Grid.Column>
-      </Grid>
-
+      <MenuBar />
       <Grid textAlign="center" verticalAlign="middle">
         <Grid.Column style={{ maxWidth: 450 }}>
           <Divider horizontal hidden />

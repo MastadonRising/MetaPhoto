@@ -19,9 +19,6 @@ body,html {
   padding: 5% 0;
   border-radius: .28571429rem .28571429rem 0 0;
 }
-#root {
-  margin: 15px
-}
 nav {
   margin-right: 10px;
 }
@@ -54,6 +51,9 @@ nav {
 }
 #searchSorter {
   padding: 0 5px;
+}
+#navMenu {
+  display: flex !important;
 }
 @media (prefers-reduced-motion: no-preference) {
   .App-logo {
