@@ -23,6 +23,7 @@ function Upload() {
       handles.forEach((handle) => {
         API.getPhotoByHandle(handle).then((resp) => {
           let photo = resp.data[0];
+          var lat, lon;
 
           if (photo.exifdata) {
             photo.exifdata = JSON.parse(photo.exifdata);
@@ -33,22 +34,35 @@ function Upload() {
               photo.exifdata.GPSLatitude[0] !== null &&
               photo.exifdata.GPSLongitude[0] !== null
             ) {
-              let lat = UTILS.convertToDecimalDeg(
+              lat = UTILS.convertToDecimalDeg(
                 photo.exifdata.GPSLatitudeRef,
                 photo.exifdata.GPSLatitude
               );
-              let lon = UTILS.convertToDecimalDeg(
+              lon = UTILS.convertToDecimalDeg(
                 photo.exifdata.GPSLongitudeRef,
                 photo.exifdata.GPSLongitude
               );
 
-              API.getRoutesByNavigator({
-                coords: { latitude: lat, longitude: lon },
-              }).then((resp) => {
-                console.log(resp);
+              API.getRoutesByNavigator(
+                {
+                  coords: { latitude: lat, longitude: lon },
+                },
+                30
+              ).then((resp) => {
+                console.log(resp.data.routes.map((r) => r.name));
+
+                var sortedRoutes = resp.data.routes.sort((a, b) =>
+                  UTILS.calculateDistance(a.latitude, a.longitude, lat, lon) >
+                  UTILS.calculateDistance(b.latitude, b.longitude, lat, lon)
+                    ? 1
+                    : -1
+                );
+
+                console.log(sortedRoutes.map((r) => r.name));
+
                 // update routes field in the photo to API response routes data
                 API.updatePhoto(photo._id, {
-                  routes: resp.data.routes,
+                  routes: sortedRoutes,
                 }).then(() => {
                   setStatus(2);
                 });
@@ -75,9 +89,10 @@ function Upload() {
         const photoBlock = respo.data.filter((item) =>
           handles.includes(item.handle)
         );
-        setUploadedPhotos(photoBlock);
 
+        setUploadedPhotos(photoBlock);
         // checking to see that routes are ready in each current photo's record
+        console.log(photoBlock);
         // otherwise images may be potentially rendered to user without routes
         const routeCheck = () => {
           for (let index = 0; index < photoBlock.length; index++) {
@@ -113,7 +128,7 @@ function Upload() {
         API.updatePhotoByHandle(image.handle, {
           exifdata: JSON.stringify(this.exifdata),
         }).then((resp) => {
-          setStatus(1);   //
+          setStatus(1); //
           console.log(resp);
           //
         });
@@ -189,7 +204,9 @@ function Upload() {
 
   return (
     <Container>
-      <Header id='heading' as='h1'>Upload Photos</Header>
+      <Header id="heading" as="h1">
+        Upload Photos
+      </Header>
       <p className="App-intro">
         To get started, open the picker and upload your image.
       </p>
