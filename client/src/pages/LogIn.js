@@ -24,6 +24,7 @@ function LogIn() {
     API.login(loginUsername, loginPassword).then((res) => {
       console.log(user);
       user.Login(res.data);
+      console.log(user);
     });
     history.replace("/");
   }

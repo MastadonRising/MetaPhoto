@@ -52,15 +52,12 @@ module.exports = {
           if (err) throw err;
 
           res.send(req.user);
-
-          console.log(req.user);
         });
       }
     })(req, res, next);
   },
 
   createUser: function (req, res) {
-    console.log("here is the shit you want to see", req.body);
     db.User.findOne({ username: req.body.username }, async (err, doc) => {
       if (err) throw err;
       if (doc) res.send("User Already Exists");
@@ -79,10 +76,11 @@ module.exports = {
     });
   },
   getUser: function (req, res) {
-    console.log("incoming" + JSON.stringify(req.user));
-    db.User.findOne({}).then((data) => {
-      res.send(data);
-      console.log(data);
+    if (!req.user) {
+      res.json({});
+    }
+    db.User.findOne({ username: req.user.username }).then((data) => {
+      res.json(data);
     });
   },
   logout: function (req, res) {

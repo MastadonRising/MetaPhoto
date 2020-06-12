@@ -3,7 +3,6 @@ const db = require("../models");
 // Defining methods for the postsController
 module.exports = {
   findAll: function (req, res) {
-    console.log("Im active");
     db.Resources.find({})
       .sort({ name: -1 })
       .then((dbModel) => res.json(dbModel))

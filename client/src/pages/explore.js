@@ -11,10 +11,8 @@ import {
 import Card from "../Components/card";
 
 import API from "../utils/API";
-import { useHistory } from "react-router-dom";
 
-
-function Explore({MenuBar}) {
+function Explore({ MenuBar }) {
   const [localClimbs, setLocalClimbs] = useState([]);
   const [searchTerm, setSearchTerm] = useState([]);
   const [range, setRange] = useState([]);
