@@ -25,26 +25,29 @@ export default {
   getPhoto: function () {
     return axios.get("/api/photo");
   },
+  getUsersPhotos: function (id) {
+    console.log(id);
+    return axios.get("/api/photo" + id);
+  },
   getPhotoByHandle: function (handle) {
     console.log(handle);
     return axios.get("/api/photohandle" + handle);
   },
   postSinglePhoto: function (photo) {
-    return axios.post("/api/photo", photo).then((res) => {
-      // console.log(res);
-    });
+    return axios.post("/api/photo", photo).then((res) => {});
   },
   postPhoto: function (data) {
+    let userID = data.userID;
     data.filesUploaded.forEach((photo) => {
-      // console.log(photo);
+      console.log(photo);
       if (photo.status === "Stored") {
         let Photo = {
           handle: photo.handle,
           url: "https://cdn.filestackcontent.com/" + photo.handle,
-          userID: data.userID || 1,
+          userID: userID,
           routeID: 1,
         };
-        // console.log(Photo);
+        console.log(Photo);
         return axios.post("/api/photo", Photo).then((res) => {
           console.log(res);
         });

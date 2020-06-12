@@ -1,9 +1,10 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import API from "../utils/API";
 import EXIF from "exif-js";
 import UTILS from "../utils/utils";
 import ReactLoading from "react-loading";
 import { Container, Header } from "semantic-ui-react";
+import UserContext from "../context/userContext";
 const client = require("filestack-js").init(
   process.env.REACT_APP_FILESTACK_KEY
 );
@@ -13,7 +14,7 @@ function Upload() {
   const [status, setStatus] = useState(0);
   const [handles, setHandles] = useState([]);
   const [uploadedPhotos, setUploadedPhotos] = useState(null);
-
+  const UserData = useContext(UserContext);
   // making stages per status codes, to keep track of steps
   // also serves as check for all files in a multiple-upload to be ready before moving on
   useEffect(() => {
@@ -23,7 +24,7 @@ function Upload() {
       handles.forEach((handle) => {
         API.getPhotoByHandle(handle).then((resp) => {
           let photo = resp.data[0];
-
+          console.log(resp);
           if (photo.exifdata) {
             photo.exifdata = JSON.parse(photo.exifdata);
 
@@ -113,7 +114,7 @@ function Upload() {
         API.updatePhotoByHandle(image.handle, {
           exifdata: JSON.stringify(this.exifdata),
         }).then((resp) => {
-          setStatus(1);   //
+          setStatus(1); //
           console.log(resp);
           //
         });
@@ -145,12 +146,13 @@ function Upload() {
     },
     onFileUploadFinished: (file) => {
       // Called when each file is uploaded
-      // console.log(file);
+      console.log(file);
     },
     // onOpen: () => {}, //Called when the UI is mounted.
     onUploadDone: (files) => {
       // Called when all files have been uploaded.
-      files.userID = "INSERT_USER_ID"; // here or in the API.postPhoto
+      files.userID = UserData.user._id; // here or in the API.postPhoto
+      console.log(files);
       API.postPhoto(files); // saving files' relevant info (url, handle, etc.) to DB
       const handles = files.filesUploaded.map((each) => each.handle);
       setHandles(handles); // setting current handles to work with
@@ -189,7 +191,9 @@ function Upload() {
 
   return (
     <Container>
-      <Header id='heading' as='h1'>Upload Photos</Header>
+      <Header id="heading" as="h1">
+        Upload Photos
+      </Header>
       <p className="App-intro">
         To get started, open the picker and upload your image.
       </p>

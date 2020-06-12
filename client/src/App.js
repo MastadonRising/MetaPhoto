@@ -5,7 +5,7 @@ import {
   Route,
   Redirect,
 } from "react-router-dom";
-
+import Menu from "./Components/Menu";
 import MyAccount from "./pages/MyAccount";
 import Upload from "./pages/upload";
 import Explore from "./pages/explore";
@@ -29,16 +29,15 @@ export default function App() {
       .then((res) => res.json())
       .then((res) => {
         setUser(res);
-        console.log(res);
       })
       .catch((err) => {
         console.log(err);
       });
   }, []);
-  // const userData = useContext(UserContext.context);
   return (
     <Router>
       <UserContext.Provider value={{ user, Login }}>
+        <Menu></Menu>
         <Switch>
           <Route exact path={["/explore", "/"]}>
             <Explore />
