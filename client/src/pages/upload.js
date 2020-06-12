@@ -92,7 +92,6 @@ function Upload() {
 
         setUploadedPhotos(photoBlock);
         // checking to see that routes are ready in each current photo's record
-        console.log(photoBlock);
         // otherwise images may be potentially rendered to user without routes
         const routeCheck = () => {
           for (let index = 0; index < photoBlock.length; index++) {
@@ -129,8 +128,6 @@ function Upload() {
           exifdata: JSON.stringify(this.exifdata),
         }).then((resp) => {
           setStatus(1); //
-          console.log(resp);
-          //
         });
       });
     });
@@ -176,6 +173,7 @@ function Upload() {
       crop: {
         aspectRatio: 1,
       },
+      rotate: true
     },
     uploadInBackground: false, // can be enabled only if crop is disabled.
   });
@@ -184,7 +182,6 @@ function Upload() {
   // eliminates the photo from active set once route is selected
   function handleClimbSelect(evt) {
     let selected = JSON.parse(evt.target.dataset.photodata);
-    console.log(selected);
 
     // checks the route clicked ("selected") and sets the routes property of our photo to the single user-selected route
     selected.routes.forEach((route) => {
