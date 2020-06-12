@@ -2,8 +2,8 @@ const db = require("../models");
 
 // Defining methods for the postsController
 module.exports = {
-  findAll: function (Req, res) {
-    db.Photos.find((username: user.username))
+  findAll: function (req, res) {
+    db.Photos.find()
       .sort({ date: -1 })
       .then((dbModel) => res.json(dbModel))
       .catch((err) => res.status(422).json(err));
