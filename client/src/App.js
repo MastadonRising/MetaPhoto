@@ -15,6 +15,7 @@ import LogIn from "./pages/LogIn";
 import Settings from "./pages/Settings.js";
 import LogOut from "./pages/Logout";
 import GRVTest from "./pages/grvtest.js";
+import MenuBar from "./Components/Menu"
 import UserContext from "../src/context/userContext";
 import "./index.css";
 import "./App.css";
