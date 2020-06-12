@@ -5,10 +5,11 @@ import UserContext from "../context/userContext";
 import API from "../utils/API";
 
 const MenuBar = () => {
+  const user = useContext(UserContext);
   const history = useHistory();
   function logout() {
     API.logout();
-    history.push("/");
+    user.Login({});
   }
   const userData = useContext(UserContext);
   return (
