@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { useHistory } from "react-router-dom";
 
 import {
@@ -12,18 +12,20 @@ import {
   Container,
 } from "semantic-ui-react";
 import API from "../utils/API";
-import UserProvider from "../context/userContext";
-
+import UserContext from "../context/userContext";
 function LogIn() {
+  const user = useContext(UserContext);
   const [loginUsername, setLoginUsername] = useState("");
   const [loginPassword, setLoginPassword] = useState("");
+  // const [user, setUser] = useState({});
   const history = useHistory();
-  // const [data, setData] = useState(props.loggedIn);
 
   function login() {
     API.login(loginUsername, loginPassword).then((res) => {
-      history.replace("/");
+      console.log(user);
+      user.Login(res.data);
     });
+    history.replace("/");
   }
 
   return (
