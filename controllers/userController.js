@@ -79,11 +79,13 @@ module.exports = {
     });
   },
   getUser: function (req, res) {
-    res.send(req.user); // The req.user stores the entire user that has been authenticated inside of it.
-    console.log(req.user);
+    console.log("incoming" + JSON.stringify(req.user));
+    db.User.findOne({ username: req.user.username }).then((data) => {
+      res.send(data);
+      console.log(data);
+    });
   },
   logout: function (req, res) {
     req.logout();
-    res.json({});
   },
 };
