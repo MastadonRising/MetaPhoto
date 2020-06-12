@@ -1,15 +1,17 @@
 import React, { useContext, useEffect } from "react";
 import { Link, useHistory, useLocation } from "react-router-dom";
 import { Menu } from "semantic-ui-react";
-import UserProvider from "../context/userContext";
+import UserContext from "../context/userContext";
 import API from "../utils/API";
 
 const MenuBar = () => {
+  const user = useContext(UserContext);
   const history = useHistory();
   function logout() {
     API.logout();
-    history.push("/");
+    user.Login({});
   }
+<<<<<<< HEAD
   let location = useLocation()
   useEffect(()=>{
     console.log(location)
@@ -17,9 +19,12 @@ const MenuBar = () => {
   const userData = useContext(UserProvider.context);
   console.log(userData)
 
+=======
+  const userData = useContext(UserContext);
+>>>>>>> 86d834492aa967f8b70bcdbe82ef91499d033f9e
   return (
     <div>
-      {userData.username ? (
+      {userData.user.username ? (
         <Menu vertical>
           <Menu.Item as={Link} to="/explore" name="Explore" />
           <Menu.Item as={Link} to="/logout" name="Logout" onClick={logout} />

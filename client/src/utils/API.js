@@ -97,10 +97,10 @@ export default {
       },
       withCredentials: true,
       url: "http://localhost:3001/login",
-    }).then((res) => console.log(res));
+    });
   },
   logout: function () {
-    axios.get("/logout").then((res) => console.log(res));
+    axios.get("/logout");
   },
 
   getUser: function (setData) {
