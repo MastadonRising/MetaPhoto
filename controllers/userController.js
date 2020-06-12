@@ -80,6 +80,7 @@ module.exports = {
   },
   getUser: function (req, res) {
     res.send(req.user); // The req.user stores the entire user that has been authenticated inside of it.
+    console.log(req.user);
   },
   logout: function (req, res) {
     req.logout();

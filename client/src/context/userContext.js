@@ -1,21 +1,8 @@
-import React, { createContext, useState, useEffect } from "react";
-const context = createContext(null);
+import React from "react";
 
-const UserProvider = ({ children }) => {
-  const [user, setUser] = useState({});
+const UserContext = React.createContext({
+  userName: "",
+  Login: () => {},
+});
 
-  useEffect(() => {
-    fetch("/user")
-      .then((res) => res.json())
-      .then((res) => setUser(res))
-      .catch((err) => {
-        console.log(err);
-      });
-  }, []);
-
-  return <context.Provider value={user}>{children}</context.Provider>;
-};
-
-UserProvider.context = context;
-
-export default UserProvider;
+export default UserContext;
