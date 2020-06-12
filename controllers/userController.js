@@ -80,7 +80,7 @@ module.exports = {
   },
   getUser: function (req, res) {
     console.log("incoming" + JSON.stringify(req.user));
-    db.User.findOne({ username: req.user.username }).then((data) => {
+    db.User.findOne({}).then((data) => {
       res.send(data);
       console.log(data);
     });

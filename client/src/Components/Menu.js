@@ -11,17 +11,7 @@ const MenuBar = () => {
     API.logout();
     user.Login({});
   }
-<<<<<<< HEAD
-  let location = useLocation()
-  useEffect(()=>{
-    console.log(location)
-  },[])
-  const userData = useContext(UserProvider.context);
-  console.log(userData)
-
-=======
   const userData = useContext(UserContext);
->>>>>>> 86d834492aa967f8b70bcdbe82ef91499d033f9e
   return (
     <div>
       {userData.user.username ? (

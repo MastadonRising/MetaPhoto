@@ -14,13 +14,8 @@ import SignUp from "./pages/SignUp";
 import LogIn from "./pages/LogIn";
 import Settings from "./pages/Settings.js";
 import LogOut from "./pages/Logout";
-<<<<<<< HEAD
-import UserProvider from "../src/context/userContext";
-import MenuBar from "./Components/Menu";
-=======
 import GRVTest from "./pages/grvtest.js";
 import UserContext from "../src/context/userContext";
->>>>>>> 86d834492aa967f8b70bcdbe82ef91499d033f9e
 import "./index.css";
 import "./App.css";
 
