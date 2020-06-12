@@ -1,5 +1,6 @@
 import React, { useState } from "react";
-import { Link, Redirect } from "react-router-dom";
+import { useHistory } from "react-router-dom";
+
 import {
   Button,
   Form,
@@ -8,25 +9,21 @@ import {
   Segment,
   Icon,
   Divider,
-  Message,
   Container,
 } from "semantic-ui-react";
 import API from "../utils/API";
+import UserProvider from "../context/userContext";
 
-function logout() {
-  API.logout();
-}
 function LogIn() {
   const [loginUsername, setLoginUsername] = useState("");
   const [loginPassword, setLoginPassword] = useState("");
+  const history = useHistory();
   // const [data, setData] = useState(props.loggedIn);
 
   function login() {
-    console.log("Logging In");
-    API.login(loginUsername, loginPassword);
-  }
-  function getUser(setData) {
-    API.getUser(setData);
+    API.login(loginUsername, loginPassword).then((res) => {
+      history.replace("/");
+    });
   }
 
   return (
@@ -66,15 +63,6 @@ function LogIn() {
                 basic
                 size="large"
                 onClick={login}
-              >
-                Login
-              </Button>
-              <Button
-                icon="sign in alternate"
-                fluid
-                basic
-                size="large"
-                onClick={logout}
               >
                 Login
               </Button>

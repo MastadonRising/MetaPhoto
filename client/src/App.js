@@ -1,6 +1,11 @@
-import React from "react";
-import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
-import { Menu } from "semantic-ui-react";
+import React, { useContext } from "react";
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Redirect,
+} from "react-router-dom";
+
 import MyAccount from "./pages/MyAccount";
 import Upload from "./pages/upload";
 import Explore from "./pages/explore";
@@ -8,27 +13,30 @@ import Resources from "./pages/resources";
 import SignUp from "./pages/SignUp";
 import LogIn from "./pages/LogIn";
 import Settings from "./pages/Settings.js";
+import LogOut from "./pages/Logout";
+import UserProvider from "../src/context/userContext";
+import MenuBar from "./Components/Menu";
 import "./index.css";
 import "./App.css";
 
 export default function App() {
+  const userData = useContext(UserProvider.context);
   return (
     <Router>
-      <div>
-        {/* A <Switch> looks through its children <Route>s and
-            renders the first one that matches the current URL. */}
+      <UserProvider>
         <Switch>
           <Route exact path={["/explore", "/"]}>
-            <Explore />
+            <Explore MenuBar={MenuBar} />
           </Route>
           <Route exact path="/myaccount">
+            {/* {!userData.username ? <Redirect to="/" /> : <MyAccount />} */}
             <MyAccount />
           </Route>
           <Route exact path="/resources">
             <Resources />
           </Route>
           <Route exact path="/upload">
-            <Upload  />
+            <Upload />
           </Route>
           <Route exact path="/login">
             <LogIn />
@@ -39,8 +47,11 @@ export default function App() {
           <Route exact path="/grv">
             <Settings  />
           </Route>
+          <Route exact path="/logout">
+            <LogOut />
+          </Route>
         </Switch>
-      </div>
+      </UserProvider>
     </Router>
   );
 }
