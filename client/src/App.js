@@ -26,7 +26,10 @@ export default function App() {
   useEffect(() => {
     fetch("/user")
       .then((res) => res.json())
-      .then((res) => setUser(res))
+      .then((res) => {
+        setUser(res);
+        console.log(res);
+      })
       .catch((err) => {
         console.log(err);
       });
@@ -41,7 +44,6 @@ export default function App() {
             <Explore />
           </Route>
           <Route exact path="/myaccount">
-            {/* {!userData ? <Redirect to="/" /> : <MyAccount />} */}
             <MyAccount />
           </Route>
           <Route exact path="/resources">

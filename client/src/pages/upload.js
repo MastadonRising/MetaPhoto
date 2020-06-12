@@ -190,14 +190,10 @@ function Upload() {
 
   return (
     <Container>
-      <Grid columns='2' verticalAlign='middle'>
-        <Grid.Column width='3' height='200px'>
-          <MenuBar />
-        </Grid.Column>
-        <Grid.Column width='13'>
-          <Header id='heading' as='h1'>Upload Photos</Header>
-        </Grid.Column>
-      </Grid>
+      <Header attached='top' as="h1" id="heading">
+        MetaPhoto
+      </Header>
+      <MenuBar />
       <p className="App-intro">
         To get started, open the picker and upload your image.
       </p>

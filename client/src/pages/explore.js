@@ -9,11 +9,13 @@ import {
   Checkbox,
   Dropdown,
   Label,
+  Segment,
 } from "semantic-ui-react";
 import Card from "../Components/card";
 import MenuBar from "../Components/Menu";
 import API from "../utils/API";
 import UserContext from "../context/userContext";
+import UserImageCard from '../Components/userImageCard'
 
 
 
@@ -29,13 +31,16 @@ function Explore() {
     });
   }
   const [localClimbs, setLocalClimbs] = useState([]);
-  const [searchTerm, setSearchTerm] = useState('San Fransisco');
+  const [searchTerm, setSearchTerm] = useState('Lake Tahoe');
   const [range, setRange] = useState(['30']);
   const [sorted, setSorted] = useState({ popSorted: false })
+  const style = (localClimbs.length > 4) ? { maxHeight: '500px', overflow: 'scroll' } : { maxHeight: '500px' }
+
 
   useEffect(() => {
     navigator.geolocation.getCurrentPosition(getLocalClimbs);
-  });
+    getUserPhotos()
+  }, []);
 
   function sortByPop() {
     (sorted.popSorted) ? setSorted({ popSorted: false }) : setSorted({ popSorted: true })
@@ -44,12 +49,12 @@ function Explore() {
     setLocalClimbs(jawjackery)
   }
 
-  function cardBuilder(climbs) {
+  function cardBuilder(array, type) {
     return (
-      climbs.map((route, index) => {
+      array.map((data, index) => {
         return (
           <Grid.Column key={index}>
-            <Card {...route} />
+            {(type !== 'userImageCard') ? <Card {...data} /> : <UserImageCard {...data} />}
           </Grid.Column>
         )
       }))
@@ -110,11 +115,26 @@ function Explore() {
         </Container>
 
       </Container>
-      <Divider horizontal />
 
-      <Grid id="cardGrid" columns="4">
-        {cardBuilder(localClimbs)}
-      </Grid>
+
+      {(localClimbs.length) ?
+        <Segment>
+          <Label attached='top'>Routes to Explore</Label>
+          <Grid id="cardGrid" columns="4" style={style}>
+            {cardBuilder(localClimbs, 'card ')}
+          </Grid>
+        </Segment> : null}
+      <Divider style={{ height: '10px' }} hidden />
+
+      {(user.user.username) ?
+        <Segment>
+          <Label attached='top'>Routes to Explore</Label>
+          <Grid id="cardGrid" columns="4" style={style}>
+            {cardBuilder(UserPhotos, 'userImageCard')}
+          </Grid>
+        </Segment> :
+        null}
+
     </Container>
   );
 }

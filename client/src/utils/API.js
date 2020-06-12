@@ -100,7 +100,7 @@ export default {
     });
   },
   logout: function () {
-    axios.get("/logout").then((res) => console.log(res));
+    axios.get("/logout");
   },
 
   getUser: function (setData) {

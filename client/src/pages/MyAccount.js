@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import API from "../utils/API";
-import {Container, Header, Grid} from 'semantic-ui-react'
+import {Container, Header} from 'semantic-ui-react'
 import MenuBar from "../Components/Menu";
 function Users() {
   const [UserPhotos, setUserPhotos] = useState([]);
@@ -19,16 +19,11 @@ function Users() {
 
   return (
     <Container>
-       <Grid columns='2' verticalAlign='middle'>
-        <Grid.Column width='3' height='200px'>
-          <MenuBar />
-        </Grid.Column>
-        <Grid.Column width='13'>
-          <Header as="h1" id="heading">
-            MetaPhoto
+       <Header as="h1" id="heading" attached='top'>
+        Your Account
       </Header>
-        </Grid.Column>
-      </Grid>
+      <MenuBar />
+
       <Container>
         <h4>User Photos</h4>
         {UserPhotos.map((photos, index) => {
