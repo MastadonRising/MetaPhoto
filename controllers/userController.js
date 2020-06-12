@@ -80,16 +80,12 @@ module.exports = {
   },
   getUser: function (req, res) {
     console.log("incoming" + JSON.stringify(req.user));
-    db.User.findOne({ username: req.user.username }).then((data) => {
+    db.User.findOne({}).then((data) => {
       res.send(data);
       console.log(data);
     });
   },
   logout: function (req, res) {
     req.logout();
-<<<<<<< HEAD
-    res.send(`/`);
-=======
->>>>>>> 86d834492aa967f8b70bcdbe82ef91499d033f9e
   },
 };
