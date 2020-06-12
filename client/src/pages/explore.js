@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import {
   Header,
   Container,
@@ -13,35 +13,46 @@ import {
 import Card from "../Components/card";
 import MenuBar from "../Components/Menu";
 import API from "../utils/API";
+import UserContext from "../context/userContext";
 
 
 
 function Explore() {
+  const user = useContext(UserContext);
+  const [UserPhotos, setUserPhotos] = useState([]);
+
+  function getUserPhotos() {
+    console.log("step 1");
+    API.getPhoto().then((data) => {
+      console.log(data);
+      setUserPhotos(data.data);
+    });
+  }
   const [localClimbs, setLocalClimbs] = useState([]);
-  const [searchTerm, setSearchTerm] = useState([]);
+  const [searchTerm, setSearchTerm] = useState('San Fransisco');
   const [range, setRange] = useState(['30']);
-  const [sorted, setSorted] = useState({popSorted: false})
+  const [sorted, setSorted] = useState({ popSorted: false })
 
   useEffect(() => {
     navigator.geolocation.getCurrentPosition(getLocalClimbs);
   });
 
   function sortByPop() {
-    (sorted.popSorted) ? setSorted({popSorted: false}) : setSorted({popSorted: true})
+    (sorted.popSorted) ? setSorted({ popSorted: false }) : setSorted({ popSorted: true })
     let oro = localClimbs.sort((a, b) => (a.stars > b.stars) ? -1 : 1)
     let jawjackery = oro.map(or => or);
     setLocalClimbs(jawjackery)
   }
 
-  function cardBuilder() {
+  function cardBuilder(climbs) {
     return (
-    localClimbs.map((route, index) => {
-      return (
-        <Grid.Column key={route.id}>
-          <Card {...route} />
-        </Grid.Column>
-      )
-    }))
+      climbs.map((route, index) => {
+        return (
+          <Grid.Column key={index}>
+            <Card {...route} />
+          </Grid.Column>
+        )
+      }))
   }
 
   const Options = [
@@ -75,16 +86,13 @@ function Explore() {
             content: "search",
             onClick: () => {
               API.getRoutesbySearch(searchTerm).then((res) => {
-                console.log(res)
                 let coordsObj = {
                   coords: {
                     latitude: res.data.results[0].locations[0].latLng.lat,
                     longitude: res.data.results[0].locations[0].latLng.lng,
                   },
                 };
-                API.getRoutesByNavigator(coordsObj, range).then((data) =>
-                  {setLocalClimbs(data.data.routes)
-                  console.log(data.data.routes)}
+                API.getRoutesByNavigator(coordsObj, range).then((data) => { setLocalClimbs(data.data.routes) }
                 );
               });
             },

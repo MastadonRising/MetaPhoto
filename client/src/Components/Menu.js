@@ -1,7 +1,7 @@
 import React, { useContext, useState } from "react";
 import { Menu, Button, Transition, Container } from "semantic-ui-react";
 import { Link, useHistory } from "react-router-dom";
-import UserProvider from "../context/userContext";
+import UserContext from "../context/userContext";
 import API from "../utils/API";
 
 const MenuBar = () => {
@@ -10,9 +10,9 @@ const MenuBar = () => {
     API.logout();
     history.push("/");
   }
-  const userData = useContext(UserProvider.context);
+;
   const [visibleState, setVisibleState] = useState({ visible: false })
-
+  const userData = useContext(UserContext);
   console.log(userData);
 
 
@@ -20,7 +20,7 @@ const MenuBar = () => {
     <Container>
       <Button fluid onClick={() => setVisibleState({ visible: !visibleState.visible })} icon='server' />
       <Transition visible={visibleState.visible} animation='slide down' duration={500}>
-        {userData.username ? (
+        {userData.user.username ? (
           <Menu id='navMenu' attached='bottom' widths='5'>
             <Menu.Item as={Link} to="/explore" name="Explore" />
             <Menu.Item as={Link} to="/myaccount" name="My Account" />
@@ -39,5 +39,7 @@ const MenuBar = () => {
     </Container>
   )
 }
+
+
 
 export default MenuBar

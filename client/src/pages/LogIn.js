@@ -1,6 +1,5 @@
 import React, { useState, useContext } from "react";
 import { useHistory } from "react-router-dom";
-import UserProvider from "../context/userContext";
 import {
   Button,
   Form,
@@ -15,19 +14,21 @@ import {
 import API from "../utils/API";
 import MenuBar from "../Components/Menu"
 import { Link } from "react-router-dom";
+import UserContext from "../context/userContext";
 
 function LogIn() {
+  const user = useContext(UserContext);
   const [loginUsername, setLoginUsername] = useState("");
   const [loginPassword, setLoginPassword] = useState("");
+  // const [user, setUser] = useState({});
   const history = useHistory();
-  // const [data, setData] = useState(props.loggedIn);
-  const userData = useContext(UserProvider.context);
-  console.log(userData)
+
   function login() {
     API.login(loginUsername, loginPassword).then((res) => {
-      console.log(res.data)
-      history.replace("/");
+      console.log(user);
+      user.Login(res.data);
     });
+    history.replace("/");
   }
   
   return (

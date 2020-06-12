@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useContext, useEffect } from "react";
 import {
   BrowserRouter as Router,
   Switch,
@@ -13,20 +13,35 @@ import SignUp from "./pages/SignUp";
 import LogIn from "./pages/LogIn";
 import LogOut from "./pages/Logout";
 import GRVTest from "./pages/grvtest.js";
-import UserProvider from "../src/context/userContext";
+import UserContext from "../src/context/userContext";
 import "./index.css";
 import "./App.css";
 
 export default function App() {
+  const [user, setUser] = useState({});
+  const Login = (User) => {
+    setUser(User);
+  };
+
+  useEffect(() => {
+    fetch("/user")
+      .then((res) => res.json())
+      .then((res) => setUser(res))
+      .catch((err) => {
+        console.log(err);
+      });
+  }, []);
+  
+  // const userData = useContext(UserContext.context);
   return (
     <Router>
-      <UserProvider>
+      <UserContext.Provider value={{ user, Login }}>
         <Switch>
           <Route exact path={["/explore", '/']}>
             <Explore />
           </Route>
           <Route exact path="/myaccount">
-            {/* {!userData.username ? <Redirect to="/" /> : <MyAccount />} */}
+            {/* {!userData ? <Redirect to="/" /> : <MyAccount />} */}
             <MyAccount />
           </Route>
           <Route exact path="/resources">
@@ -51,7 +66,7 @@ export default function App() {
             <LogOut />
           </Route>
         </Switch>
-      </UserProvider>
+      </UserContext.Provider>
     </Router>
   );
 }
