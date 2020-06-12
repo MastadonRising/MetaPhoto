@@ -1,6 +1,6 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { useHistory } from "react-router-dom";
-
+import UserProvider from "../context/userContext";
 import {
   Button,
   Form,
@@ -21,13 +21,15 @@ function LogIn() {
   const [loginPassword, setLoginPassword] = useState("");
   const history = useHistory();
   // const [data, setData] = useState(props.loggedIn);
-
+  const userData = useContext(UserProvider.context);
+  console.log(userData)
   function login() {
     API.login(loginUsername, loginPassword).then((res) => {
+      console.log(res.data)
       history.replace("/");
     });
   }
-
+  
   return (
     <Container>
   
@@ -66,9 +68,9 @@ function LogIn() {
                 fluid
                 basic
                 size="large"
+                content='Login'
                 onClick={login}
               >
-                Login
               </Button>
             </Segment>
           </Form>

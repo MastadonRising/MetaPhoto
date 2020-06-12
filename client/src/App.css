@@ -13,7 +13,7 @@ body,html {
 #heading {
   background-image: url('./assets/pics/longrock.jpg');
   background-color: #cccccc;
-  height: 200px;
+  height: 25vh;
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
@@ -44,7 +44,7 @@ nav {
     /* The image used */
 
     /* Full height */
-    height: 100%;
+    height: 70vh;
   
     /* Create the parallax scrolling effect */
     background-attachment: fixed;
