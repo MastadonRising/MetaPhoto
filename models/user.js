@@ -26,6 +26,9 @@ const UserSchema = new mongoose.Schema(
       lowercase: true,
       // required: true,
     },
+    profile_photo: {
+      type: String,
+    },
     email: {
       type: String,
       trim: true,
@@ -54,7 +57,11 @@ const UserSchema = new mongoose.Schema(
       },
     ],
     hardestClimb: "",
+    profile_photo: {
+      type: String,
+    },
   },
+  
   { timestamps: true }
 );
 

@@ -8,6 +8,7 @@ import ClimbsNearYou from "../Components/ClimbsNearYou";
 import PhotoRatings from "../Components/PhotoRatings";
 
 function App({ client }) {
+  const currentLocation = [-121.1328, 38.7692];
   const [exifDATA, setExifDATA] = useState(null);
   const [imgToUpload, setImgToUpload] = useState({
     handle: "",
@@ -21,8 +22,74 @@ function App({ client }) {
     coords: { latitude: 37.423, longitude: -122.084 },
   });
 
+  Array.min = function (array) {
+    return Math.min.apply(Math, array);
+  };
+  // if already processed
+  var distanceArray = [];
+
+  API.getRoutesByNavigator(
+    {
+      coords: {
+        latitude: currentGPS.coords.latitude,
+        longitude: currentGPS.coords.longitude,
+      },
+    },
+    30
+  ).then((resp) => {
+    // console.log(resp.data.routes);
+    //   var sortedRoutes = resp.data.routes.sort((a, b) =>
+    //   UTILS.calculateDistance(a.latitude, a.longitude, lat, lon) >
+    //   UTILS.calculateDistance(b.latitude, b.longitude, lat, lon)
+    //     ? 1
+    //     : -1
+    // );
+
+    // pushing the distance between each response's routes and the currentGPS coords to an array
+    resp.data.routes.forEach((route) => {
+      let result = UTILS.calculateDistance(
+        route.latitude,
+        route.longitude,
+        currentGPS.coords.latitude,
+        currentGPS.coords.longitude
+      );
+      distanceArray.push(result);
+    });
+
+    console.log(distanceArray);
+    // sorting the array from smallest to largest
+
+    let newdist = function () {
+      return distanceArray.sort((a, b) => b - a);
+    };
+    console.log(newdist());
+
+    // confirming the minimum
+    console.log(Array.min(distanceArray));
+
+    console.log(resp.data.routes.map((i) => i.name));
+
+    let sortedRoutes = resp.data.routes.sort((a, b) =>
+      UTILS.calculateDistance(
+        a.latitude,
+        a.longitude,
+        currentLocation[0],
+        currentLocation[1]
+      ) >
+      UTILS.calculateDistance(
+        b.latitude,
+        b.longitude,
+        currentLocation[0],
+        currentLocation[1]
+      )
+        ? 1
+        : -1
+    );
+
+    console.log(sortedRoutes.map((r) => r.name));
+  });
+
   useEffect(() => {
-    // if already processed
     if (imgToUpload.ready) {
       return;
     }
@@ -204,7 +271,7 @@ function App({ client }) {
         >
           <h1>Upload your image above to begin</h1>
           <h3>Climbs Near Your Location:</h3>
-          <ClimbsNearYou size={1} routes={routes} />
+          <ClimbsNearYou size={10} routes={routes} />
         </div>
       )}
       {/* {photoSet.length < 0 ? <PhotoCard photos={photoSet} /> : <h4>Loading</h4>} */}

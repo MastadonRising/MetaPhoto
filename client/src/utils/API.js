@@ -30,7 +30,6 @@ export default {
     return axios.get("/api/photo" + id);
   },
   getPhotoByHandle: function (handle) {
-    console.log(handle);
     return axios.get("/api/photohandle" + handle);
   },
   postSinglePhoto: function (photo) {
@@ -49,7 +48,7 @@ export default {
         };
         console.log(Photo);
         return axios.post("/api/photo", Photo).then((res) => {
-          console.log(res);
+          // console.log(res);
         });
       } else {
         alert(`Photo: ${photo.filename} failed to upload`);
@@ -119,6 +118,10 @@ export default {
 
   getPhotoInformation: function () {
     return axios.get(`/api/photos`);
+  },
+
+  updateUserProfilePic: function (id, data) {
+    return axios.put(`/api/user${id}`, data);
   },
 };
 

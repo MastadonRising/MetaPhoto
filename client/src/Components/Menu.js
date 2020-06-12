@@ -1,5 +1,5 @@
-import React, { useContext } from "react";
-import { Link, useHistory } from "react-router-dom";
+import React, { useContext, useEffect } from "react";
+import { Link, useHistory, useLocation } from "react-router-dom";
 import { Menu } from "semantic-ui-react";
 import UserContext from "../context/userContext";
 import API from "../utils/API";

@@ -9,11 +9,10 @@ import {
   Dropdown,
 } from "semantic-ui-react";
 import Card from "../Components/card";
-import MenuBar from "../Components/Menu";
-import API from "../utils/API";
-import { useHistory } from "react-router-dom";
 
-function Explore() {
+import API from "../utils/API";
+
+function Explore({ MenuBar }) {
   const [localClimbs, setLocalClimbs] = useState([]);
   const [searchTerm, setSearchTerm] = useState([]);
   const [range, setRange] = useState([]);

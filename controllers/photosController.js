@@ -10,7 +10,6 @@ module.exports = {
   },
   findById: function ({ params }, res) {
     let id = params.id;
-    console.log(id);
     db.Photos.find({ userID: id })
       .sort({ date: -1 })
       .then((dbModel) => res.json(dbModel))
