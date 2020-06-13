@@ -1,7 +1,7 @@
 import React from "react";
 import { Card, Image, Button, Icon } from "semantic-ui-react";
 
-const CardExampleCard = (props) => (
+const RouteCard = (props) => (
   <Card style={{ height: "350px", minWidth: '200px', margin: 'auto' }}>
     {/* {console.log(props)} */}
     {props.photo ? (
@@ -33,4 +33,4 @@ const CardExampleCard = (props) => (
   </Card>
 );
 
-export default CardExampleCard;
+export default RouteCard;

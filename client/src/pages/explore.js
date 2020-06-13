@@ -34,6 +34,7 @@ function Explore() {
   const [searchTerm, setSearchTerm] = useState('Lake Tahoe');
   const [range, setRange] = useState(['30']);
   const [sorted, setSorted] = useState({ popSorted: false })
+  
   const style = (localClimbs.length > 4) ? { maxHeight: '500px', overflow: 'scroll' } : { maxHeight: '500px' }
 
 
