@@ -57,9 +57,7 @@ const UserSchema = new mongoose.Schema(
       },
     ],
     hardestClimb: "",
-    profile_photo: {
-      type: String,
-    },
+
   },
   
   { timestamps: true }

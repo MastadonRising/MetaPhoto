@@ -4,24 +4,24 @@ import UserContext from "../context/userContext";
 import API from '../utils/API'
 
 const RouteCard = (props) => {
-
+  // console.log(props)
   const userData = useContext(UserContext);
   const [newUpdate, setNewUpdate] = useState({});
 
   function handleVoting(evt, type) {
     if (type === "up") {
-      console.log(`♥‿♥`, evt.target.id);
-      API.postLike(evt.target.id, {
+      console.log(`♥‿♥`, userData.user._id);
+      API.postLike(userData.user._id, {
         typeOf: "like",
-        userID: userData._id,
+        userID: userData.id,
       }).then(() => {
         setNewUpdate({ ...newUpdate }); // "tricking" it to refresh photoratings
       });
     } else {
       console.log(`(ಥ⌣ಥ)`);
-      API.postLike(evt.target.id, {
+      API.postLike(userData.user._id, {
         typeOf: "dislike",
-        userID: userData._id,
+        userID: userData.id,
       });
       setNewUpdate({ ...newUpdate }); // "tricking" it to refresh photoratings
     }
@@ -53,19 +53,19 @@ const RouteCard = (props) => {
         style={{ textAlign: "center" }}
         extra
       >
-       <Menu widths='3' fluid>
-         <Menu.Item position='left'>
+        <Menu widths='3' fluid>
+          <Menu.Item as={Button} id={props.id} onClick={(e) => handleVoting(e, 'up')} position='left'>
+            <Icon name='thumbs up' />
            Like
-           <Icon name='thumbs up' />
          </Menu.Item>
-         <Menu.Item>
-           Info  
+          <Menu.Item as='a' href={props.url} target='_blank'>
+            Info
          </Menu.Item>
-         <Menu.Item position='right'>
-           <Icon name='thumbs down' />
+          <Menu.Item as={Button} id={props.id} onClick={(e) => handleVoting(e, 'down')} position='right'>
+            <Icon name='thumbs down' />
            Dislike
          </Menu.Item>
-       </Menu>
+        </Menu>
       </Card.Content>
     </Card>
   )

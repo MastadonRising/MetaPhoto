@@ -23,11 +23,11 @@ function Explore() {
   const user = useContext(UserContext);
   const [UserPhotos, setUserPhotos] = useState([]);
   const [newUpdate, setNewUpdate] = useState({});
-
+  console.log(user)
   function getUserPhotos() {
     console.log("step 1");
     API.getPhoto().then((data) => {
-      console.log(data);
+      // console.log(data);
       setUserPhotos(data.data);
     });
   }
@@ -35,7 +35,7 @@ function Explore() {
   const [searchTerm, setSearchTerm] = useState('Lake Tahoe');
   const [range, setRange] = useState(['30']);
   const [sorted, setSorted] = useState({ popSorted: false })
-  
+
   const style = (localClimbs.length > 4) ? { maxHeight: '500px', overflow: 'scroll' } : { maxHeight: '500px' }
 
 
@@ -45,7 +45,7 @@ function Explore() {
   }, []);
 
   function sortByPop() {
-    (sorted.popSorted) ? setSorted({ popSorted: false }) : setSorted({ popSorted: true })
+    setSorted({popSorted: true})
     let oro = localClimbs.sort((a, b) => (a.stars > b.stars) ? -1 : 1)
     let jawjackery = oro.map(or => or);
     setLocalClimbs(jawjackery)
@@ -77,13 +77,13 @@ function Explore() {
   }
 
   function handleFavorite(evt, type) {
-      API.postFav(evt.target.id, {
-        typeOf: type,
-        ID: evt.target.id ,
-      }).then(() => {
-        setNewUpdate({ ...newUpdate }); // "tricking" it to refresh photoratings
-      });
-    } 
+    API.postFav(evt.target.id, {
+      typeOf: type,
+      ID: evt.target.id,
+    }).then(() => {
+      setNewUpdate({ ...newUpdate }); // "tricking" it to refresh photoratings
+    });
+  }
 
   return (
     <Container>
@@ -94,10 +94,12 @@ function Explore() {
       <Divider horizontal />
       <Container textAlign="center" text style={{ backgroundColor: 'grey' }}>
         <Input
-          style={{ width: "400px" }}
+          style={{ width: "99%", margin: 'auto', padding: '3px 0' }}
+          fluid
           placeholder="City,   State"
           onChange={(e) => setSearchTerm(e.target.value)}
-          icon={{
+          labelPosition='right'
+          label={{
             as: Button,
             content: "search",
             onClick: () => {
@@ -114,25 +116,39 @@ function Explore() {
             },
           }}
         />
-        <Container text>
-          <Label>
-            Sort by Difficulty: { ' ' }
-          <Checkbox inline toggle />
-          </Label>
-          <Label>
-            Sort by Popularity: { ' ' }
-          <Checkbox inline onChange={sortByPop} toggle />
-          </Label>
-          <Label>
-            Search Radius: { ' ' } 
-          <Dropdown
+        <Container text style={{ padding: '0 0 3px' }}>
+          <Checkbox as={Label}
+            labelPosition='right'
+            label='Sort by Rating'
             inline
-            text={range}
+            onChange={() => console.log('hello')}
+            toggle />
+
+          <Checkbox as={Label}
+            labelPosition='right'
+            label='Sort by Popularity'
+            inline
+            onChange={() => (!sorted.popSorted) ?
+              (sortByPop) :
+              API.getRoutesbySearch(searchTerm).then((res) => {
+                let coordsObj = {
+                  coords: {
+                    latitude: res.data.results[0].locations[0].latLng.lat,
+                    longitude: res.data.results[0].locations[0].latLng.lng,
+                  },
+                };
+                API.getRoutesByNavigator(coordsObj, range).then((data) => { setLocalClimbs(data.data.routes) }
+                );
+              })}
+          toggle />
+
+          <Dropdown
+            as={Label}
+            inline
+            text={'Search Radius: ' + range + ' miles'}
             options={Options}
-            onChange={(e, value) => setRange(value.value)}
-          />
-          </Label>
-          
+            onChange={(e, value) => setRange(value.value)} />
+
         </Container>
 
       </Container>
@@ -144,17 +160,17 @@ function Explore() {
           <Grid id="cardGrid" columns="4" style={style}>
             {cardBuilder(localClimbs, 'card ')}
           </Grid>
+
         </Segment> : null}
-      <Divider style={{ height: '10px' }} hidden />
+
 
       {(user.user.username) ?
         <Segment>
-          <Label attached='top'>Routes to Explore</Label>
+          <Label attached='top'>Other User's Photos</Label>
           <Grid id="cardGrid" columns="4" style={style}>
             {cardBuilder(UserPhotos, 'userImageCard')}
           </Grid>
-        </Segment> :
-        null}
+        </Segment> : null}
 
     </Container>
   );

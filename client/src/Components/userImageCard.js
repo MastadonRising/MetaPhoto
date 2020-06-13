@@ -8,7 +8,7 @@ const CardExampleCard = (props) => (
             minWidth: '200px',
             margin: 'auto'
         }}>
-        {console.log(props)}
+        {/* {console.log(props)} */}
         <Image
             style={{ height: '275px' }}
             src={props.url}
