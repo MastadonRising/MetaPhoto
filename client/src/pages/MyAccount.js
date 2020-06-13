@@ -1,17 +1,6 @@
 import React, { useState, useEffect, useContext } from "react";
 import API from "../utils/API";
-<<<<<<< HEAD
-import {
-  Container,
-  Header,
-  Image,
-  Label,
-  Segment,
-  Grid,
-} from "semantic-ui-react";
-=======
 import { Container, Header, Image, Label, Segment, Grid, Divider, Card, Button, Menu, Dropdown } from 'semantic-ui-react'
->>>>>>> 4e3448b691c041644d5e84adafd5186fa7491f5c
 import MenuBar from "../Components/Menu";
 import UserContext from "../context/userContext";
 
@@ -49,25 +38,6 @@ function Users() {
         ></i>
       </Header>
       <MenuBar />
-<<<<<<< HEAD
-      <Segment>
-        <Header as={Label} attached="top">
-          User Photos
-        </Header>
-        <Container style={{ maxHeight: "500px", overflow: "scroll" }}>
-          {UserPhotos.map((photos, index) => {
-            return (
-              <Image
-                style={{ margin: "auto" }}
-                alt="Here are your cards"
-                key={index}
-                src={photos.url}
-              ></Image>
-            );
-          })}
-        </Container>
-      </Segment>
-=======
       <Divider />
       <Grid stackable columns='2'>
         {/* This Column is a user Info Card and only takes up 4 grid columns */}
@@ -120,7 +90,6 @@ function Users() {
         </Grid.Column>
       </Grid>
 
->>>>>>> 4e3448b691c041644d5e84adafd5186fa7491f5c
     </Container>
   );
 }

@@ -42,13 +42,13 @@ export default function App() {
             <Explore />
           </Route>
           <Route exact path="/myaccount">
-            {!Object.keys(user).length ? <Redirect to="/" /> : <MyAccount />}}
+            {!Object.keys(user).length ? <Redirect to="/" /> : <MyAccount />}
           </Route>
           <Route exact path="/resources">
             <Resources />
           </Route>
           <Route exact path="/upload">
-            {!Object.keys(user).length ? <Redirect to="/login" /> : <Upload />}}
+            {!Object.keys(user).length ? <Redirect to="/login" /> : <Upload />}
           </Route>
           <Route exact path="/login">
             {!Object.keys(user).length ? (

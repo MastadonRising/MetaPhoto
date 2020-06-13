@@ -31,22 +31,12 @@ function Explore() {
     });
   }
   const [localClimbs, setLocalClimbs] = useState([]);
-<<<<<<< HEAD
-  const [searchTerm, setSearchTerm] = useState("Lake Tahoe");
-  const [range, setRange] = useState(["30"]);
-  const [sorted, setSorted] = useState({ popSorted: false });
-  const style =
-    localClimbs.length > 4
-      ? { maxHeight: "500px", overflow: "scroll" }
-      : { maxHeight: "500px" };
-=======
   const [searchTerm, setSearchTerm] = useState('Lake Tahoe');
   const [range, setRange] = useState(['30']);
   const [sorted, setSorted] = useState({ popSorted: false })
   
   const style = (localClimbs.length > 4) ? { maxHeight: '500px', overflow: 'scroll' } : { maxHeight: '500px' }
 
->>>>>>> 4e3448b691c041644d5e84adafd5186fa7491f5c
 
   useEffect(() => {
     navigator.geolocation.getCurrentPosition(getLocalClimbs);
@@ -90,9 +80,6 @@ function Explore() {
     });
   }
 
-<<<<<<< HEAD
-  // handleChange(value) {this.setState({ range: value });}
-=======
   function handleFavorite(evt, type) {
       API.postFav(evt.target.id, {
         typeOf: type,
@@ -102,7 +89,6 @@ function Explore() {
       });
     } 
 
->>>>>>> 4e3448b691c041644d5e84adafd5186fa7491f5c
   return (
     <Container>
       <Header as="h1" id="heading" attached="top">
