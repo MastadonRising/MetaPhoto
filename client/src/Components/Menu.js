@@ -10,19 +10,17 @@ const MenuBar = () => {
   function logout() {
     API.logout();
     user.Login({});
+    setTimeout(() => history.push("/"), 1500);
   }
-;
-  const [visibleState, setVisibleState] = useState({ visible: false })
+  const [visibleState, setVisibleState] = useState({ visible: false });
   const userData = useContext(UserContext);
-  console.log(userData);
-
 
   return (
     <Container>
-      <Button attached="right" fluid onClick={() => setVisibleState({ visible: !visibleState.visible })} icon='server' />
-      <Transition visible={visibleState.visible} animation='slide down' duration={500}>
+      {/* <Button fluid onClick={() => setVisibleState({ visible: !visibleState.visible })} icon='server' /> */}
+      {/* <Transition visible={visibleState.visible} animation='slide down' duration={500}> */}
         {userData.user.username ? (
-          <Menu id='navMenu' attached='bottom' widths='5'>
+          <Menu id="navMenu" attached="bottom" widths="5">
             <Menu.Item as={Link} to="/explore" name="Explore" />
             <Menu.Item as={Link} to="/myaccount" name="My Account" />
             <Menu.Item as={Link} to="/upload" name="upload" />
@@ -36,11 +34,9 @@ const MenuBar = () => {
               <Menu.Item as={Link} to="/login" name="Login" />
             </Menu>
           )}
-      </Transition>
+      {/* </Transition> */}
     </Container>
-  )
-}
+  );
+};
 
-
-
-export default MenuBar
+export default MenuBar;

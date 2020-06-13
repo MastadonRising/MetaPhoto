@@ -1,25 +1,31 @@
 import React from "react";
-import { Card, Image, Button, Icon } from "semantic-ui-react";
+import { Card, Image, Button, Icon, Modal } from "semantic-ui-react";
 
 const CardExampleCard = (props) => (
-    <Card style={{ height: "350px", minWidth: '200px', margin: 'auto' }}>
+    <Card
+        style={{
+            height: "350px",
+            minWidth: '200px',
+            margin: 'auto'
+        }}>
         {console.log(props)}
-        <Image style={{ height: "150px" }} src={props.url} ui={false} />
-
-        <Card.Content style={{ maxHeight: '140px' }}>
-            <Card.Header>{props.routeID} </Card.Header>
-            <Card.Description>
-                {props.likes}
-            </Card.Description>
-        </Card.Content>
+        <Image
+            style={{ height: '275px' }}
+            src={props.url}
+            ui={false}
+             />
         <Card.Content
-            style={{ textAlign: "center" }}
-            extra
-        >
-            <Button basic as="a" href={props.url} target="blank">
-                <Icon name="info" />
-        More info
-      </Button>
+            style={{ textAlign: "center" }} >
+            <Modal
+                trigger={
+                    <Button basic>
+                        <Icon name="info" />
+        Expand Image
+        </Button>}>
+                <Modal.Content>
+                    <Image centered src={props.url} />
+                </Modal.Content>
+            </Modal>
         </Card.Content>
     </Card>
 );

@@ -21,6 +21,7 @@ import { set } from "mongoose";
 function Explore() {
   const user = useContext(UserContext);
   const [UserPhotos, setUserPhotos] = useState([]);
+  const [newUpdate, setNewUpdate] = useState({});
 
   function getUserPhotos() {
     console.log("step 1");
@@ -30,6 +31,7 @@ function Explore() {
     });
   }
   const [localClimbs, setLocalClimbs] = useState([]);
+<<<<<<< HEAD
   const [searchTerm, setSearchTerm] = useState("Lake Tahoe");
   const [range, setRange] = useState(["30"]);
   const [sorted, setSorted] = useState({ popSorted: false });
@@ -37,6 +39,14 @@ function Explore() {
     localClimbs.length > 4
       ? { maxHeight: "500px", overflow: "scroll" }
       : { maxHeight: "500px" };
+=======
+  const [searchTerm, setSearchTerm] = useState('Lake Tahoe');
+  const [range, setRange] = useState(['30']);
+  const [sorted, setSorted] = useState({ popSorted: false })
+  
+  const style = (localClimbs.length > 4) ? { maxHeight: '500px', overflow: 'scroll' } : { maxHeight: '500px' }
+
+>>>>>>> 4e3448b691c041644d5e84adafd5186fa7491f5c
 
   useEffect(() => {
     navigator.geolocation.getCurrentPosition(getLocalClimbs);
@@ -80,7 +90,19 @@ function Explore() {
     });
   }
 
+<<<<<<< HEAD
   // handleChange(value) {this.setState({ range: value });}
+=======
+  function handleFavorite(evt, type) {
+      API.postFav(evt.target.id, {
+        typeOf: type,
+        ID: evt.target.id ,
+      }).then(() => {
+        setNewUpdate({ ...newUpdate }); // "tricking" it to refresh photoratings
+      });
+    } 
+
+>>>>>>> 4e3448b691c041644d5e84adafd5186fa7491f5c
   return (
     <Container>
       <Header as="h1" id="heading" attached="top">
