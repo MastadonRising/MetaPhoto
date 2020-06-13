@@ -23,13 +23,6 @@ function Resources() {
 
   return (
     <Container>
-<<<<<<< HEAD
-      <Header id='heading' as="h1" >Climbing Resources</Header>
-      <Grid columns={resources.length}>
-        {resources.map((resource, index) => {
-          return (
-            <Grid.Row id='para-row' style={{backgroundImage: `url("/images/resources-${index}.jpg")`}} key={resource.name}>
-=======
       <Header attached='top' id='heading' as="h1">Climbing Resources</Header>
       <MenuBar />
       <Divider />
@@ -47,7 +40,6 @@ function Resources() {
           {resources.map((resource, index) => {
             return (
               (resource.level === 2) ? <Grid.Column  key={index}>
->>>>>>> 5b0a745502e120210ff62b4c35098d7c5be09b8d
               <Card {...resource} />
             </Grid.Column> : null
             );

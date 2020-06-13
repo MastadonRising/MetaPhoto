@@ -29,7 +29,7 @@ function LogIn() {
       user.Login(res.data);
       console.log(user);
     });
-    history.replace("/");
+    history.replace("/myaccount");
   }
   
   return (

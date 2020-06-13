@@ -1,13 +1,16 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useContext } from "react";
 import API from "../utils/API";
 // import UTILS from "../utils/utils";
+import UserContext from "../context/userContext";
 import { Container, Header } from "semantic-ui-react";
+import MenuBar from "../Components/Menu.js"
 const client = require("filestack-js").init(
-  'ASqRy0SxoR0GwFXKGloCDz'
+  process.env.REACT_FILESTACK_KEY || "ASqRy0SxoR0GwFXKGloCDz"
 );
 
 function Settings() {
-  const [newAvatar, setNewAvatar] = useState("null");
+  const [newAvatar, setNewAvatar] = useState(null);
+  const UserData = useContext(UserContext);
 
   // Filestack Picker
   const picker = client.picker({
@@ -21,7 +24,7 @@ function Settings() {
     maxFiles: 3, // defaults to 1
     maxSize: 1024 * 1024 * 10, // limiting to 10Mb , because we can
     // modalSize: [500,500], // [Width, Height]; optional
-    // onCancel: () => {},
+    onCancel: () => {},
     onFileUploadFailed: (file, err) => {
       console.log(file, err);
     },
@@ -29,13 +32,17 @@ function Settings() {
     onUploadDone: (files) => {
       // Called when all files have been uploaded.
       console.log(files);
-      // setNewAvatar(files.filesUploaded[0].url);
+      setNewAvatar(files.filesUploaded[0].url);
+      API.updateUserProfilePic(UserData.user._id, {
+        profile_photo: files.filesUploaded[0].url,
+      });
     },
     transformations: {
       // locking aspect ratio here
       crop: {
         aspectRatio: 1,
       },
+      rotate: true,
     },
     uploadInBackground: false, // can be enabled only if crop is disabled.
   });
@@ -45,21 +52,23 @@ function Settings() {
       <Header id="heading" as="h1">
         My Account Settings
       </Header>
+      <MenuBar/>
 
       {newAvatar !== null ? (
         <>
           <p>Confirm: </p>
           <img
             alt={`${"user"} profile pic`}
-            src={"https://cdn.filestackcontent.com/dQ3y6HCTSuXgf0chbf9e"}
+            src={
+              newAvatar ||
+              "https://cdn.filestackcontent.com/dQ3y6HCTSuXgf0chbf9e"
+            }
             style={{ clear: "both", display: "block", maxHeight: "150px" }}
           ></img>
           <button
             onClick={() => {
               console.log(`clicky clicky`);
-              // API.updateUserProfilePic("SOME_USER_ID", {
-              //   profile_photo: newAvatar,
-              // });
+             window.location.href = "/myaccount"
             }}
             style={{ margin: "0 2rem 0 1rem" }}
           >

@@ -19,7 +19,7 @@ const MenuBar = () => {
 
   return (
     <Container>
-      <Button fluid onClick={() => setVisibleState({ visible: !visibleState.visible })} icon='server' />
+      <Button attached="right" fluid onClick={() => setVisibleState({ visible: !visibleState.visible })} icon='server' />
       <Transition visible={visibleState.visible} animation='slide down' duration={500}>
         {userData.user.username ? (
           <Menu id='navMenu' attached='bottom' widths='5'>

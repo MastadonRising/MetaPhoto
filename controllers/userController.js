@@ -80,6 +80,7 @@ module.exports = {
       res.json({});
     }
     db.User.findOne({ username: req.user.username }).then((data) => {
+      console.log(data)
       res.json(data);
     });
   },
