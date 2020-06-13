@@ -104,14 +104,24 @@ function Explore() {
           }}
         />
         <Container text>
-          <Checkbox toggle label='Sort by Rating' />
-          <Checkbox onChange={sortByPop} toggle label='Sort by Popularity' />
+          <Label>
+            Sort by Difficulty: { ' ' }
+          <Checkbox inline toggle />
+          </Label>
+          <Label>
+            Sort by Popularity: { ' ' }
+          <Checkbox inline onChange={sortByPop} toggle />
+          </Label>
+          <Label>
+            Search Radius: { ' ' } 
           <Dropdown
-            as={Label}
-            text='Search Radius'
+            inline
+            text={range}
             options={Options}
             onChange={(e, value) => setRange(value.value)}
           />
+          </Label>
+          
         </Container>
 
       </Container>
