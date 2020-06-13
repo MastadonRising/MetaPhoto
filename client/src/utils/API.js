@@ -6,10 +6,6 @@ export default {
     const queryURI = `https://www.mountainproject.com/data/get-routes-for-lat-lon?lat=${GPS.coords.latitude}&lon=${GPS.coords.longitude}&maxDistance=${range}&key=200765490-6a4f3ccdce84ab9b6225f209a2b16baf`;
     return axios.get(queryURI);
   },
-  // getRoutesbyLatLon: function (GPS) {
-  //   const queryURI = `https://www.mountainproject.com/data/get-routes-for-lat-lon?lat=${GPS.lat}&lon=${GPS.lon}&maxDistance=30&key=200765490-6a4f3ccdce84ab9b6225f209a2b16baf`;
-  //   return axios.get(queryURI);
-  // },
   getRoutesbySearch: function (searchTerm) {
     const geoCodeKey = "jmu2hzM4mHMBWSGPseb1cGFiAZ4CSPKI";
     const url =
@@ -69,6 +65,13 @@ export default {
     };
     return axios.post("/api/photo" + id, Like);
   },
+  postFavorite: function (id, data) {
+    let Fav = {
+      typeOf: data.typeOf,
+      userID: data.userID,
+    };
+    return axios.post("/api/favorite" + id, Fav);
+  },
 
   signUpUser: function (data) {
     return axios.post("/api/user", data);
@@ -87,7 +90,7 @@ export default {
     }).then((res) => {
       res.data === "User Already Exists"
         ? alert("Sorry, A user with that username already exists!")
-        : console.log(res);
+        // : console.log(res);
     });
   },
   login: function (loginUsername, loginPassword) {
@@ -112,7 +115,7 @@ export default {
       url: "http://localhost:3001/user",
     }).then((res) => {
       setData(res.data);
-      console.log(res);
+      // console.log(res);
     });
   },
 
