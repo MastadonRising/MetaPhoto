@@ -1,10 +1,12 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import API from "../utils/API";
 import EXIF from "exif-js";
 import UTILS from "../utils/utils";
 import ReactLoading from "react-loading";
-import { Container, Header, Grid } from "semantic-ui-react";
+import { Container, Header } from "semantic-ui-react";
+import UserContext from "../context/userContext";
 import MenuBar from '../Components/Menu'
+
 const client = require("filestack-js").init(
   'ASqRy0SxoR0GwFXKGloCDz'
 );
@@ -14,19 +16,21 @@ function Upload() {
   const [status, setStatus] = useState(0);
   const [handles, setHandles] = useState([]);
   const [uploadedPhotos, setUploadedPhotos] = useState(null);
-
+  const UserData = useContext(UserContext);
   // making stages per status codes, to keep track of steps
   // also serves as check for all files in a multiple-upload to be ready before moving on
   useEffect(() => {
     // first step, after extracting exifdata, locate (pun-intended) GPS coordinates in exifdata
     // find routes per photo's GPS info
     if (status === 1) {
+      // looping through our handles array of current uploads and retrieving it's newly created db record
       handles.forEach((handle) => {
         API.getPhotoByHandle(handle).then((resp) => {
           let photo = resp.data[0];
+          var lat, lon;
 
           if (photo.exifdata) {
-            photo.exifdata = JSON.parse(photo.exifdata);
+            photo.exifdata = JSON.parse(photo.exifdata); // stringified in exif extraction
 
             if (
               photo.exifdata.GPSLongitude &&
@@ -34,22 +38,35 @@ function Upload() {
               photo.exifdata.GPSLatitude[0] !== null &&
               photo.exifdata.GPSLongitude[0] !== null
             ) {
-              let lat = UTILS.convertToDecimalDeg(
+              lat = UTILS.convertToDecimalDeg(
                 photo.exifdata.GPSLatitudeRef,
                 photo.exifdata.GPSLatitude
               );
-              let lon = UTILS.convertToDecimalDeg(
+              lon = UTILS.convertToDecimalDeg(
                 photo.exifdata.GPSLongitudeRef,
                 photo.exifdata.GPSLongitude
               );
 
-              API.getRoutesByNavigator({
-                coords: { latitude: lat, longitude: lon },
-              }).then((resp) => {
-                console.log(resp);
+              API.getRoutesByNavigator(
+                {
+                  coords: { latitude: lat, longitude: lon },
+                },
+                30
+              ).then((resp) => {
+                console.log(resp.data.routes.map((r) => r.name));
+
+                var sortedRoutes = resp.data.routes.sort((a, b) =>
+                  UTILS.calculateDistance(a.latitude, a.longitude, lat, lon) >
+                  UTILS.calculateDistance(b.latitude, b.longitude, lat, lon)
+                    ? 1
+                    : -1
+                );
+
+                console.log(sortedRoutes.map((r) => r.name));
+
                 // update routes field in the photo to API response routes data
                 API.updatePhoto(photo._id, {
-                  routes: resp.data.routes,
+                  routes: sortedRoutes,
                 }).then(() => {
                   setStatus(2);
                 });
@@ -76,8 +93,8 @@ function Upload() {
         const photoBlock = respo.data.filter((item) =>
           handles.includes(item.handle)
         );
-        setUploadedPhotos(photoBlock);
 
+        setUploadedPhotos(photoBlock);
         // checking to see that routes are ready in each current photo's record
         // otherwise images may be potentially rendered to user without routes
         const routeCheck = () => {
@@ -114,9 +131,7 @@ function Upload() {
         API.updatePhotoByHandle(image.handle, {
           exifdata: JSON.stringify(this.exifdata),
         }).then((resp) => {
-          setStatus(1);   //
-          console.log(resp);
-          //
+          setStatus(1); //
         });
       });
     });
@@ -146,12 +161,13 @@ function Upload() {
     },
     onFileUploadFinished: (file) => {
       // Called when each file is uploaded
-      // console.log(file);
+      console.log(file);
     },
     // onOpen: () => {}, //Called when the UI is mounted.
     onUploadDone: (files) => {
       // Called when all files have been uploaded.
-      files.userID = "INSERT_USER_ID"; // here or in the API.postPhoto
+      files.userID = UserData.user._id; // here or in the API.postPhoto
+      console.log(files);
       API.postPhoto(files); // saving files' relevant info (url, handle, etc.) to DB
       const handles = files.filesUploaded.map((each) => each.handle);
       setHandles(handles); // setting current handles to work with
@@ -162,6 +178,7 @@ function Upload() {
       crop: {
         aspectRatio: 1,
       },
+      rotate: true,
     },
     uploadInBackground: false, // can be enabled only if crop is disabled.
   });
@@ -170,7 +187,6 @@ function Upload() {
   // eliminates the photo from active set once route is selected
   function handleClimbSelect(evt) {
     let selected = JSON.parse(evt.target.dataset.photodata);
-    console.log(selected);
 
     // checks the route clicked ("selected") and sets the routes property of our photo to the single user-selected route
     selected.routes.forEach((route) => {

@@ -4,15 +4,17 @@ import {
   Switch,
   Route,
 } from "react-router-dom";
-
+import Menu from "./Components/Menu";
 import MyAccount from "./pages/MyAccount";
 import Upload from "./pages/upload";
 import Explore from "./pages/explore";
 import Resources from "./pages/resources";
 import SignUp from "./pages/SignUp";
 import LogIn from "./pages/LogIn";
+import Settings from "./pages/Settings.js";
 import LogOut from "./pages/Logout";
 import GRVTest from "./pages/grvtest.js";
+import MenuBar from "./Components/Menu"
 import UserContext from "../src/context/userContext";
 import "./index.css";
 import "./App.css";
@@ -28,14 +30,11 @@ export default function App() {
       .then((res) => res.json())
       .then((res) => {
         setUser(res);
-        console.log(res);
       })
       .catch((err) => {
         console.log(err);
       });
   }, []);
-  
-  // const userData = useContext(UserContext.context);
   return (
     <Router>
       <UserContext.Provider value={{ user, Login }}>
@@ -55,14 +54,11 @@ export default function App() {
           <Route exact path="/login">
             <LogIn />
           </Route>
-          <Route exact path="/grv">
-            <GRVTest />
-          </Route>
           <Route exact path="/signup">
             <SignUp />
           </Route>
           <Route exact path="/grv">
-            <GRVTest />
+            <Settings  />
           </Route>
           <Route exact path="/logout">
             <LogOut />

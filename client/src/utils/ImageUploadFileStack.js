@@ -1,8 +1,6 @@
 import EXIF from "exif-js";
 
 function ImageUploadFS(x) {
-  console.log(JSON.stringify(x));
-
   EXIF.getData(x, function () {
     var exifData = EXIF.pretty(this);
     if (exifData) {

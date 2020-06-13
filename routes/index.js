@@ -19,7 +19,7 @@ router
 router
   .route("/api/photo:id")
   .post(photoController.like)
-  .get(photoController.findAll)
+  .get(photoController.findById)
   .put(photoController.update)
   .delete(photoController.remove);
 
@@ -52,7 +52,7 @@ router.route("/api/favorite:id").post(userController.addFavorite);
 
 router.route("/login").post(userController.authenticate);
 
-router.route("/logout").get(userController.logout)
+router.route("/logout").get(userController.logout);
 
 router.route("/register").post(userController.createUser);
 

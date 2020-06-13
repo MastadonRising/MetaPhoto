@@ -3,8 +3,14 @@ const db = require("../models");
 // Defining methods for the postsController
 module.exports = {
   findAll: function (req, res) {
-    // console.log(req.user)
     db.Photos.find({})
+      .sort({ date: -1 })
+      .then((dbModel) => res.json(dbModel))
+      .catch((err) => res.status(422).json(err));
+  },
+  findById: function ({ params }, res) {
+    let id = params.id;
+    db.Photos.find({ userID: id })
       .sort({ date: -1 })
       .then((dbModel) => res.json(dbModel))
       .catch((err) => res.status(422).json(err));
@@ -16,10 +22,6 @@ module.exports = {
       .catch((err) => res.status(422).json(err));
   },
   create: function (req, res) {
-    console.log("getting hit");
-
-    // console.log(newImage)
-    console.log(req.body);
     db.Photos.create(req.body)
       .then((dbModel) => res.json(dbModel))
       .catch((err) => res.status(422).json(err));
@@ -35,7 +37,6 @@ module.exports = {
       .catch((err) => res.status(422).json(err));
   },
   like: function (req, res) {
-    console.log(req.body);
     db.Photos.update({ _id: req.params.id }, { $push: { likes: req.body } })
       .then((dbModel) => res.json(dbModel))
       .catch((err) => res.status(422).json(err));

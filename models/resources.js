@@ -6,7 +6,7 @@ const ResourceSchema = new Schema({
   url: { type: String },
   photo: { type: String, required: true },
   desc: { type: String },
-  level: {type: Number}
+  level: { type: Number },
 });
 
 const Resource = mongoose.model("Resource", ResourceSchema);

@@ -12,7 +12,7 @@ import {
   Segment,
 } from "semantic-ui-react";
 import Card from "../Components/card";
-import MenuBar from "../Components/Menu";
+import MenuBar from '../Components/Menu'
 import API from "../utils/API";
 import UserContext from "../context/userContext";
 import UserImageCard from '../Components/userImageCard'
