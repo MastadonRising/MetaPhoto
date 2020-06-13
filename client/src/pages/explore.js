@@ -32,7 +32,7 @@ function Explore() {
   }
   const [localClimbs, setLocalClimbs] = useState([]);
   const [searchTerm, setSearchTerm] = useState("Lake Tahoe");
-  const [range, setRange] = useState(30);
+  const [range, setRange] = useState(["30"]);
   const [sorted, setSorted] = useState({ popSorted: false });
 
   const style =
@@ -75,7 +75,7 @@ function Explore() {
   }
 
   function sortByPop() {
-    requestSort(`stars`)
+    requestSort(`stars`);
     sorted.popSorted
       ? setSorted({ popSorted: false })
       : setSorted({ popSorted: true });
@@ -99,12 +99,12 @@ function Explore() {
   }
 
   const Options = [
-    { key: 5, text: "5", value: 5, description: "miles" },
-    { key: 10, text: "10", value: 10, description: "miles" },
-    { key: 15, text: "15", value: 15, description: "miles" },
-    { key: 20, text: "20", value: 20, description: "miles" },
-    { key: 25, text: "25", value: 25, description: "miles" },
-    { key: 30, text: "30", value: 30, description: "miles" },
+    { key: 5, text: "5", value: ["5"], description: "miles" },
+    { key: 10, text: "10", value: ["10"], description: "miles" },
+    { key: 15, text: "15", value: ["15"], description: "miles" },
+    { key: 20, text: "20", value: ["20"], description: "miles" },
+    { key: 25, text: "25", value: ["25"], description: "miles" },
+    { key: 30, text: "30", value: ["30"], description: "miles" },
   ];
   function getLocalClimbs(Data) {
     API.getRoutesByNavigator(Data, range).then((data) => {
@@ -187,7 +187,9 @@ function Explore() {
       </Container>
 
       <Container>
-        <div style={{ display: "", textAlign: "center", paddingTop: "2rem" }}>
+        <div
+          style={{ display: "", textAlign: "center", paddingTop: "2rem" }}
+        >
           <span>Sort by: </span>
           <select
             onChange={(e) => {
