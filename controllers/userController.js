@@ -76,14 +76,16 @@ module.exports = {
     });
   },
   getUser: function (req, res) {
-    if (!req.user) {
+    if (req.user === undefined) {
       res.json({});
+    } else {
+      db.User.findOne({ username: req.user.username }).then((data) => {
+        res.json(data);
+      });
     }
-    db.User.findOne({ username: req.user.username }).then((data) => {
-      res.json(data);
-    });
   },
   logout: function (req, res) {
     req.logout();
+    res.json({});
   },
 };
