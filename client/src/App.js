@@ -1,5 +1,10 @@
-import React, { useState, useEffect } from "react";
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import React, { useState, useEffect, useContext } from "react";
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Redirect,
+} from "react-router-dom";
 import MyAccount from "./pages/MyAccount";
 import Upload from "./pages/upload";
 import Explore from "./pages/explore";
@@ -8,6 +13,7 @@ import SignUp from "./pages/SignUp";
 import LogIn from "./pages/LogIn";
 import Settings from "./pages/Settings.js";
 import LogOut from "./pages/Logout";
+import NotFound from "./pages/404";
 import UserContext from "../src/context/userContext";
 import "./index.css";
 import "./App.css";
@@ -36,7 +42,8 @@ export default function App() {
             <Explore />
           </Route>
           <Route exact path="/myaccount">
-            <MyAccount />
+            {/* {!Object.keys(user).length ? <Explore /> : <MyAccount />}} */}
+            {!Object.keys(user).length ? <Redirect to="/" /> : <MyAccount />}}
           </Route>
           <Route exact path="/resources">
             <Resources />
@@ -55,6 +62,9 @@ export default function App() {
           </Route>
           <Route exact path="/logout">
             <LogOut />
+          </Route>
+          <Route>
+            <NotFound />
           </Route>
         </Switch>
       </UserContext.Provider>
