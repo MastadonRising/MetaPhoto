@@ -22,6 +22,7 @@ import UserImageCard from '../Components/userImageCard'
 function Explore() {
   const user = useContext(UserContext);
   const [UserPhotos, setUserPhotos] = useState([]);
+  const [newUpdate, setNewUpdate] = useState({});
 
   function getUserPhotos() {
     console.log("step 1");
@@ -73,7 +74,16 @@ function Explore() {
       setLocalClimbs(data.data.routes);
     });
   }
-  // handleChange(value) {this.setState({ range: value });}
+
+  function handleFavorite(evt, type) {
+      API.postFav(evt.target.id, {
+        typeOf: type,
+        ID: evt.target.id ,
+      }).then(() => {
+        setNewUpdate({ ...newUpdate }); // "tricking" it to refresh photoratings
+      });
+    } 
+  }
   return (
     <Container>
       <Header as="h1" id="heading" attached='top'>
