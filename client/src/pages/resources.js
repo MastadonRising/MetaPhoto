@@ -21,7 +21,7 @@ function Resources() {
       <Grid columns={resources.length}>
         {resources.map((resource, index) => {
           return (
-            <Grid.Row id='para-row' style={{backgroundImage: `url(${resource.photo})`}} key={resource.name}>
+            <Grid.Row id='para-row' style={{backgroundImage: `url("/images/resources-${index}.jpg")`}} key={resource.name}>
               <Card {...resource} />
             </Grid.Row>
           );

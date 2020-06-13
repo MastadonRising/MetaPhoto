@@ -51,7 +51,7 @@ function Upload() {
                 },
                 30
               ).then((resp) => {
-                console.log(resp.data.routes.map((r) => r.name));
+                // console.log(resp.data.routes.map((r) => r.name));
 
                 var sortedRoutes = resp.data.routes.sort((a, b) =>
                   UTILS.calculateDistance(a.latitude, a.longitude, lat, lon) >
@@ -60,7 +60,7 @@ function Upload() {
                     : -1
                 );
 
-                console.log(sortedRoutes.map((r) => r.name));
+                // console.log(sortedRoutes.map((r) => r.name));
 
                 // update routes field in the photo to API response routes data
                 API.updatePhoto(photo._id, {

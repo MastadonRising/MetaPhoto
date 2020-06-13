@@ -39,7 +39,6 @@ export default function App() {
   return (
     <Router>
       <UserContext.Provider value={{ user, Login }}>
-        <Menu></Menu>
         <Switch>
           <Route exact path={["/explore", "/"]}>
             <Explore MenuBar={MenuBar} />
