@@ -164,11 +164,6 @@ function Upload() {
     onFileUploadFailed: (file, err) => {
       console.log(file, err);
     },
-    onFileUploadFinished: (file) => {
-      // Called when each file is uploaded
-      console.log(file);
-    },
-    // onOpen: () => {}, //Called when the UI is mounted.
     onUploadDone: (files) => {
       // Called when all files have been uploaded.
       files.userID = UserData.user._id; // here or in the API.postPhoto

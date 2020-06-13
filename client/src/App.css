@@ -28,6 +28,7 @@ nav {
 .App {
   text-align: center;
 }
+
 #cardGrid {
   background-color: #ffffff;
   background-position: center;
@@ -135,4 +136,13 @@ nav {
 
 .picker-content{
   width: 100%;
+}
+
+/* sorting css */
+.ascending::after {
+  content: "🔼";
+}
+
+.descending::after {
+  content: "🔽";
 }
