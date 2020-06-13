@@ -3,7 +3,6 @@ import {
   BrowserRouter as Router,
   Switch,
   Route,
-  Redirect,
 } from "react-router-dom";
 import Menu from "./Components/Menu";
 import MyAccount from "./pages/MyAccount";
@@ -40,8 +39,8 @@ export default function App() {
     <Router>
       <UserContext.Provider value={{ user, Login }}>
         <Switch>
-          <Route exact path={["/explore", "/"]}>
-            <Explore MenuBar={MenuBar} />
+          <Route exact path={["/explore", '/']}>
+            <Explore />
           </Route>
           <Route exact path="/myaccount">
             <MyAccount />

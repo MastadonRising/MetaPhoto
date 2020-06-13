@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useContext } from "react";
 import API from "../utils/API";
-import { Container, Header } from "semantic-ui-react";
+import { Container, Header, Image, Label, Segment, Grid } from 'semantic-ui-react'
+import MenuBar from "../Components/Menu";
 import UserContext from "../context/userContext";
 function Users() {
   const [UserPhotos, setUserPhotos] = useState([]);
@@ -18,21 +19,20 @@ function Users() {
 
   return (
     <Container>
-      <Header id="heading" as="h1">
-        Using geolocation JavaScript API in React
+      <Header as="h1" id="heading" attached='top'>
+        Your Account
       </Header>
-      <div>
-        <h4>User Photos</h4>
-        {UserPhotos.map((photos, index) => {
-          return (
-            <img
-              alt="Here are your cards"
-              key={photos.photoID}
-              src={photos.url}
-            ></img>
-          );
-        })}
-      </div>
+      <MenuBar />
+      <Segment>
+        <Header as={Label} attached='top'>User Photos</Header>
+        <Container style={{ maxHeight: '500px', overflow: 'scroll' }}>
+
+          {UserPhotos.map((photos, index) => {
+            return <Image style={{margin:'auto'}} alt='Here are your cards' key={index} src={photos.url}></Image>;
+          })}
+        </Container>
+      </Segment>
+
     </Container>
   );
 }

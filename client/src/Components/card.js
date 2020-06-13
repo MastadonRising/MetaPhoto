@@ -2,18 +2,18 @@ import React from "react";
 import { Card, Image, Button, Icon } from "semantic-ui-react";
 
 const CardExampleCard = (props) => (
-  <Card style={{ height: "350px", minWidth: '200px' }}>
+  <Card style={{ height: "350px", minWidth: '200px', margin: 'auto' }}>
     {/* {console.log(props)} */}
     {props.photo ? (
       <Image style={{ height: "150px" }} src={props.photo} ui={false} />
     ) : (
-      <Image style={{ height: "150px" }} src={props.imgSmallMed} ui={false} />
-    )}
+        <Image style={{ height: "150px" }} src={props.imgSmallMed} ui={false} />
+      )}
 
-    <Card.Content  style={{maxHeight: '140px'}}>
+    <Card.Content style={{ maxHeight: '140px' }}>
       <Card.Header>{props.name} </Card.Header>
       <Card.Description>
-        {props.desc ? <p>{props.desc}</p> : <p>{props.rating}</p>}
+        {props.desc ? <p>{props.desc}</p> : <p>{props.rating} || {props.stars}<Icon name='star outline' /> </p>}
         {props.location ? (
           <ul>
             <li>{props.location[1] + ", " + props.location[0]}</li>

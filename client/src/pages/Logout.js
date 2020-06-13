@@ -7,16 +7,15 @@ import {
   Divider,
   Container,
   GridColumn,
-  GridRow,
 } from "semantic-ui-react";
 
 function LogOut() {
   return (
     <Container>
-      <GridRow>
-        <Header as="h1" id="heading"></Header>
-        <MenuBar></MenuBar>
-      </GridRow>
+
+        <Header attached='top' as="h1" id="heading"></Header>
+        <MenuBar />
+
       <Grid textAlign="center" verticalAlign="middle">
         <GridColumn style={{ maxWidth: 450 }}>
           <Divider horizontal hidden />

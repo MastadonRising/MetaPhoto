@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import {
   Header,
   Container,
@@ -6,27 +6,67 @@ import {
   Button,
   Divider,
   Grid,
+  Checkbox,
   Dropdown,
+  Label,
+  Segment,
 } from "semantic-ui-react";
 import Card from "../Components/card";
-
+import MenuBar from '../Components/Menu'
 import API from "../utils/API";
+import UserContext from "../context/userContext";
+import UserImageCard from '../Components/userImageCard'
 
-function Explore({ MenuBar }) {
+
+
+function Explore() {
+  const user = useContext(UserContext);
+  const [UserPhotos, setUserPhotos] = useState([]);
+
+  function getUserPhotos() {
+    console.log("step 1");
+    API.getPhoto().then((data) => {
+      console.log(data);
+      setUserPhotos(data.data);
+    });
+  }
   const [localClimbs, setLocalClimbs] = useState([]);
-  const [searchTerm, setSearchTerm] = useState([]);
-  const [range, setRange] = useState([]);
+  const [searchTerm, setSearchTerm] = useState('Lake Tahoe');
+  const [range, setRange] = useState(['30']);
+  const [sorted, setSorted] = useState({ popSorted: false })
+  const style = (localClimbs.length > 4) ? { maxHeight: '500px', overflow: 'scroll' } : { maxHeight: '500px' }
+
+
   useEffect(() => {
     navigator.geolocation.getCurrentPosition(getLocalClimbs);
+    getUserPhotos()
   }, []);
 
+  function sortByPop() {
+    (sorted.popSorted) ? setSorted({ popSorted: false }) : setSorted({ popSorted: true })
+    let oro = localClimbs.sort((a, b) => (a.stars > b.stars) ? -1 : 1)
+    let jawjackery = oro.map(or => or);
+    setLocalClimbs(jawjackery)
+  }
+
+  function cardBuilder(array, type) {
+    return (
+      array.map((data, index) => {
+        return (
+          <Grid.Column key={index}>
+            {(type !== 'userImageCard') ? <Card {...data} /> : <UserImageCard {...data} />}
+          </Grid.Column>
+        )
+      }))
+  }
+
   const Options = [
-    { key: 5, text: "5", value: "5" },
-    { key: 10, text: "10", value: "10" },
-    { key: 15, text: "15", value: "15" },
-    { key: 20, text: "20", value: "20" },
-    { key: 25, text: "25", value: "25" },
-    { key: 30, text: "30", value: "30" },
+    { key: 5, text: "5", value: "5", description: 'miles' },
+    { key: 10, text: "10", value: "10", description: 'miles' },
+    { key: 15, text: "15", value: "15", description: 'miles' },
+    { key: 20, text: "20", value: "20", description: 'miles' },
+    { key: 25, text: "25", value: "25", description: 'miles' },
+    { key: 30, text: "30", value: "30", description: 'miles' },
   ];
   function getLocalClimbs(data) {
     API.getRoutesByNavigator(data, range).then((data) => {
@@ -36,12 +76,12 @@ function Explore({ MenuBar }) {
   // handleChange(value) {this.setState({ range: value });}
   return (
     <Container>
-      <Header id="heading" as="h1">
+      <Header as="h1" id="heading" attached='top'>
         Climbing Routes Nearby {searchTerm ? searchTerm : "You!"}
       </Header>
-      <MenuBar></MenuBar>
+      <MenuBar />
       <Divider horizontal />
-      <Container textAlign="center">
+      <Container textAlign="center" text style={{ backgroundColor: 'grey' }}>
         <Input
           style={{ width: "400px" }}
           placeholder="City,   State"
@@ -57,31 +97,54 @@ function Explore({ MenuBar }) {
                     longitude: res.data.results[0].locations[0].latLng.lng,
                   },
                 };
-                API.getRoutesByNavigator(coordsObj).then((data) =>
-                  setLocalClimbs(data.data.routes)
+                API.getRoutesByNavigator(coordsObj, range).then((data) => { setLocalClimbs(data.data.routes) }
                 );
               });
             },
           }}
         />
-        <Dropdown
-          inline
-          options={Options}
-          defaultValue={Options[5].value}
-          // onChange={handleChange}
-        />
-      </Container>
-      <Divider horizontal />
+        <Container text>
+          <Label>
+            Sort by Difficulty: { ' ' }
+          <Checkbox inline toggle />
+          </Label>
+          <Label>
+            Sort by Popularity: { ' ' }
+          <Checkbox inline onChange={sortByPop} toggle />
+          </Label>
+          <Label>
+            Search Radius: { ' ' } 
+          <Dropdown
+            inline
+            text={range}
+            options={Options}
+            onChange={(e, value) => setRange(value.value)}
+          />
+          </Label>
+          
+        </Container>
 
-      <Grid id="cardGrid" columns="4">
-        {localClimbs.map((route, index) => {
-          return (
-            <Grid.Column key={route.id}>
-              <Card {...route} />
-            </Grid.Column>
-          );
-        })}
-      </Grid>
+      </Container>
+
+
+      {(localClimbs.length) ?
+        <Segment>
+          <Label attached='top'>Routes to Explore</Label>
+          <Grid id="cardGrid" columns="4" style={style}>
+            {cardBuilder(localClimbs, 'card ')}
+          </Grid>
+        </Segment> : null}
+      <Divider style={{ height: '10px' }} hidden />
+
+      {(user.user.username) ?
+        <Segment>
+          <Label attached='top'>Routes to Explore</Label>
+          <Grid id="cardGrid" columns="4" style={style}>
+            {cardBuilder(UserPhotos, 'userImageCard')}
+          </Grid>
+        </Segment> :
+        null}
+
     </Container>
   );
 }

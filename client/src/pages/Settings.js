@@ -3,7 +3,7 @@ import API from "../utils/API";
 // import UTILS from "../utils/utils";
 import { Container, Header } from "semantic-ui-react";
 const client = require("filestack-js").init(
-  process.env.REACT_APP_FILESTACK_KEY
+  'ASqRy0SxoR0GwFXKGloCDz'
 );
 
 function Settings() {

@@ -5,8 +5,10 @@ import UTILS from "../utils/utils";
 import ReactLoading from "react-loading";
 import { Container, Header } from "semantic-ui-react";
 import UserContext from "../context/userContext";
+import MenuBar from '../Components/Menu'
+
 const client = require("filestack-js").init(
-  process.env.REACT_APP_FILESTACK_KEY
+  'ASqRy0SxoR0GwFXKGloCDz'
 );
 
 function Upload() {
@@ -204,9 +206,10 @@ function Upload() {
 
   return (
     <Container>
-      <Header id="heading" as="h1">
-        Upload Photos
+      <Header attached='top' as="h1" id="heading">
+        MetaPhoto
       </Header>
+      <MenuBar />
       <p className="App-intro">
         To get started, open the picker and upload your image.
       </p>
@@ -233,8 +236,8 @@ function Upload() {
             />
           </div>
         ) : (
-          ""
-        )}
+            ""
+          )}
 
         {uploadedPhotos && uploadedPhotos.length ? (
           <div>
@@ -252,30 +255,30 @@ function Upload() {
                     {!upload.routes ? (
                       <li>No GPS DATA Found? ¯\_(ツ)_/¯</li>
                     ) : (
-                      upload.routes.map((route, index) => {
-                        // console.log(upload);
-                        return (
-                          <li
-                            key={index}
-                            data-photodata={JSON.stringify(upload)}
-                            id={route.id || "NO_ID"}
-                            onClick={(evt) => {
-                              handleClimbSelect(evt);
-                            }}
-                          >
-                            {route.name || route}
-                          </li>
-                        );
-                      })
-                    )}
+                        upload.routes.map((route, index) => {
+                          // console.log(upload);
+                          return (
+                            <li
+                              key={index}
+                              data-photodata={JSON.stringify(upload)}
+                              id={route.id || "NO_ID"}
+                              onClick={(evt) => {
+                                handleClimbSelect(evt);
+                              }}
+                            >
+                              {route.name || route}
+                            </li>
+                          );
+                        })
+                      )}
                   </ul>
                 </div>
               );
             })}
           </div>
         ) : (
-          ""
-        )}
+            ""
+          )}
       </div>
     </Container>
   );
