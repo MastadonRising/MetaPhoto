@@ -11,7 +11,6 @@ const PhotosSchema = new Schema({
   exifdata: {},
   likes: [
     {
-      // likeID: { type: String, require: true },
       typeOf: { type: String },
       userID: [{ type: Schema.Types.ObjectId, ref: "User" }],
     },

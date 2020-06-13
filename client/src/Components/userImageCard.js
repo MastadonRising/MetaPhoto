@@ -13,11 +13,7 @@ const CardExampleCard = (props) => (
             style={{ height: '275px' }}
             src={props.url}
             ui={false}
-            label={{
-                as: 'a',
-                icon: 'heart',
-                corner: 'left'
-            }} />
+             />
         <Card.Content
             style={{ textAlign: "center" }} >
             <Modal

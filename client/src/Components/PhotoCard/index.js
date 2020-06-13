@@ -1,5 +1,28 @@
-import React from "react";
+import { React, useContext } from "react";
 import { Card, Button, Image } from "semantic-ui-react";
+import UserContext from "../../context/userContext";
+
+const userData = useContext(UserContext);
+const [newUpdate, setNewUpdate] = useState({});
+
+function handleVoting(evt, type) {
+  if (type === "up") {
+    console.log(`♥‿♥`, evt.target.id);
+    API.postLike(evt.target.id, {
+      typeOf: "like",
+      userID: userData._id,
+    }).then(() => {
+      setNewUpdate({ ...newUpdate }); // "tricking" it to refresh photoratings
+    });
+  } else {
+    console.log(`(ಥ⌣ಥ)`);
+    API.postLike(evt.target.id, {
+      typeOf: "dislike",
+      userID: userData._id,
+    });
+    setNewUpdate({ ...newUpdate }); // "tricking" it to refresh photoratings
+  }
+}
 
 const CardExampleCard = ({ photos }) => {
   return (

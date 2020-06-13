@@ -15,7 +15,7 @@ function PhotoRatings() {
     });
   }, [newUpdate]);
 
-  function handleVoting(evt, type) {
+ function handleVoting(evt, type) {
     if (type === "up") {
       console.log(`♥‿♥`, evt.target.id);
       API.postLike(evt.target.id, {
@@ -81,5 +81,3 @@ function PhotoRatings() {
     </div>
   );
 }
-
-export default PhotoRatings;
