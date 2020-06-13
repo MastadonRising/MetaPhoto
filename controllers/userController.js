@@ -83,13 +83,6 @@ module.exports = {
         res.json(data);
       });
     }
-<<<<<<< HEAD
-    db.User.findOne({ username: req.user.username }).then((data) => {
-      console.log(data)
-      res.json(data);
-    });
-=======
->>>>>>> 4e3448b691c041644d5e84adafd5186fa7491f5c
   },
   logout: function (req, res) {
     req.logout();
