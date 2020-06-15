@@ -10,6 +10,7 @@ import {
   Dropdown,
   Label,
   Segment,
+  Tab,
 } from "semantic-ui-react";
 import Card from "../Components/card";
 import MenuBar from '../Components/Menu'
@@ -37,7 +38,24 @@ function Explore() {
   const [sorted, setSorted] = useState({ popSorted: false })
 
   const style = (localClimbs.length > 4) ? { maxHeight: '500px', overflow: 'scroll' } : { maxHeight: '500px' }
-
+  const panes = [
+    {
+      menuItem: {content: 'Local Climbs', style: {backgroundColor: '#ffffff'}},
+      render: () => <Tab.Pane>
+        <Grid id="cardGrid" columns="4" style={style}>
+          {cardBuilder(localClimbs, 'card ')}
+        </Grid>
+      </Tab.Pane>,
+    },
+    {
+      menuItem: {content: 'User Photos', style: {backgroundColor: '#ffffff'}},
+      render: () => <Tab.Pane>
+        <Grid id="cardGrid" columns="4" style={style}>
+          {cardBuilder(UserPhotos, 'userImageCard')}
+        </Grid>
+      </Tab.Pane>
+    }
+  ]
 
   useEffect(() => {
     navigator.geolocation.getCurrentPosition(getLocalClimbs);
@@ -45,7 +63,7 @@ function Explore() {
   }, []);
 
   function sortByPop() {
-    setSorted({popSorted: true})
+    setSorted({ popSorted: true })
     let oro = localClimbs.sort((a, b) => (a.stars > b.stars) ? -1 : 1)
     let jawjackery = oro.map(or => or);
     setLocalClimbs(jawjackery)
@@ -91,8 +109,7 @@ function Explore() {
         Climbing Routes Nearby {searchTerm ? searchTerm : "You!"}
       </Header>
       <MenuBar />
-      <Divider horizontal />
-      <Container textAlign="center" text style={{ backgroundColor: 'grey' }}>
+      <Container textAlign="center" text style={{ backgroundColor: 'grey', margin: '5px 0' }}>
         <Input
           style={{ width: "99%", margin: 'auto', padding: '3px 0' }}
           fluid
@@ -140,7 +157,7 @@ function Explore() {
                 API.getRoutesByNavigator(coordsObj, range).then((data) => { setLocalClimbs(data.data.routes) }
                 );
               })}
-          toggle />
+            toggle />
 
           <Dropdown
             as={Label}
@@ -150,27 +167,11 @@ function Explore() {
             onChange={(e, value) => setRange(value.value)} />
 
         </Container>
-
       </Container>
 
-
-      {(localClimbs.length) ?
-        <Segment>
-          <Label attached='top'>Routes to Explore</Label>
-          <Grid id="cardGrid" columns="4" style={style}>
-            {cardBuilder(localClimbs, 'card ')}
-          </Grid>
-
-        </Segment> : null}
+      <Container><Tab panes={(user.user.username ? panes : [panes[0]])} /></Container>
 
 
-      {(user.user.username) ?
-        <Segment>
-          <Label attached='top'>Other User's Photos</Label>
-          <Grid id="cardGrid" columns="4" style={style}>
-            {cardBuilder(UserPhotos, 'userImageCard')}
-          </Grid>
-        </Segment> : null}
 
     </Container>
   );
