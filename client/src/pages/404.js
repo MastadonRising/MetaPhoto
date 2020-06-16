@@ -20,8 +20,8 @@ function NotFound() {
           <Divider horizontal hidden />
 
           <Header as="h2" textAlign="center">
-            <Icon name="bug" size="mini" /> We appreciate your sense of
-            exploration... but what you're lookign for isn't a thing.
+            <Icon name="binoculars" size="mini" /> We appreciate your sense of
+            exploration... but what you're looking for isn't a thing.
           </Header>
           <img
             src="https://static.rmiguides.com/assets/images/footer_mountain_climbers.png"

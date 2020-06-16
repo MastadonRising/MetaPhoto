@@ -4,8 +4,7 @@ const db = require("../models");
 // This file empties the Books collection and inserts the books below
 
 mongoose.connect(
-  process.env.MONGODB_URI ||
-  "mongodb://localhost/reactMetaPhotodb"
+  process.env.MONGODB_URI || "mongodb://localhost/reactMetaPhotodb"
 );
 
 const resourceSeed = [
@@ -33,6 +32,14 @@ const resourceSeed = [
     level: 1,
   },
   {
+    name: "Your First 7 Climbing Partners",
+    url: "https://www.climbing.com/people/your-first-7-climbing-partners/",
+    photo:
+      "https://www.climbing.com/.image/c_limit%2Ccs_srgb%2Cq_auto:good%2Cw_860/MTU1NTI1MDI4Mjc0OTcxNzc5/insta_sender.webp",
+    desc: " Freindly heads up about the people you trust with your life",
+    level: 1,
+  },
+  {
     name: "How To Warm Up Properly For Climbing",
     url:
       "https://rockandice.com/rock-climbing-training/how-to-warm-up-properly-for-climbing/",
@@ -40,14 +47,6 @@ const resourceSeed = [
       "https://secureservercdn.net/50.62.194.30/9ac.3b5.myftpupload.com/wp-content/uploads/2016/11/Grotto_1.jpg",
     desc: "Good advice for staying uninjured",
     level: 2,
-  },
-  {
-    name: "Your First 7 Climbing Partners",
-    url: "https://www.climbing.com/people/your-first-7-climbing-partners/",
-    photo:
-      "https://www.climbing.com/.image/c_limit%2Ccs_srgb%2Cq_auto:good%2Cw_860/MTU1NTI1MDI4Mjc0OTcxNzc5/insta_sender.webp",
-    desc: " Freindly heads up about the people you trust with your life",
-    level: 1,
   },
   {
     name: "How to become a terrible Trad Climber",
@@ -58,16 +57,51 @@ const resourceSeed = [
     desc: "What not to do",
     level: 2,
   },
-]
+  {
+    name: "Fingerboard Training Protocols",
+    url:
+      "https://trainingforclimbing.com/4-fingerboard-strength-protocols-that-work/",
+    photo:
+      "https://latticetraining.com/wp-content/uploads/2020/01/half_crimp.jpg",
+    desc: "4 Fingerboard Training Protocols That Work",
+    level: 2,
+  },
 
-db.Resources
-  .remove({})
+  {
+    name: "How to Inspect Your Climbing Gear and When to Retire It",
+    url:
+      "https://www.climbing.com/skills/how-to-inspect-your-climbing-gear-and-when-to-retire-it/",
+    photo:
+      "https://www.climbing.com/.image/c_limit%2Ccs_srgb%2Cq_auto:good%2Cw_860/MTcxNTU3MTUxMjAwNzgxNjcy/4c7a7270.webp",
+    desc: "When to let go off that $200 Cam",
+    level: 3,
+  },
+  {
+    name: "How to Big Wall",
+    url: "https://www.vdiffclimbing.com/bigwall-intro/",
+    photo:
+      "https://www.dailyclimbing.com/wp-content/uploads/2019/04/tourscraft-adventure-e1555167053760-1024x638.jpg",
+    desc: "Why do this? Becuase its there",
+    level: 3,
+  },
+  {
+    name: "How to Do a Move You Can’t Do",
+    url:
+      "https://rockandice.com/rock-climbing-training/simulation-training-how-to-do-a-move-you-cant-do/",
+    photo:
+      "https://d1vs4ggwgd7mlq.cloudfront.net/wp-content/uploads/2017/09/RI-237-Training-Cover-926x563.jpg",
+    desc: "Simulation Training",
+    level: 3,
+  },
+];
+
+db.Resources.remove({})
   .then(() => db.Resources.collection.insertMany(resourceSeed))
-  .then(data => {
+  .then((data) => {
     console.log(data.result.n + " records inserted!");
     process.exit(0);
   })
-  .catch(err => {
+  .catch((err) => {
     console.error(err);
     process.exit(1);
   });
