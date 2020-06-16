@@ -8,7 +8,7 @@ import UserContext from "../context/userContext";
 import MenuBar from "../Components/Menu";
 
 const client = require("filestack-js").init(
-  process.env.REACT_FILESTACK_KEY || "ASqRy0SxoR0GwFXKGloCDz"
+  process.env.REACT_APP_FILESTACK_KEY || "ASqRy0SxoR0GwFXKGloCDz"
 );
 
 function Upload() {
@@ -62,7 +62,7 @@ function Upload() {
 
                 var sortedRoutes = resp.data.routes.sort((a, b) =>
                   UTILS.calculateDistance(a.latitude, a.longitude, lat, lon) >
-                  UTILS.calculateDistance(b.latitude, b.longitude, lat, lon)
+                    UTILS.calculateDistance(b.latitude, b.longitude, lat, lon)
                     ? 1
                     : -1
                 );
@@ -145,7 +145,7 @@ function Upload() {
   // Filestack Picker
   const picker = client.picker({
     accept: ["image/jpeg", "image/jpg", "image/png"],
-    concurrency: 4, // Max number of files to upload concurrently. Default is 4.
+    concurrency: 3, // Max number of files to upload concurrently. Default is 4.
     // container: ".picker-content", //Container where picker should be appended. Only relevant for inline and dropPane display modes.
     // displayMode: "dropPane", // Picker display mode, one of 'inline', 'overlay', 'dropPane' - default is 'overlay'.
     exposeOriginalFile: true, // need File Obj for ExifData extraction
@@ -204,25 +204,40 @@ function Upload() {
     setUploadedPhotos([...newuploadedPhotos]);
   }
 
+  function openRouteListItem(evt) {
+    let childElement = evt.target.nextSibling
+
+    if (childElement.type !== "submit") {
+      if (childElement.style.display === "block") {
+        childElement.style.display = "none";
+      } else {
+        childElement.style.display = "block";
+      }
+    }
+  }
+
   return (
     <Container>
       <Header attached="top" as="h1" id="heading">
         MetaPhoto
       </Header>
       <MenuBar />
-      <p className="App-intro">
-        To get started, open the picker and upload your image.
+      <div className="upload-header">
+
+        <p className="App-intro">
+          To get started, open the picker and upload your image.
       </p>
-      {/* <div className="picker-content"></div> */}
-      <button
-        onClick={() => {
-          picker.open();
-        }}
-      >
-        Upload
+        {/* <div className="picker-content"></div> */}
+        <button
+          onClick={() => {
+            picker.open();
+          }}
+        >
+          Upload
       </button>
-      
-      <div style={{ clear: "both" }}>
+      </div>
+
+      <div style={{ clear: "both", marginTop: "1.5rem", textAlign: "center" }}>
         {/* only loads when something has been uploaded  */}
 
         {status === 1 || status === 2 ? (
@@ -237,78 +252,51 @@ function Upload() {
             />
           </div>
         ) : (
-          ""
-        )}
+            ""
+          )}
 
         {uploadedPhotos && uploadedPhotos.length ? (
           <div>
             <h3>Select the Climb for your photos</h3>
             {uploadedPhotos.map((upload, index) => {
               return (
-                <div key={index} style={{ clear: "both", display: "flex" }}>
+                <div key={index} style={{ clear: "both", display: "flex", minHeight: "175px" }}>
                   <img
                     style={{ maxWidth: "100px", maxHeight: "100px" }}
                     key={index}
                     src={upload.url}
                     alt={upload.name}
                   ></img>
-                  <ul>
-                  <div>
-                        <button
-                          className=""
-                          onClick={() => {
-                            API.updatePhotoByHandle(upload.handle, {
-                              routes: ["No routes found"],
-                            }).then(() => {
-                              API.getPhoto().then((respo) => {
-                                // filtering out only our current handles to use
-                                const photoBlock = respo.data.filter((item) =>
-                                  handles.includes(item.handle)
-                                );
-
-                                setUploadedPhotos(photoBlock);
-                                // checking to see that routes are ready in each current photo's record
-                                // otherwise images may be potentially rendered to user without routes
-                                const routeCheck = () => {
-                                  for (
-                                    let index = 0;
-                                    index < photoBlock.length;
-                                    index++
-                                  ) {
-                                    if (photoBlock[index].routes.length < 1) {
-                                      return false;
-                                    }
-                                    return true;
-                                  }
-                                };
-
-                                // once all currently uploaded photos have routes, set status 3, to get out of routecheck loop
-                                if (routeCheck()) {
-                                  setStatus(3);
-                                }
-                              });
-                            });
-                          }}
-                        >
-                          Search again?
-                        </button>
-                        {upload.routes.map((route, index) => {
-                          // console.log(upload);
-
-                          return (
+                  <ul className="route-options-list">
+                    <>
+                      {upload.routes.map((route, index) => {
+                        return (
+                          <>
                             <li
                               key={index}
-                              data-photodata={JSON.stringify(upload)}
-                              id={route.id || "NO_ID"}
+                              className="route-options-list-item"
                               onClick={(evt) => {
-                                handleClimbSelect(evt);
+                                openRouteListItem(evt);
                               }}
                             >
-                              {route.name || (
+                              "{route.name || route}"
+                            </li>
+
+                            {route.name ? (
+                              <div style={{ display: "none" }} className="route-options-list-item-collapsible">
+                                Difficulty: {route.rating},<br></br>
+                                Popularity: {route.stars}/5,<br></br>
+                                Location: {`${route.location[0]}-${route.location[1]}`}<br></br>
+                                <button data-photodata={JSON.stringify(upload)}
+                                  id={route.id || "NO_ID"} onClick={(evt) => {
+                                    handleClimbSelect(evt);
+                                  }}>Select</button>
+                              </div>
+                            )
+                              : (
                                 <div>
-                                  {route}
                                   <Input
-                                    style={{ width: "400px" }}
+                                    style={{ width: "100%" }}
                                     placeholder="City,   State"
                                     onChange={(e) =>
                                       setSearchTerm(e.target.value)
@@ -384,22 +372,71 @@ function Upload() {
                                       },
                                     }}
                                   />
+
                                 </div>
-                              )}
-                            </li>
-                          );
-                        })}
-                      </div>
+                              )
+                            }
+
+                          </>
+                        )
+                      })}
+
+                      <button style={{ marginTop: "1rem" }}
+                        onClick={
+                          () => {
+                            API.updatePhotoByHandle(
+                              upload.handle,
+                              { routes: [`No Routes Found`] }
+                            ).then((respo) => {
+                              API.getPhoto().then((respo) => {
+                                // filtering out only our current handles to use
+                                const photoBlock = respo.data.filter(
+                                  (item) =>
+                                    handles.includes(
+                                      item.handle
+                                    )
+                                );
+
+                                setUploadedPhotos(photoBlock);
+                                // checking to see that routes are ready in each current photo's record
+                                // otherwise images may be potentially rendered to user without routes
+                                const routeCheck = () => {
+                                  for (
+                                    let index = 0;
+                                    index < photoBlock.length;
+                                    index++
+                                  ) {
+                                    if (
+                                      photoBlock[index].routes
+                                        .length < 1
+                                    ) {
+                                      return false;
+                                    }
+                                    return true;
+                                  }
+                                };
+
+                                // once all currently uploaded photos have routes, set status 3, to get out of routecheck loop
+                                if (routeCheck()) {
+                                  setStatus(3);
+                                }
+                              });
+                            });
+                          }
+                        }>Clear Routes
+                        </button>
+                    </>
+
                   </ul>
                 </div>
               );
             })}
           </div>
         ) : (
-          ""
-        )}
+            ""
+          )}
       </div>
-    </Container>
+    </Container >
   );
 }
 
