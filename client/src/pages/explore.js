@@ -20,12 +20,12 @@ import UserImageCard from "../Components/userImageCard";
 function Explore() {
   const user = useContext(UserContext);
   const [UserPhotos, setUserPhotos] = useState([]);
-  const [newUpdate, setNewUpdate] = useState({});
+  // const [newUpdate, setNewUpdate] = useState({});
 
   function getUserPhotos() {
-    console.log("step 1");
+    // console.log("step 1");
     API.getPhoto().then((data) => {
-      console.log(data);
+      // console.log(data);
       setUserPhotos(data.data);
     });
   }
@@ -111,7 +111,14 @@ function Explore() {
                   },
                 };
                 API.getRoutesByNavigator(coordsObj, range).then((data) => {
-                  setLocalClimbs(data.data.routes);
+                  let { routes } = data.data;
+                  let Routes = [];
+                  routes.forEach((route) => {
+                    if (route.imgMedium !== "") {
+                      Routes.push(route);
+                    }
+                  });
+                  setLocalClimbs(Routes);
                 });
               });
             },
