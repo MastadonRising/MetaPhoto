@@ -16,7 +16,6 @@ import MenuBar from "../Components/Menu";
 import API from "../utils/API";
 import UserContext from "../context/userContext";
 import UserImageCard from "../Components/userImageCard";
-import { set } from "mongoose";
 
 function Explore() {
   const user = useContext(UserContext);
@@ -31,12 +30,13 @@ function Explore() {
     });
   }
   const [localClimbs, setLocalClimbs] = useState([]);
-  const [searchTerm, setSearchTerm] = useState('Lake Tahoe');
-  const [range, setRange] = useState(['30']);
-  const [sorted, setSorted] = useState({ popSorted: false })
-  
-  const style = (localClimbs.length > 4) ? { maxHeight: '500px', overflow: 'scroll' } : { maxHeight: '500px' }
-
+  const [searchTerm, setSearchTerm] = useState("Lake Tahoe");
+  const [range, setRange] = useState(["30"]);
+  const [sorted, setSorted] = useState({ popSorted: false });
+  const style =
+    localClimbs.length > 4
+      ? { maxHeight: "500px", overflow: "scroll" }
+      : { maxHeight: "500px" };
 
   useEffect(() => {
     navigator.geolocation.getCurrentPosition(getLocalClimbs);
@@ -76,18 +76,16 @@ function Explore() {
   ];
   function getLocalClimbs(data) {
     API.getRoutesByNavigator(data, range).then((data) => {
-      setLocalClimbs(data.data.routes);
+      let { routes } = data.data;
+      let Routes = [];
+      routes.forEach((route) => {
+        if (route.imgMedium !== "") {
+          Routes.push(route);
+        }
+      });
+      setLocalClimbs(Routes);
     });
   }
-
-  function handleFavorite(evt, type) {
-      API.postFav(evt.target.id, {
-        typeOf: type,
-        ID: evt.target.id ,
-      }).then(() => {
-        setNewUpdate({ ...newUpdate }); // "tricking" it to refresh photoratings
-      });
-    } 
 
   return (
     <Container>
