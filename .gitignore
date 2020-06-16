@@ -39,3 +39,4 @@ amplify-gradle-config.json
 amplifyxc.config
 
 .env*
+pages/grvtest.js*

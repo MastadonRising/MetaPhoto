@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import Card from "../Components/card";
-import { Grid, Header, Container, Divider, Label } from "semantic-ui-react";
+import { Grid, Header, Container, Divider} from "semantic-ui-react";
 import API from "../utils/API";
 import MenuBar from '../Components/Menu'
 import Background from '../assets/images/HenryXuUnsplash.png'
@@ -22,29 +22,29 @@ function Resources() {
 
 
   return (
-    <Container>
+    <Container id='mainContainer'>
       <Header attached='top' id='heading' as="h1">Climbing Resources</Header>
       <MenuBar />
-      <Divider />
-      <Grid centered columns={4} verticalAlign='middle'>
-        <Grid.Row id={'para-row'} style={{backgroundImage: `url(${Background})`}} >
+      <Divider hidden/>
+      <Grid id='resourceGrid' stackable centered columns={4} verticalAlign='middle'>
+        <Container as={Grid.Row} id={'para-row'} style={{ backgroundImage: `url(${Background})` }} >
           {resources.map((resource, index) => {
             return (
-              (resource.level === 1) ? <Grid.Column  key={index}>
-              <Card {...resource} />
-            </Grid.Column> : null
+              (resource.level === 1) ? <Grid.Column key={index}>
+                <Card {...resource} />
+              </Grid.Column> : null
             );
           })}
-        </Grid.Row>
-        <Grid.Row id={'para-row'} style={{backgroundImage: `url(${Background2})`}} >
+        </Container>
+        <Container as={Grid.Row} id={'para-row'} style={{ backgroundImage: `url(${Background2})` }} >
           {resources.map((resource, index) => {
             return (
-              (resource.level === 2) ? <Grid.Column  key={index}>
-              <Card {...resource} />
-            </Grid.Column> : null
+              (resource.level === 2) ? <Grid.Column key={index}>
+                <Card {...resource} />
+              </Grid.Column> : null
             );
           })}
-        </Grid.Row>
+        </Container>
       </Grid>
     </Container>
   );

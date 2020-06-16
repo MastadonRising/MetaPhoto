@@ -29,12 +29,11 @@ function LogIn() {
       user.Login(res.data);
       console.log(user);
     });
-    history.replace("/");
+    history.replace("/myaccount");
   }
   
   return (
-    <Container>
-  
+    <Container id='mainContainer'>
       <Header attached='top' as="h1" id="heading">
         MetaPhoto
       </Header>

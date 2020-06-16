@@ -1,5 +1,5 @@
 import React, { useContext, useState } from "react";
-import { Card, Image, Button, Icon, Grid, Menu, Label } from "semantic-ui-react";
+import { Card, Icon, Menu, Label } from "semantic-ui-react";
 import UserContext from "../context/userContext";
 import API from '../utils/API'
 
@@ -32,12 +32,20 @@ const RouteCard = (props) => {
   return (
     <Card style={{ height: "350px", minWidth: '200px', margin: 'auto' }}>
       {/* {console.log(props)} */}
-      {props.photo ? (
+      {/* {props.photo ? (
         <Image style={{ height: "150px" }} src={props.photo} ui={false} />
       ) : (
           <Image style={{ height: "150px" }} src={props.imgSmallMed} ui={false} />
-        )}
-
+        )} */}
+      <Card.Content
+        style={{
+          height: "200px",
+          backgroundImage: `url(${(props.photo ? props.photo : props.imgSmallMed)})`,
+          backgroundSize: "cover",
+          backgroundPosition: 'center'
+        }}>
+        <Label corner='left' as='a' icon={{ name: 'heart' }} onClick={() => console.log('cricket')} />
+      </Card.Content>
       <Card.Content style={{ maxHeight: '140px' }}>
         <Card.Header>{props.name} </Card.Header>
         <Card.Description>
@@ -45,28 +53,25 @@ const RouteCard = (props) => {
           {props.location ? (
             <ul>
               <li>{props.location[1] + ", " + props.location[0]}</li>
+              {(props.type) ? <li>Type of Climb: {props.type}</li> : null}
             </ul>
           ) : null}
         </Card.Description>
       </Card.Content>
-      <Card.Content
-        style={{ textAlign: "center" }}
-        extra
-      >
-        <Menu widths='3' fluid>
-          <Menu.Item as={Button} id={props.id} onClick={(e) => handleVoting(e, 'up')} position='left'>
-            <Icon name='thumbs up' />
-           Like
-         </Menu.Item>
+      {(userData.user.username) ?
+        <Menu widths='3' fluid compact>
+          <Menu.Item id={props.id} onClick={(e) => handleVoting(e, 'up')} position='left' icon='thumbs up' content='Like' />
           <Menu.Item as='a' href={props.url} target='_blank'>
             Info
-         </Menu.Item>
-          <Menu.Item as={Button} id={props.id} onClick={(e) => handleVoting(e, 'down')} position='right'>
-            <Icon name='thumbs down' />
-           Dislike
-         </Menu.Item>
+       </Menu.Item>
+          <Menu.Item id={props.id} onClick={(e) => handleVoting(e, 'down')} position='right' icon='thumbs down' content='Dislike' />
+        </Menu> :
+        <Menu fluid widths='1'>
+          <Menu.Item as='a' href={props.url} target='_blank'>
+            Info
+     </Menu.Item>
         </Menu>
-      </Card.Content>
+      }
     </Card>
   )
 };

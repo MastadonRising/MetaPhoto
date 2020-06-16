@@ -119,6 +119,10 @@ export default {
     });
   },
 
+  getUserById: function (userID) {
+    return axios.get(`/api/user${userID}`)
+  },
+
   getPhotoInformation: function () {
     return axios.get(`/api/photos`);
   },

@@ -2,26 +2,35 @@ body,html {
   margin: 0;
   padding: 0;
   height: 100%;
-  background-color: #90b9ce;
 }
 * {
   box-sizing: border-box;
   }
 #root {
   padding: 15px 0;
+  background-image: url('./assets/images/mounatins.png');
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  position: relative;
+  min-height: 100%;
 }
-
+#mainContainer {
+  background-color: rgba(206, 198, 198, 0.568);
+}
 #heading {
-  background-image: url('./assets/pics/longrock.jpg');
-  background-color: #cccccc;
+  /* background-image: url('./assets/pics/longrock.jpg'); */
+  background-color: rgba(233, 227, 227, 0.0);
+  /* opacity: 0; */
   height: 25vh;
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
-  color: #cccccc;
-  font-size: 3em;
-  padding: 5% 0;
+  color: #ffffff;
+  font-size: 4em;
+  padding: 7% 0;
   border-radius: .28571429rem .28571429rem 0 0;
+  text-align: center;
 }
 nav {
   margin-right: 10px;
@@ -29,6 +38,7 @@ nav {
 .App {
   text-align: center;
 }
+
 #cardGrid {
   background-color: #ffffff;
   background-position: center;
@@ -46,12 +56,15 @@ nav {
 
     /* Full height */
     height: 70vh;
-  
     /* Create the parallax scrolling effect */
     background-attachment: fixed;
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
+}
+#resourceGrid {
+  max-width: 1127px !important;
+  margin: auto;
 }
 #searchSorter {
   padding: 0 5px;
@@ -136,4 +149,13 @@ nav {
 
 .picker-content{
   width: 100%;
+}
+
+/* sorting css */
+.ascending::after {
+  content: "🔼";
+}
+
+.descending::after {
+  content: "🔽";
 }
