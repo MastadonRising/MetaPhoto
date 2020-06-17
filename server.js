@@ -24,7 +24,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(
   cors({
-    origin: "http://localhost:3000", // <-- location of the react app were connecting to
+    origin: "https://metaphotojs.herokuapp.com/", // <-- location of the react app were connecting to
     credentials: true,
   })
 );
