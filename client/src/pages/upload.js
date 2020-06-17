@@ -62,7 +62,7 @@ function Upload() {
 
                 var sortedRoutes = resp.data.routes.sort((a, b) =>
                   UTILS.calculateDistance(a.latitude, a.longitude, lat, lon) >
-                  UTILS.calculateDistance(b.latitude, b.longitude, lat, lon)
+                    UTILS.calculateDistance(b.latitude, b.longitude, lat, lon)
                     ? 1
                     : -1
                 );
@@ -210,19 +210,21 @@ function Upload() {
         MetaPhoto
       </Header>
       <MenuBar />
-      <p className="App-intro">
-        To get started, open the picker and upload your image.
+      <Container text textAlign='center'>
+        <p className="App-intro">
+          To get started, open the picker and upload your image.
       </p>
-      {/* <div className="picker-content"></div> */}
-      <button
-        onClick={() => {
-          picker.open();
-        }}
-      >
-        Upload
-      </button>
-      
-      <div style={{ clear: "both" }}>
+
+        {/* <div className="picker-content"></div> */}
+        <Button
+          onClick={() => {
+            picker.open();
+          }}
+          content='Upload'
+        />
+      </Container>
+
+      <Container style={{ clear: "both" }}>
         {/* only loads when something has been uploaded  */}
 
         {status === 1 || status === 2 ? (
@@ -234,14 +236,15 @@ function Upload() {
               className="loader"
               type={"spin"}
               color={"black"}
+              style={{maxHeight: '500px'}}
             />
           </div>
         ) : (
-          ""
-        )}
+            ""
+          )}
 
         {uploadedPhotos && uploadedPhotos.length ? (
-          <div>
+          <Container text textAlign='center'>
             <h3>Select the Climb for your photos</h3>
             {uploadedPhotos.map((upload, index) => {
               return (
@@ -253,152 +256,152 @@ function Upload() {
                     alt={upload.name}
                   ></img>
                   <ul>
-                  <div>
-                        <button
-                          className=""
-                          onClick={() => {
-                            API.updatePhotoByHandle(upload.handle, {
-                              routes: ["No routes found"],
-                            }).then(() => {
-                              API.getPhoto().then((respo) => {
-                                // filtering out only our current handles to use
-                                const photoBlock = respo.data.filter((item) =>
-                                  handles.includes(item.handle)
-                                );
+                    <div>
+                      <button
+                        className=""
+                        onClick={() => {
+                          API.updatePhotoByHandle(upload.handle, {
+                            routes: ["No routes found"],
+                          }).then(() => {
+                            API.getPhoto().then((respo) => {
+                              // filtering out only our current handles to use
+                              const photoBlock = respo.data.filter((item) =>
+                                handles.includes(item.handle)
+                              );
 
-                                setUploadedPhotos(photoBlock);
-                                // checking to see that routes are ready in each current photo's record
-                                // otherwise images may be potentially rendered to user without routes
-                                const routeCheck = () => {
-                                  for (
-                                    let index = 0;
-                                    index < photoBlock.length;
-                                    index++
-                                  ) {
-                                    if (photoBlock[index].routes.length < 1) {
-                                      return false;
-                                    }
-                                    return true;
+                              setUploadedPhotos(photoBlock);
+                              // checking to see that routes are ready in each current photo's record
+                              // otherwise images may be potentially rendered to user without routes
+                              const routeCheck = () => {
+                                for (
+                                  let index = 0;
+                                  index < photoBlock.length;
+                                  index++
+                                ) {
+                                  if (photoBlock[index].routes.length < 1) {
+                                    return false;
                                   }
-                                };
-
-                                // once all currently uploaded photos have routes, set status 3, to get out of routecheck loop
-                                if (routeCheck()) {
-                                  setStatus(3);
+                                  return true;
                                 }
-                              });
+                              };
+
+                              // once all currently uploaded photos have routes, set status 3, to get out of routecheck loop
+                              if (routeCheck()) {
+                                setStatus(3);
+                              }
                             });
-                          }}
-                        >
-                          Search again?
+                          });
+                        }}
+                      >
+                        Search again?
                         </button>
-                        {upload.routes.map((route, index) => {
-                          // console.log(upload);
+                      {upload.routes.map((route, index) => {
+                        // console.log(upload);
 
-                          return (
-                            <li
-                              key={index}
-                              data-photodata={JSON.stringify(upload)}
-                              id={route.id || "NO_ID"}
-                              onClick={(evt) => {
-                                handleClimbSelect(evt);
-                              }}
-                            >
-                              {route.name || (
-                                <div>
-                                  {route}
-                                  <Input
-                                    style={{ width: "400px" }}
-                                    placeholder="City,   State"
-                                    onChange={(e) =>
-                                      setSearchTerm(e.target.value)
-                                    }
-                                    icon={{
-                                      as: Button,
-                                      content: "search",
-                                      onClick: () => {
-                                        API.getRoutesbySearch(searchTerm).then(
-                                          (res) => {
-                                            let coordsObj = {
-                                              coords: {
-                                                latitude:
-                                                  res.data.results[0]
-                                                    .locations[0].latLng.lat,
-                                                longitude:
-                                                  res.data.results[0]
-                                                    .locations[0].latLng.lng,
-                                              },
-                                            };
-                                            API.getRoutesByNavigator(
-                                              coordsObj,
-                                              5
-                                            ).then((data) => {
-                                              console.log(data.data);
-                                              if (data.data.routes.length < 1) {
-                                                data.data.routes = [
-                                                  "no routes found",
-                                                ];
-                                              }
+                        return (
+                          <li
+                            key={index}
+                            data-photodata={JSON.stringify(upload)}
+                            id={route.id || "NO_ID"}
+                            onClick={(evt) => {
+                              handleClimbSelect(evt);
+                            }}
+                          >
+                            {route.name || (
+                              <div>
+                                {route}
+                                <Input
+                                  style={{ width: "400px" }}
+                                  placeholder="City,   State"
+                                  onChange={(e) =>
+                                    setSearchTerm(e.target.value)
+                                  }
+                                  icon={{
+                                    as: Button,
+                                    content: "search",
+                                    onClick: () => {
+                                      API.getRoutesbySearch(searchTerm).then(
+                                        (res) => {
+                                          let coordsObj = {
+                                            coords: {
+                                              latitude:
+                                                res.data.results[0]
+                                                  .locations[0].latLng.lat,
+                                              longitude:
+                                                res.data.results[0]
+                                                  .locations[0].latLng.lng,
+                                            },
+                                          };
+                                          API.getRoutesByNavigator(
+                                            coordsObj,
+                                            5
+                                          ).then((data) => {
+                                            console.log(data.data);
+                                            if (data.data.routes.length < 1) {
+                                              data.data.routes = [
+                                                "no routes found",
+                                              ];
+                                            }
 
-                                              API.updatePhotoByHandle(
-                                                upload.handle,
-                                                { routes: data.data.routes }
-                                              ).then((respo) => {
-                                                API.getPhoto().then((respo) => {
-                                                  // filtering out only our current handles to use
-                                                  const photoBlock = respo.data.filter(
-                                                    (item) =>
-                                                      handles.includes(
-                                                        item.handle
-                                                      )
-                                                  );
+                                            API.updatePhotoByHandle(
+                                              upload.handle,
+                                              { routes: data.data.routes }
+                                            ).then((respo) => {
+                                              API.getPhoto().then((respo) => {
+                                                // filtering out only our current handles to use
+                                                const photoBlock = respo.data.filter(
+                                                  (item) =>
+                                                    handles.includes(
+                                                      item.handle
+                                                    )
+                                                );
 
-                                                  setUploadedPhotos(photoBlock);
-                                                  // checking to see that routes are ready in each current photo's record
-                                                  // otherwise images may be potentially rendered to user without routes
-                                                  const routeCheck = () => {
-                                                    for (
-                                                      let index = 0;
-                                                      index < photoBlock.length;
-                                                      index++
+                                                setUploadedPhotos(photoBlock);
+                                                // checking to see that routes are ready in each current photo's record
+                                                // otherwise images may be potentially rendered to user without routes
+                                                const routeCheck = () => {
+                                                  for (
+                                                    let index = 0;
+                                                    index < photoBlock.length;
+                                                    index++
+                                                  ) {
+                                                    if (
+                                                      photoBlock[index].routes
+                                                        .length < 1
                                                     ) {
-                                                      if (
-                                                        photoBlock[index].routes
-                                                          .length < 1
-                                                      ) {
-                                                        return false;
-                                                      }
-                                                      return true;
+                                                      return false;
                                                     }
-                                                  };
-
-                                                  // once all currently uploaded photos have routes, set status 3, to get out of routecheck loop
-                                                  if (routeCheck()) {
-                                                    setStatus(3);
+                                                    return true;
                                                   }
-                                                });
+                                                };
+
+                                                // once all currently uploaded photos have routes, set status 3, to get out of routecheck loop
+                                                if (routeCheck()) {
+                                                  setStatus(3);
+                                                }
                                               });
                                             });
-                                          }
-                                        );
-                                      },
-                                    }}
-                                  />
-                                </div>
-                              )}
-                            </li>
-                          );
-                        })}
-                      </div>
+                                          });
+                                        }
+                                      );
+                                    },
+                                  }}
+                                />
+                              </div>
+                            )}
+                          </li>
+                        );
+                      })}
+                    </div>
                   </ul>
                 </div>
               );
             })}
-          </div>
+          </Container>
         ) : (
-          ""
-        )}
-      </div>
+            ""
+          )}
+      </Container>
     </Container>
   );
 }

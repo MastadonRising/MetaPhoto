@@ -22,7 +22,7 @@ export default {
     return axios.get("/api/photo");
   },
   getUsersPhotos: function (id) {
-    console.log(id);
+    // console.log(id);
     return axios.get("/api/photo" + id);
   },
   getPhotoByHandle: function (handle) {

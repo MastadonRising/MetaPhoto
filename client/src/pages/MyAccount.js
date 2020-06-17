@@ -28,7 +28,7 @@ function Users() {
   return (
     <Container id='mainContainer'>
       <Header as="h1" id="heading" attached="top">
-        Your Account
+        {upperCaser(user.user.username)}'s Account
       </Header>
       <MenuBar />
       <Divider />

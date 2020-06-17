@@ -2,6 +2,7 @@ import React, { useContext, useState } from "react";
 import { Card, Icon, Menu, Label } from "semantic-ui-react";
 import UserContext from "../context/userContext";
 import API from '../utils/API'
+import placeholderImage from '../assets/pics/mountain.png'
 
 const RouteCard = (props) => {
   // console.log(props)
@@ -40,7 +41,7 @@ const RouteCard = (props) => {
       <Card.Content
         style={{
           height: "200px",
-          backgroundImage: `url(${(props.photo ? props.photo : props.imgSmallMed)})`,
+          backgroundImage:  `url(${(props.imgSmallMed) ? props.imgSmallMed : placeholderImage})`,
           backgroundSize: "cover",
           backgroundPosition: 'center'
         }}>
@@ -54,6 +55,7 @@ const RouteCard = (props) => {
             <ul>
               <li>{props.location[1] + ", " + props.location[0]}</li>
               {(props.type) ? <li>Type of Climb: {props.type}</li> : null}
+              {(props.proximity) ? <li>Proximity to you: {props.proximity.toFixed(2)} miles</li> : null}
             </ul>
           ) : null}
         </Card.Description>

@@ -23,12 +23,13 @@ function Explore() {
   const [localClimbs, setLocalClimbs] = useState([]);
   const [searchTerm, setSearchTerm] = useState('Lake Tahoe');
   const [range, setRange] = useState(['30']);
-  const [sorted, setSorted] = useState({ popSorted: false })
+  // const [sorted, setSorted] = useState({ popSorted: false })
   const [sortKey, setSortKey] = useState("name");
-  console.log(user)
+
+  // console.log(user)
 
   function getUserPhotos() {
-    console.log("step 1");
+    // console.log("step 1");
     API.getPhoto().then((data) => {
       // console.log(data);
       setUserPhotos(data.data);
@@ -39,21 +40,36 @@ function Explore() {
 
   const panes = [
     {
-      menuItem: {key: '0', content: 'Local Climbs', style: { backgroundColor: '#ffffff' } },
+      menuItem: { key: '0', content: 'Local Climbs', style: { backgroundColor: '#ffffff' } },
       render: () => <Tab.Pane>
         <Grid stackable id="cardGrid" columns="4" style={style}>
-          {cardBuilder(localClimbs, 'card ')}
+          {cardBuilder((sortedClimbs) ? sortedClimbs : localClimbs, 'card ')}
         </Grid>
       </Tab.Pane>,
     },
     {
-      menuItem: {key: '1', content: 'User Photos', style: { backgroundColor: '#ffffff' } },
+      menuItem: { key: '1', content: 'User Photos', style: { backgroundColor: '#ffffff' } },
       render: () => <Tab.Pane>
         <Grid stackable id="cardGrid" columns="4" style={style}>
           {cardBuilder(UserPhotos, 'userImageCard')}
         </Grid>
       </Tab.Pane>
     }
+  ]
+  const Options = [
+    { key: 5, text: "5", value: ["5"], description: "miles" },
+    { key: 10, text: "10", value: ["10"], description: "miles" },
+    { key: 15, text: "15", value: ["15"], description: "miles" },
+    { key: 20, text: "20", value: ["20"], description: "miles" },
+    { key: 25, text: "25", value: ["25"], description: "miles" },
+    { key: 30, text: "30", value: ["30"], description: "miles" },
+  ];
+
+  const sortOptions = [
+    { text: 'Name', value: 'name', key: 0 },
+    { text: 'Difficulty', value: 'rating', key: 1 },
+    { text: 'Popularity', value: 'stars', key: 2 },
+    { text: 'Proximity', value: 'proximity', key: 3 }
   ]
 
   useEffect(() => {
@@ -66,38 +82,12 @@ function Explore() {
     requestSort,
     sortConfig,
   } = UTILS.useSortableData(localClimbs);
-
   const getClassNamesFor = (name) => {
     if (!sortConfig) {
       return;
     }
     return sortConfig.key === name ? sortConfig.direction : undefined;
   };
-
-  function sortBy(value) {
-    switch (value) {
-      // onChange={() => {sortBy(`pop`);}}
-      case `pop`:
-        requestSort(`stars`);
-        break;
-      // onChange={() => {sortBy(`diff`);}}
-      case `diff`:
-        requestSort(`rating`);
-        break;
-      default:
-        break;
-    }
-  }
-
-  function sortByPop() {
-    requestSort(`stars`);
-    sorted.popSorted
-      ? setSorted({ popSorted: false })
-      : setSorted({ popSorted: true });
-    let oro = localClimbs.sort((a, b) => (a.stars > b.stars ? -1 : 1));
-    let jawjackery = oro.map((or) => or);
-    setLocalClimbs(jawjackery);
-  }
 
   function upperCaser(string) {
     return (string.substring(0, 1).toUpperCase() + string.substring(1))
@@ -117,14 +107,6 @@ function Explore() {
     });
   }
 
-  const Options = [
-    { key: 5, text: "5", value: ["5"], description: "miles" },
-    { key: 10, text: "10", value: ["10"], description: "miles" },
-    { key: 15, text: "15", value: ["15"], description: "miles" },
-    { key: 20, text: "20", value: ["20"], description: "miles" },
-    { key: 25, text: "25", value: ["25"], description: "miles" },
-    { key: 30, text: "30", value: ["30"], description: "miles" },
-  ];
 
   function getLocalClimbs(Data) {
     API.getRoutesByNavigator(Data, range).then((data) => {
@@ -141,9 +123,9 @@ function Explore() {
         return { ...route, proximity: proximity };
       });
 
-      console.log(updatedRoutes);
+      
 
-      setLocalClimbs(data.data.routes);
+      setLocalClimbs(updatedRoutes);
     });
   }
 
@@ -159,7 +141,7 @@ function Explore() {
   return (
     <Container id='mainContainer'>
       <Header as="h1" id="heading" attached="top">
-        Climbing Routes Nearby {searchTerm ? upperCaser(searchTerm) : "You!"}
+       Routes Near: {searchTerm ? upperCaser(searchTerm) : "You!"}
       </Header>
       <MenuBar />
       <Container textAlign="center" text style={{ margin: '5px 0' }}>
@@ -190,17 +172,10 @@ function Explore() {
         <Label style={{ padding: '0 0 3px' }}>
           <Dropdown
             as={Label}
-            text={'Sort by: ' + sortKey}
-            onChange={(e, value) => {
-              console.log(value.value)
-              setSortKey(value.value);
-            }}
-            options={[
-              { text: 'Name', value: 'name', key: 0 },
-              { text: 'Difficulty', value: 'rating', key: 1 },
-              { text: 'Popularit', value: 'stars', key: 2 },
-              { text: 'Proximity', value: 'name', key: 3 }
-            ]}
+            inline
+            text={'Sort Search Results by: '}
+            options={sortOptions}
+            onChange={(e, value) => setSortKey(value.value)}
           />
           <Button
             className={getClassNamesFor(sortKey) || sortConfig.direction}

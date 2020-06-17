@@ -2,7 +2,7 @@ import React, { useState, useContext } from "react";
 import API from "../utils/API";
 // import UTILS from "../utils/utils";
 import UserContext from "../context/userContext";
-import { Container, Header } from "semantic-ui-react";
+import { Container, Header, Segment, Image, Grid, Divider } from "semantic-ui-react";
 import MenuBar from "../Components/Menu.js"
 const client = require("filestack-js").init(
   process.env.REACT_FILESTACK_KEY || "ASqRy0SxoR0GwFXKGloCDz"
@@ -24,7 +24,7 @@ function Settings() {
     maxFiles: 3, // defaults to 1
     maxSize: 1024 * 1024 * 10, // limiting to 10Mb , because we can
     // modalSize: [500,500], // [Width, Height]; optional
-    onCancel: () => {},
+    onCancel: () => { },
     onFileUploadFailed: (file, err) => {
       console.log(file, err);
     },
@@ -52,7 +52,7 @@ function Settings() {
       <Header id="heading" as="h1">
         My Account Settings
       </Header>
-      <MenuBar/>
+      <MenuBar />
 
       {newAvatar !== null ? (
         <>
@@ -68,7 +68,7 @@ function Settings() {
           <button
             onClick={() => {
               console.log(`clicky clicky`);
-             window.location.href = "/myaccount"
+              window.location.href = "/myaccount"
             }}
             style={{ margin: "0 2rem 0 1rem" }}
           >
@@ -76,18 +76,30 @@ function Settings() {
           </button>
         </>
       ) : (
-        <>
-          <span className="yes">Change profile photo:</span>
-          <button
-            onClick={() => {
-              picker.open();
-            }}
-            style={{ margin: "0 0 0 1rem" }}
-          >
-            Upload
-          </button>
-        </>
-      )}
+          <Segment>
+            <Header className="yes">Change Profile Photo:</Header>
+            <Grid celled columns='2'>
+              <Grid.Column widths='8'>
+                <span>Current Photo:
+                  <Divider />
+            <Image src={(UserData.user.profile_photo) ? UserData.user.profile_photo : null} />
+                </span>
+              </Grid.Column>
+              <Grid.Column widths='8'>Upload New Photo: 
+              <Divider />
+                <button
+              onClick={() => {
+                picker.open();
+              }}
+              style={{ margin: "0 0 0 1rem" }}
+            >
+              Upload
+          </button></Grid.Column>
+            </Grid>
+
+            
+          </Segment>
+        )}
     </Container>
   );
 }

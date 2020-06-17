@@ -1,17 +1,28 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useContext } from "react";
 import { Card, Image, Button, Modal, Label, Menu, Segment, Grid, List } from "semantic-ui-react";
 import API from '../utils/API'
+import userContext from '../context/userContext'
 
 const ImageCard = (props) => {
 
+    const userData = useContext(userContext)
     const [visible, setvisible] = useState({ visible: false, username: '' })
 
     function yoirgoi() {
         API.getUserById(props.userID).then((res) => setvisible({ visible: !visible.visible, username: res.data.username }))
     }
 
+    function handleFavorite(evt, type) {
+        API.postFav(evt.target.id, {
+          typeOf: type,
+          ID: evt.target.id,
+        }).then(() => {
+          // "tricking" it to refresh photoratings
+        });
+      }
+
     // namer(props.userID)
-    console.log(visible)
+    console.log(props)
     return (
         <Card
             style={{
@@ -25,7 +36,7 @@ const ImageCard = (props) => {
                 src={props.url}
                 ui={false}
             />
-            <Label corner='left' as='a' icon={{ name: 'heart' }} onClick={() => console.log('cricket')} />
+            <Label corner='left' as='a' icon={{ name: 'heart' }} onClick={() => null} />
             <Card.Content
                 style={{ textAlign: "center" }} >
                 <Modal
@@ -44,7 +55,7 @@ const ImageCard = (props) => {
                                         <Segment>
                                             <List>
                                                 <List.Item>Date Taken: {props.date}</List.Item>
-                                                <List.Item>Route/s: {props.routes}</List.Item>
+                                                <List.Item>Route/s: {props.routes.map(route => route.name)}</List.Item>
                                                 <List.Item>User: {(visible.username !== '') ? visible.username : null}</List.Item>
 
                                             </List>
