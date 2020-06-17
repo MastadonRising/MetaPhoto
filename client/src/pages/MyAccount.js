@@ -88,7 +88,7 @@ function Users() {
                       text: `Photos :  ${
                         user.user.favorites ? user.user.favorites.length : ""
                       }`,
-                      onClick: () => console.log("GET user favorite PHOTOS"),
+                      onClick: () => console.log(user),
                     },
                     {
                       key: 2,

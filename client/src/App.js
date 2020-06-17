@@ -54,18 +54,18 @@ export default function App() {
             {!Object.keys(user).length ? (
               <LogIn />
             ) : (
-              <Redirect to="/myaccount" />
-            )}
+                <Redirect to="/myaccount" />
+              )}
           </Route>
           <Route exact path="/signup">
             {!Object.keys(user).length ? (
               <SignUp />
             ) : (
-              <Redirect to="/myaccount" />
-            )}
+                <Redirect to="/myaccount" />
+              )}
           </Route>
           <Route exact path="/settings">
-          {Object.keys(user).length ? <Redirect to="/" /> : <MyAccount />}
+          <Settings />
           </Route>
           <Route exact path="/logout">
             {!Object.keys(user).length ? <LogOut /> : <Redirect to="/login" />}

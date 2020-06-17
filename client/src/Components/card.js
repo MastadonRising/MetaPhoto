@@ -1,11 +1,9 @@
 import React, { useContext, useState } from "react";
-import { Card, Icon, Menu, Label } from "semantic-ui-react";
+import { Card, Icon, Menu, Label, List } from "semantic-ui-react";
 import UserContext from "../context/userContext";
-import API from "../utils/API";
-import placeholderImage from "../assets/pics/mountain.png";
+import API from '../utils/API'
 
 const RouteCard = (props) => {
-  // console.log(props)
   const userData = useContext(UserContext);
   const [newUpdate, setNewUpdate] = useState({});
 
@@ -29,19 +27,11 @@ const RouteCard = (props) => {
   }
 
   return (
-    <Card style={{ height: "350px", minWidth: "200px", margin: "auto" }}>
-      {/* {console.log(props)} */}
-      {/* {props.photo ? (
-        <Image style={{ height: "150px" }} src={props.photo} ui={false} />
-      ) : (
-          <Image style={{ height: "150px" }} src={props.imgSmallMed} ui={false} />
-        )} */}
+    <Card style={{ height: "350px", minWidth: '200px', margin: 'auto' }}>
       <Card.Content
         style={{
           height: "200px",
-          backgroundImage: `url(${
-            props.imgSmallMed ? props.imgSmallMed : props.photo
-          })`,
+          backgroundImage:  `url(${(props.imgSmallMed) ? props.imgSmallMed : props.photo})`,
           backgroundSize: "cover",
           backgroundPosition: "center",
         }}
@@ -65,13 +55,11 @@ const RouteCard = (props) => {
             </p>
           )}
           {props.location ? (
-            <ul>
-              <li>{props.location[1] + ", " + props.location[0]}</li>
-              {props.type ? <li>Type of Climb: {props.type}</li> : null}
-              {props.proximity ? (
-                <li>Proximity to you: {props.proximity.toFixed(2)} miles</li>
-              ) : null}
-            </ul>
+            <List>
+              <List.Item>{props.location[1] + ", " + props.location[0]}</List.Item>
+              {(props.type) ? <List.Item>Type of Climb: {props.type}</List.Item> : null}
+              {(props.proximity) ? <List.Item>Proximity to you: {props.proximity.toFixed(2)} miles</List.Item> : null}
+            </List>
           ) : null}
         </Card.Description>
       </Card.Content>
