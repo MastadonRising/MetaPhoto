@@ -16,11 +16,12 @@ import MenuBar from "../Components/Menu";
 import API from "../utils/API";
 import UserContext from "../context/userContext";
 import UserImageCard from "../Components/userImageCard";
+import UTILS from "../utils/utils.js";
 
 function Explore() {
   const user = useContext(UserContext);
   const [UserPhotos, setUserPhotos] = useState([]);
-  // const [newUpdate, setNewUpdate] = useState({});
+  const [newUpdate, setNewUpdate] = useState({});
 
   function getUserPhotos() {
     // console.log("step 1");
@@ -43,7 +44,37 @@ function Explore() {
     getUserPhotos();
   }, []);
 
+  const [sortKey, setSortKey] = useState("name");
+  const {
+    items: sortedClimbs,
+    requestSort,
+    sortConfig,
+  } = UTILS.useSortableData(localClimbs);
+
+  const getClassNamesFor = (name) => {
+    if (!sortConfig) {
+      return;
+    }
+    return sortConfig.key === name ? sortConfig.direction : undefined;
+  };
+  // function sortBy(value) {
+  //   switch (value) {
+  //     // onChange={() => {sortBy(`pop`);}}
+  //     case `pop`:
+  //       requestSort(`stars`);
+  //       break;
+  //     // onChange={() => {sortBy(`diff`);}}
+  //     case `diff`:
+  //       requestSort(`rating`);
+  //       break;
+
+  //     default:
+  //       break;
+  //   }
+  // }
+
   function sortByPop() {
+    requestSort(`stars`);
     sorted.popSorted
       ? setSorted({ popSorted: false })
       : setSorted({ popSorted: true });
@@ -67,15 +98,16 @@ function Explore() {
   }
 
   const Options = [
-    { key: 5, text: "5", value: "5", description: "miles" },
-    { key: 10, text: "10", value: "10", description: "miles" },
-    { key: 15, text: "15", value: "15", description: "miles" },
-    { key: 20, text: "20", value: "20", description: "miles" },
-    { key: 25, text: "25", value: "25", description: "miles" },
-    { key: 30, text: "30", value: "30", description: "miles" },
+    { key: 5, text: "5", value: ["5"], description: "miles" },
+    { key: 10, text: "10", value: ["10"], description: "miles" },
+    { key: 15, text: "15", value: ["15"], description: "miles" },
+    { key: 20, text: "20", value: ["20"], description: "miles" },
+    { key: 25, text: "25", value: ["25"], description: "miles" },
+    { key: 30, text: "30", value: ["30"], description: "miles" },
   ];
-  function getLocalClimbs(data) {
-    API.getRoutesByNavigator(data, range).then((data) => {
+
+  function getLocalClimbs(Data) {
+    API.getRoutesByNavigator(Data, range).then((data) => {
       let { routes } = data.data;
       let Routes = [];
       routes.forEach((route) => {
@@ -83,7 +115,30 @@ function Explore() {
           Routes.push(route);
         }
       });
+      var updatedRoutes = Routes.map((route) => {
+        // adding a "proximity" factor to use in sorting
+        let proximity = UTILS.calculateDistance(
+          Data.coords.latitude,
+          Data.coords.longitude,
+          route.latitude,
+          route.longitude,
+          "K"
+        );
+        return { ...route, proximity: proximity };
+      });
+
+      // console.log(updatedRoutes);
+
       setLocalClimbs(Routes);
+    });
+  }
+
+  function handleFavorite(evt, type) {
+    API.postFav(evt.target.id, {
+      typeOf: type,
+      ID: evt.target.id,
+    }).then(() => {
+      setNewUpdate({ ...newUpdate }); // "tricking" it to refresh photoratings
     });
   }
 
@@ -131,6 +186,7 @@ function Explore() {
           <Label>
             Sort by Popularity: <Checkbox inline onChange={sortByPop} toggle />
           </Label>
+
           <Label>
             Search Radius:{" "}
             <Dropdown
@@ -143,11 +199,37 @@ function Explore() {
         </Container>
       </Container>
 
+      <Container>
+        <div style={{ display: "", textAlign: "center", paddingTop: "2rem" }}>
+          <span>Sort by: </span>
+          <select
+            onChange={(e) => {
+              setSortKey(e.target.value);
+            }}
+          >
+            <option value="name">Name</option>
+            <option value="rating">Difficulty</option>
+            <option value="stars">Popularity</option>
+            <option value="name">Proximity</option>
+          </select>
+          <button
+            type="button"
+            onClick={() => {
+              requestSort(sortKey);
+            }}
+          >
+            <span
+              className={getClassNamesFor(sortKey) || sortConfig.direction}
+            ></span>
+          </button>
+        </div>
+      </Container>
+
       {localClimbs.length ? (
         <Segment>
           <Label attached="top">Routes to Explore</Label>
           <Grid id="cardGrid" columns="4" style={style}>
-            {cardBuilder(localClimbs, "card ")}
+            {cardBuilder(sortedClimbs, "card ")}
           </Grid>
         </Segment>
       ) : null}
@@ -161,6 +243,7 @@ function Explore() {
           </Grid>
         </Segment>
       ) : null}
+      <Divider style={{ height: "10px" }} hidden />
     </Container>
   );
 }
