@@ -65,7 +65,7 @@ export default function App() {
             )}
           </Route>
           <Route exact path="/settings">
-            <Settings />
+          {Object.keys(user).length ? <Redirect to="/" /> : <MyAccount />}
           </Route>
           <Route exact path="/logout">
             {!Object.keys(user).length ? <Redirect to="/login" /> : <LogOut />}
