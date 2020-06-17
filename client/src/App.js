@@ -68,7 +68,7 @@ export default function App() {
             <Settings />
           </Route>
           <Route exact path="/logout">
-            {!Object.keys(user).length ? <Redirect to="/login" /> : <LogOut />}
+            {!Object.keys(user).length ? <LogOut /> : <Redirect to="/login" />}
           </Route>
           <Route>
             <NotFound />

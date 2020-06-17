@@ -1,8 +1,8 @@
 import React, { useContext, useState } from "react";
 import { Card, Icon, Menu, Label } from "semantic-ui-react";
 import UserContext from "../context/userContext";
-import API from '../utils/API'
-import placeholderImage from '../assets/pics/mountain.png'
+import API from "../utils/API";
+import placeholderImage from "../assets/pics/mountain.png";
 
 const RouteCard = (props) => {
   // console.log(props)
@@ -28,10 +28,8 @@ const RouteCard = (props) => {
     }
   }
 
-
-
   return (
-    <Card style={{ height: "350px", minWidth: '200px', margin: 'auto' }}>
+    <Card style={{ height: "350px", minWidth: "200px", margin: "auto" }}>
       {/* {console.log(props)} */}
       {/* {props.photo ? (
         <Image style={{ height: "150px" }} src={props.photo} ui={false} />
@@ -41,41 +39,71 @@ const RouteCard = (props) => {
       <Card.Content
         style={{
           height: "200px",
-          backgroundImage:  `url(${(props.imgSmallMed) ? props.imgSmallMed : placeholderImage})`,
+          backgroundImage: `url(${
+            props.imgSmallMed ? props.imgSmallMed : props.photo
+          })`,
           backgroundSize: "cover",
-          backgroundPosition: 'center'
-        }}>
-        <Label corner='left' as='a' icon={{ name: 'heart' }} onClick={() => console.log('cricket')} />
+          backgroundPosition: "center",
+        }}
+      >
+        <Label
+          corner="left"
+          as="a"
+          icon={{ name: "heart" }}
+          onClick={() => console.log("cricket")}
+        />
       </Card.Content>
-      <Card.Content style={{ maxHeight: '140px' }}>
+      <Card.Content style={{ maxHeight: "140px" }}>
         <Card.Header>{props.name} </Card.Header>
         <Card.Description>
-          {props.desc ? <p>{props.desc}</p> : <p>{props.rating} || {props.stars}<Icon name='star outline' /> </p>}
+          {props.desc ? (
+            <p>{props.desc}</p>
+          ) : (
+            <p>
+              {props.rating} || {props.stars}
+              <Icon name="star outline" />{" "}
+            </p>
+          )}
           {props.location ? (
             <ul>
               <li>{props.location[1] + ", " + props.location[0]}</li>
-              {(props.type) ? <li>Type of Climb: {props.type}</li> : null}
-              {(props.proximity) ? <li>Proximity to you: {props.proximity.toFixed(2)} miles</li> : null}
+              {props.type ? <li>Type of Climb: {props.type}</li> : null}
+              {props.proximity ? (
+                <li>Proximity to you: {props.proximity.toFixed(2)} miles</li>
+              ) : null}
             </ul>
           ) : null}
         </Card.Description>
       </Card.Content>
-      {(userData.user.username) ?
-        <Menu widths='3' fluid compact>
-          <Menu.Item id={props.id} onClick={(e) => handleVoting(e, 'up')} position='left' icon='thumbs up' content='Like' />
-          <Menu.Item as='a' href={props.url} target='_blank'>
+      {userData.user.username ? (
+        <Menu widths="3" fluid compact>
+          <Menu.Item
+            id={props.id}
+            onClick={(e) => handleVoting(e, "up")}
+            position="left"
+            icon="thumbs up"
+            content="Like"
+          />
+          <Menu.Item as="a" href={props.url} target="_blank">
             Info
-       </Menu.Item>
-          <Menu.Item id={props.id} onClick={(e) => handleVoting(e, 'down')} position='right' icon='thumbs down' content='Dislike' />
-        </Menu> :
-        <Menu fluid widths='1'>
-          <Menu.Item as='a' href={props.url} target='_blank'>
-            Info
-     </Menu.Item>
+          </Menu.Item>
+          <Menu.Item
+            id={props.id}
+            onClick={(e) => handleVoting(e, "down")}
+            position="right"
+            icon="thumbs down"
+            content="Dislike"
+          />
         </Menu>
-      }
+      ) : (
+        <Menu fluid widths="1">
+          <Menu.Item as="a" href={props.url} target="_blank">
+            Info
+          </Menu.Item>
+        </Menu>
+      )}
     </Card>
-  )
+  );
 };
 
 export default RouteCard;
