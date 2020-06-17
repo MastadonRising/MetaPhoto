@@ -25,16 +25,15 @@ function LogIn() {
 
   function login() {
     API.login(loginUsername, loginPassword).then((res) => {
-      console.log(user);
+      // console.log(user);
       user.Login(res.data);
-      console.log(user);
+      // console.log(user);
     });
     history.replace("/myaccount");
   }
   
   return (
-    <Container>
-  
+    <Container id='mainContainer'>
       <Header attached='top' as="h1" id="heading">
         MetaPhoto
       </Header>

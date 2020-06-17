@@ -7,11 +7,12 @@ import {
   Divider,
   Container,
   GridColumn,
+  Image,
 } from "semantic-ui-react";
 
 function NotFound() {
   return (
-    <Container>
+    <Container id="mainContainer">
       <Header attached="top" as="h1" id="heading"></Header>
       <MenuBar />
 
@@ -20,13 +21,13 @@ function NotFound() {
           <Divider horizontal hidden />
 
           <Header as="h2" textAlign="center">
-            <Icon name="bug" size="mini" /> We appreciate your sense of
-            exploration... but what you're lookign for isn't a thing.
+            <Icon name="binoculars" size="mini" /> We appreciate your sense of
+            exploration... but what you're looking for isn't a thing.
           </Header>
-          <img
+          <Image
             src="https://static.rmiguides.com/assets/images/footer_mountain_climbers.png"
             alt="Summitting Mountain CLimbers"
-          ></img>
+          ></Image>
         </GridColumn>
       </Grid>
     </Container>

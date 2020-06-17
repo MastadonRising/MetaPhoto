@@ -35,7 +35,7 @@ function SignUp() {
   }
 
   return (
-    <Container>
+    <Container id='mainContainer'>
       <Header id='heading' as='h1'>
         Register your new account
       </Header>

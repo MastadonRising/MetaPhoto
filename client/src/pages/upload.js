@@ -217,14 +217,16 @@ function Upload() {
   }
 
   return (
-    <Container>
+    <Container id="mainContainer">
       <Header attached="top" as="h1" id="heading">
         MetaPhoto
       </Header>
       <MenuBar />
       <div
         className="upload-header"
-        style={{ display: `${uploadedPhotos && uploadedPhotos.length ? "none":""}` }}
+        style={{
+          display: `${uploadedPhotos && uploadedPhotos.length ? "none" : ""}`,
+        }}
       >
         <p className="App-intro">
           To get started, open the picker and upload your image.
@@ -251,6 +253,7 @@ function Upload() {
               className="loader"
               type={"spin"}
               color={"black"}
+              style={{ maxHeight: "500px" }}
             />
           </div>
         ) : (
@@ -258,7 +261,7 @@ function Upload() {
         )}
 
         {uploadedPhotos && uploadedPhotos.length ? (
-          <div>
+          <Container text textAlign="center">
             <h3>Select the Climb for your photos</h3>
             {uploadedPhotos.map((upload, index) => {
               return (
@@ -333,7 +336,7 @@ function Upload() {
                                           };
                                           API.getRoutesByNavigator(
                                             coordsObj,
-                                            25
+                                            5
                                           ).then((data) => {
                                             console.log(data.data);
                                             if (data.data.routes.length < 1) {
@@ -435,7 +438,7 @@ function Upload() {
                 </div>
               );
             })}
-          </div>
+          </Container>
         ) : (
           ""
         )}

@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect } from "react";
 import {
   BrowserRouter as Router,
   Switch,
@@ -68,7 +68,7 @@ export default function App() {
           {Object.keys(user).length ? <Redirect to="/" /> : <MyAccount />}
           </Route>
           <Route exact path="/logout">
-            {!Object.keys(user).length ? <Redirect to="/login" /> : <LogOut />}
+            {!Object.keys(user).length ? <LogOut /> : <Redirect to="/login" />}
           </Route>
           <Route>
             <NotFound />

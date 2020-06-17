@@ -11,7 +11,7 @@ import {
 
 function LogOut() {
   return (
-    <Container>
+    <Container id='mainContainer'>
 
         <Header attached='top' as="h1" id="heading"></Header>
         <MenuBar />
