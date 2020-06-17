@@ -1,5 +1,5 @@
 import axios from "axios";
-
+const baseURL = "https://metaphotojs.herokuapp.com/";
 export default {
   // Gets all routes by lat,lon
   getRoutesByNavigator: function (GPS, range) {
@@ -86,7 +86,7 @@ export default {
       method: "POST",
       data: NewUser,
       withCredentials: true,
-      url: "http://localhost:3001/register",
+      url: `${baseURL}register`,
     }).then((res) => {
       res.data === "User Already Exists"
         ? alert("Sorry, A user with that username already exists!")
@@ -101,7 +101,7 @@ export default {
         password: loginPassword,
       },
       withCredentials: true,
-      url: "http://localhost:3001/login",
+      url: `${baseURL}login`,
     });
   },
   logout: function () {
@@ -112,7 +112,7 @@ export default {
     axios({
       method: "GET",
       withCredentials: true,
-      url: "http://localhost:3001/user",
+      url: `${baseURL}user`,
     }).then((res) => {
       setData(res.data);
       // console.log(res);
@@ -120,7 +120,7 @@ export default {
   },
 
   getUserById: function (userID) {
-    return axios.get(`/api/user${userID}`)
+    return axios.get(`/api/user${userID}`);
   },
 
   getPhotoInformation: function () {
