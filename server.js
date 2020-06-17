@@ -52,7 +52,8 @@ app.use(routes);
 // });
 
 mongoose.connect(
-  process.env.MONGODB_URI || mongodb:user:password1@ds031948.mlab.com:31948/heroku_tmwz9gv0,
+  process.env.MONGODB_URI ||
+    "mongodb://user:password1@ds031948.mlab.com:31948/heroku_tmwz9gv0",
   { useNewUrlParser: true, useUnifiedTopology: true }
 );
 app.listen(PORT, function () {
