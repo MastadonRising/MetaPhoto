@@ -11,9 +11,11 @@ import {
   Card,
   Menu,
   Dropdown,
+  Button,
 } from "semantic-ui-react";
 import MenuBar from "../Components/Menu";
 import UserContext from "../context/userContext";
+import UserCard from "../Components/userImageCard";
 
 function Users() {
   const [UserPhotos, setUserPhotos] = useState([]);
@@ -38,24 +40,20 @@ function Users() {
   }, [user]);
 
   return (
-    <Container>
+    <Container id="mainContainer">
       <Header as="h1" id="heading" attached="top">
-        <img src={user.user.profile_photo} alt="user pic"></img>
-        Your Account
-        <i
-          className="fa fa-cog"
-          style={{ color: "red", fontSize: "15px" }}
-          onClick={() => {
-            window.location.href = "/settings";
-          }}
-        ></i>
+        {upperCaser(user.user.username)}'s Account
       </Header>
       <MenuBar />
       <Divider />
-      <Grid stackable columns="2">
+      <Grid as={Container} stackable columns="2">
         {/* This Column is a user Info Card and only takes up 4 grid columns */}
         <Grid.Column width="4">
           <Card>
+            <Image
+              src={user.user.profile_photo ? user.user.profile_photo : null}
+              alt="user pic"
+            />
             <Card.Header as="h1">
               Hello,{" "}
               {user.user.username ? upperCaser(user.user.username) : "User"}
@@ -70,6 +68,16 @@ function Users() {
               <br />
               <Divider />
               Email: {user.user.email}
+              <Divider />
+              <Button
+                basic
+                fluid
+                content="Settings"
+                icon="settings"
+                onClick={() => {
+                  window.location.href = "/settings";
+                }}
+              />
               <Divider />
               <Menu compact>
                 <Dropdown
@@ -112,18 +120,8 @@ function Users() {
             >
               {UserPhotos.map((photos, index) => {
                 return (
-                  <Grid.Column>
-                    <Image
-                      label={{
-                        as: "a",
-                        corner: "left",
-                        icon: "heart",
-                      }}
-                      centered
-                      alt={photos.routeID}
-                      key={index}
-                      src={photos.url}
-                    />
+                  <Grid.Column key={index}>
+                    <UserCard {...photos} />
                   </Grid.Column>
                 );
               })}

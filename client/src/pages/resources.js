@@ -20,14 +20,21 @@ function Resources() {
   }
 
   return (
-    <Container>
+    <Container id="mainContainer">
       <Header attached="top" id="heading" as="h1">
         Climbing Resources
       </Header>
       <MenuBar />
-      <Divider />
-      <Grid centered columns={4} verticalAlign="middle">
-        <Grid.Row
+      <Divider hidden />
+      <Grid
+        id="resourceGrid"
+        stackable
+        centered
+        columns={4}
+        verticalAlign="middle"
+      >
+        <Container
+          as={Grid.Row}
           id={"para-row"}
           style={{ backgroundImage: `url(${Background})` }}
         >
@@ -38,8 +45,9 @@ function Resources() {
               </Grid.Column>
             ) : null;
           })}
-        </Grid.Row>
-        <Grid.Row
+        </Container>
+        <Container
+          as={Grid.Row}
           id={"para-row"}
           style={{ backgroundImage: `url(${Background2})` }}
         >
@@ -50,7 +58,7 @@ function Resources() {
               </Grid.Column>
             ) : null;
           })}
-        </Grid.Row>
+        </Container>
       </Grid>
     </Container>
   );

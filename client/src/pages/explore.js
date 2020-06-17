@@ -4,12 +4,10 @@ import {
   Container,
   Input,
   Button,
-  Divider,
   Grid,
-  Checkbox,
   Dropdown,
   Label,
-  Segment,
+  Tab,
 } from "semantic-ui-react";
 import Card from "../Components/card";
 import MenuBar from "../Components/Menu";
@@ -22,6 +20,12 @@ function Explore() {
   const user = useContext(UserContext);
   const [UserPhotos, setUserPhotos] = useState([]);
   const [newUpdate, setNewUpdate] = useState({});
+  const [localClimbs, setLocalClimbs] = useState([]);
+  const [searchTerm, setSearchTerm] = useState("Lake Tahoe");
+  const [range, setRange] = useState(["30"]);
+  const [sortKey, setSortKey] = useState("name");
+
+  // console.log(user)
 
   function getUserPhotos() {
     // console.log("step 1");
@@ -30,57 +34,76 @@ function Explore() {
       setUserPhotos(data.data);
     });
   }
-  const [localClimbs, setLocalClimbs] = useState([]);
-  const [searchTerm, setSearchTerm] = useState("Lake Tahoe");
-  const [range, setRange] = useState(["30"]);
-  const [sorted, setSorted] = useState({ popSorted: false });
   const style =
     localClimbs.length > 4
       ? { maxHeight: "500px", overflow: "scroll" }
       : { maxHeight: "500px" };
+
+  const panes = [
+    {
+      menuItem: {
+        key: "0",
+        content: "Local Climbs",
+        style: { backgroundColor: "#ffffff" },
+      },
+      render: () => (
+        <Tab.Pane>
+          <Grid stackable id="cardGrid" columns="4" style={style}>
+            {cardBuilder(sortedClimbs ? sortedClimbs : localClimbs, "card ")}
+          </Grid>
+        </Tab.Pane>
+      ),
+    },
+    {
+      menuItem: {
+        key: "1",
+        content: "User Photos",
+        style: { backgroundColor: "#ffffff" },
+      },
+      render: () => (
+        <Tab.Pane>
+          <Grid stackable id="cardGrid" columns="4" style={style}>
+            {cardBuilder(UserPhotos, "userImageCard")}
+          </Grid>
+        </Tab.Pane>
+      ),
+    },
+  ];
+  const Options = [
+    { key: 5, text: "5", value: ["5"], description: "miles" },
+    { key: 10, text: "10", value: ["10"], description: "miles" },
+    { key: 15, text: "15", value: ["15"], description: "miles" },
+    { key: 20, text: "20", value: ["20"], description: "miles" },
+    { key: 25, text: "25", value: ["25"], description: "miles" },
+    { key: 30, text: "30", value: ["30"], description: "miles" },
+  ];
+
+  const sortOptions = [
+    { text: "Name", value: "name", key: 0 },
+    { text: "Difficulty", value: "rating", key: 1 },
+    { text: "Popularity", value: "stars", key: 2 },
+    { text: "Proximity", value: "proximity", key: 3 },
+  ];
 
   useEffect(() => {
     navigator.geolocation.getCurrentPosition(getLocalClimbs);
     getUserPhotos();
   }, []);
 
-  const [sortKey, setSortKey] = useState("name");
   const {
     items: sortedClimbs,
     requestSort,
     sortConfig,
   } = UTILS.useSortableData(localClimbs);
-
   const getClassNamesFor = (name) => {
     if (!sortConfig) {
       return;
     }
     return sortConfig.key === name ? sortConfig.direction : undefined;
   };
-  // function sortBy(value) {
-  //   switch (value) {
-  //     // onChange={() => {sortBy(`pop`);}}
-  //     case `pop`:
-  //       requestSort(`stars`);
-  //       break;
-  //     // onChange={() => {sortBy(`diff`);}}
-  //     case `diff`:
-  //       requestSort(`rating`);
-  //       break;
 
-  //     default:
-  //       break;
-  //   }
-  // }
-
-  function sortByPop() {
-    requestSort(`stars`);
-    sorted.popSorted
-      ? setSorted({ popSorted: false })
-      : setSorted({ popSorted: true });
-    let oro = localClimbs.sort((a, b) => (a.stars > b.stars ? -1 : 1));
-    let jawjackery = oro.map((or) => or);
-    setLocalClimbs(jawjackery);
+  function upperCaser(string) {
+    return string.substring(0, 1).toUpperCase() + string.substring(1);
   }
 
   function cardBuilder(array, type) {
@@ -96,15 +119,6 @@ function Explore() {
       );
     });
   }
-
-  const Options = [
-    { key: 5, text: "5", value: ["5"], description: "miles" },
-    { key: 10, text: "10", value: ["10"], description: "miles" },
-    { key: 15, text: "15", value: ["15"], description: "miles" },
-    { key: 20, text: "20", value: ["20"], description: "miles" },
-    { key: 25, text: "25", value: ["25"], description: "miles" },
-    { key: 30, text: "30", value: ["30"], description: "miles" },
-  ];
 
   function getLocalClimbs(Data) {
     API.getRoutesByNavigator(Data, range).then((data) => {
@@ -127,9 +141,7 @@ function Explore() {
         return { ...route, proximity: proximity };
       });
 
-      // console.log(updatedRoutes);
-
-      setLocalClimbs(Routes);
+      setLocalClimbs(updatedRoutes);
     });
   }
 
@@ -143,18 +155,19 @@ function Explore() {
   }
 
   return (
-    <Container>
+    <Container id="mainContainer">
       <Header as="h1" id="heading" attached="top">
-        Climbing Routes Nearby {searchTerm ? searchTerm : "You!"}
+        Routes Near: {searchTerm ? upperCaser(searchTerm) : "You!"}
       </Header>
       <MenuBar />
-      <Divider horizontal />
-      <Container textAlign="center" text style={{ backgroundColor: "grey" }}>
+      <Container textAlign="center" text style={{ margin: "5px 0" }}>
         <Input
-          style={{ width: "400px" }}
+          style={{ width: "99%", margin: "auto", padding: "3px 0" }}
+          fluid
           placeholder="City,   State"
           onChange={(e) => setSearchTerm(e.target.value)}
-          icon={{
+          labelPosition="right"
+          label={{
             as: Button,
             content: "search",
             onClick: () => {
@@ -179,71 +192,34 @@ function Explore() {
             },
           }}
         />
-        <Container text>
-          <Label>
-            Sort by Difficulty: <Checkbox inline toggle />
-          </Label>
-          <Label>
-            Sort by Popularity: <Checkbox inline onChange={sortByPop} toggle />
-          </Label>
-
-          <Label>
-            Search Radius:{" "}
-            <Dropdown
-              inline
-              text={range}
-              options={Options}
-              onChange={(e, value) => setRange(value.value)}
-            />
-          </Label>
-        </Container>
-      </Container>
-
-      <Container>
-        <div style={{ display: "", textAlign: "center", paddingTop: "2rem" }}>
-          <span>Sort by: </span>
-          <select
-            onChange={(e) => {
-              setSortKey(e.target.value);
-            }}
-          >
-            <option value="name">Name</option>
-            <option value="rating">Difficulty</option>
-            <option value="stars">Popularity</option>
-            <option value="name">Proximity</option>
-          </select>
-          <button
-            type="button"
+        <Label style={{ padding: "0 0 3px" }}>
+          <Dropdown
+            as={Label}
+            inline
+            text={"Sort Search Results by: "}
+            options={sortOptions}
+            onChange={(e, value) => setSortKey(value.value)}
+          />
+          <Button
+            className={getClassNamesFor(sortKey) || sortConfig.direction}
             onClick={() => {
               requestSort(sortKey);
             }}
-          >
-            <span
-              className={getClassNamesFor(sortKey) || sortConfig.direction}
-            ></span>
-          </button>
-        </div>
+          />
+
+          <Dropdown
+            as={Label}
+            inline
+            text={"Search Radius: " + range + " miles"}
+            options={Options}
+            onChange={(e, value) => setRange(value.value)}
+          />
+        </Label>
       </Container>
 
-      {localClimbs.length ? (
-        <Segment>
-          <Label attached="top">Routes to Explore</Label>
-          <Grid id="cardGrid" columns="4" style={style}>
-            {cardBuilder(sortedClimbs, "card ")}
-          </Grid>
-        </Segment>
-      ) : null}
-      <Divider style={{ height: "10px" }} hidden />
-
-      {user.user.username ? (
-        <Segment>
-          <Label attached="top">Routes to Explore</Label>
-          <Grid id="cardGrid" columns="4" style={style}>
-            {cardBuilder(UserPhotos, "userImageCard")}
-          </Grid>
-        </Segment>
-      ) : null}
-      <Divider style={{ height: "10px" }} hidden />
+      <Container>
+        <Tab panes={user.user.username ? panes : [panes[0]]} />
+      </Container>
     </Container>
   );
 }
