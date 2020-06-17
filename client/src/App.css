@@ -159,3 +159,33 @@ nav {
 .descending::after {
   content: "🔽";
 }
+.upload-header{
+  text-align: center ;
+  margin-top: 1rem;
+}
+.route-options-list{
+  list-style: decimal;
+  width: 100%;
+  overflow: auto;
+  max-height: 175px;
+  text-align: left;
+}
+
+.route-options-list-item,
+.route-options-list-item-collapsible{
+  margin-bottom: .5rem;
+}
+.route-options-list-item{
+  border-bottom: 1px dashed #000000;
+}
+.route-options-list-item:hover{
+  color: #61dafb;
+  /* text-decoration: underline; */
+  opacity: .8;
+  cursor: pointer;
+}
+.route-options-list-item-collapsible{
+  border: 1px solid black;
+  border-top: none;
+  padding: .25rem;
+}

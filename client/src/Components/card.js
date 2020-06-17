@@ -26,8 +26,6 @@ const RouteCard = (props) => {
     }
   }
 
-
-
   return (
     <Card style={{ height: "350px", minWidth: '200px', margin: 'auto' }}>
       <Card.Content
@@ -35,14 +33,27 @@ const RouteCard = (props) => {
           height: "200px",
           backgroundImage:  `url(${(props.imgSmallMed) ? props.imgSmallMed : props.photo})`,
           backgroundSize: "cover",
-          backgroundPosition: 'center'
-        }}>
-        <Label corner='left' as='a' icon={{ name: 'heart' }} onClick={() => console.log('cricket')} />
+          backgroundPosition: "center",
+        }}
+      >
+        <Label
+          corner="left"
+          as="a"
+          icon={{ name: "heart" }}
+          onClick={() => console.log("cricket")}
+        />
       </Card.Content>
-      <Card.Content style={{ maxHeight: '140px' }}>
+      <Card.Content style={{ maxHeight: "140px" }}>
         <Card.Header>{props.name} </Card.Header>
         <Card.Description>
-          {props.desc ? <p>{props.desc}</p> : <p>{props.rating} || {props.stars}<Icon name='star outline' /> </p>}
+          {props.desc ? (
+            <p>{props.desc}</p>
+          ) : (
+            <p>
+              {props.rating} || {props.stars}
+              <Icon name="star outline" />{" "}
+            </p>
+          )}
           {props.location ? (
             <List>
               <List.Item>{props.location[1] + ", " + props.location[0]}</List.Item>
@@ -52,22 +63,35 @@ const RouteCard = (props) => {
           ) : null}
         </Card.Description>
       </Card.Content>
-      {(userData.user.username) ?
-        <Menu widths='3' fluid compact>
-          <Menu.Item id={props.id} onClick={(e) => handleVoting(e, 'up')} position='left' icon='thumbs up' content='Like' />
-          <Menu.Item as='a' href={props.url} target='_blank'>
+      {userData.user.username ? (
+        <Menu widths="3" fluid compact>
+          <Menu.Item
+            id={props.id}
+            onClick={(e) => handleVoting(e, "up")}
+            position="left"
+            icon="thumbs up"
+            content="Like"
+          />
+          <Menu.Item as="a" href={props.url} target="_blank">
             Info
-       </Menu.Item>
-          <Menu.Item id={props.id} onClick={(e) => handleVoting(e, 'down')} position='right' icon='thumbs down' content='Dislike' />
-        </Menu> :
-        <Menu fluid widths='1'>
-          <Menu.Item as='a' href={props.url} target='_blank'>
-            Info
-     </Menu.Item>
+          </Menu.Item>
+          <Menu.Item
+            id={props.id}
+            onClick={(e) => handleVoting(e, "down")}
+            position="right"
+            icon="thumbs down"
+            content="Dislike"
+          />
         </Menu>
-      }
+      ) : (
+        <Menu fluid widths="1">
+          <Menu.Item as="a" href={props.url} target="_blank">
+            Info
+          </Menu.Item>
+        </Menu>
+      )}
     </Card>
-  )
+  );
 };
 
 export default RouteCard;

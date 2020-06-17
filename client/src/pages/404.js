@@ -12,7 +12,7 @@ import {
 
 function NotFound() {
   return (
-    <Container id='mainContainer'>
+    <Container id="mainContainer">
       <Header attached="top" as="h1" id="heading"></Header>
       <MenuBar />
 
@@ -21,7 +21,7 @@ function NotFound() {
           <Divider horizontal hidden />
 
           <Header as="h2" textAlign="center">
-            <Icon name="bug" size="mini" /> We appreciate your sense of
+            <Icon name="binoculars" size="mini" /> We appreciate your sense of
             exploration... but what you're looking for isn't a thing.
           </Header>
           <Image
