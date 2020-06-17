@@ -70,7 +70,7 @@ const ImageCard = (props) => {
                             <Menu.Item id={props.id} position='left' icon='thumbs up' content='Like' />
                             <Menu.Item content={(visible.visible === false) ? 'See More Info' : 'Return to Image'} icon='info'
                                 onClick={() => (visible.visible === false) ? yoirgoi() : setvisible({ visible: false })} />
-                            <Menu.Item id={props.id} position='right' name='thumbs down' content='Dislike' />
+                            <Menu.Item id={props.id} position='right' icon='thumbs down' content='Dislike' />
                         </Menu>
                     </Modal.Content>
                 </Modal>
