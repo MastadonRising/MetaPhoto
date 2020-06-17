@@ -224,9 +224,7 @@ function Upload() {
       <MenuBar />
       <div
         className="upload-header"
-        style={{
-          display: `${uploadedPhotos && uploadedPhotos.length ? "none" : ""}`,
-        }}
+        style={{ display: `${uploadedPhotos && uploadedPhotos.length ? "none":""}` }}
       >
         <p className="App-intro">
           To get started, open the picker and upload your image.
