@@ -9,7 +9,7 @@ export default {
   getRoutesbySearch: function (searchTerm) {
     const geoCodeKey = "jmu2hzM4mHMBWSGPseb1cGFiAZ4CSPKI";
     const url =
-      "http://www.mapquestapi.com/geocoding/v1/address?key=" +
+      "https://www.mapquestapi.com/geocoding/v1/address?key=" +
       geoCodeKey +
       "&location=" +
       searchTerm.toLowerCase();
