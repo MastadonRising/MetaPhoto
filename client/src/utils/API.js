@@ -1,8 +1,6 @@
 import axios from "axios";
 import { useContext } from "react";
 import UserContext from "../context/userContext";
-import { useHistory } from "react-router-dom";
-const history = useHistory();
 const user = useContext(UserContext);
 const baseURL = "https://metaphotojs.herokuapp.com/";
 
@@ -98,7 +96,7 @@ export default {
         ? alert("Sorry, A user with that username already exists!")
         : this.login(NewUser.username, NewUser.password).then((res) => {
             user.Login(res.data);
-            history.replace("/");
+            return "ok";
           });
     });
   },
