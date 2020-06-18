@@ -1,9 +1,10 @@
 import axios from "axios";
-const baseURL = "https://metaphotojs.herokuapp.com/";
 import { useContext } from "react";
 import UserContext from "../context/userContext";
+import { useHistory } from "react-router-dom";
 const history = useHistory();
 const user = useContext(UserContext);
+const baseURL = "https://metaphotojs.herokuapp.com/";
 
 export default {
   // Gets all routes by lat,lon
