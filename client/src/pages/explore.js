@@ -48,7 +48,7 @@ function Explore() {
       },
       render: () => (
         <Tab.Pane>
-          <Grid stackable id="cardGrid" columns="4" style={style}>
+          <Grid stackable id="cardGrid" columns="3" style={style}>
             {cardBuilder(sortedClimbs ? sortedClimbs : localClimbs, "card ")}
           </Grid>
         </Tab.Pane>
@@ -62,7 +62,7 @@ function Explore() {
       },
       render: () => (
         <Tab.Pane>
-          <Grid stackable id="cardGrid" columns="4" style={style}>
+          <Grid stackable id="cardGrid" columns="3" style={style}>
             {cardBuilder(UserPhotos, "userImageCard")}
           </Grid>
         </Tab.Pane>
@@ -154,6 +154,8 @@ function Explore() {
     });
   }
 
+  const [currentSort, setCurrentSort] = useState("Name");
+
   return (
     <Container id="mainContainer">
       <Header as="h1" id="heading" attached="top">
@@ -186,7 +188,18 @@ function Explore() {
                       Routes.push(route);
                     }
                   });
-                  setLocalClimbs(Routes);
+                  var updatedRoutes = Routes.map((route) => {
+                    // adding a "proximity" factor to use in sorting
+                    let proximity = UTILS.calculateDistance(
+                      coordsObj.coords.latitude,
+                      coordsObj.coords.longitude,
+                      route.latitude,
+                      route.longitude,
+                      "K"
+                    );
+                    return { ...route, proximity: proximity };
+                  });
+                  setLocalClimbs(updatedRoutes);
                 });
               });
             },
@@ -196,9 +209,15 @@ function Explore() {
           <Dropdown
             as={Label}
             inline
-            text={"Sort Search Results by: "}
+            text={`Sort Search Results by: ${currentSort} `}
             options={sortOptions}
-            onChange={(e, value) => setSortKey(value.value)}
+            onChange={(e, value) => {
+              setSortKey(value.value);
+              let yes = value.options.filter((i) =>
+                i.value === value.value ? i.text : null
+              );
+              setCurrentSort(yes[0].text)
+            }}
           />
           <Button
             className={getClassNamesFor(sortKey) || sortConfig.direction}
