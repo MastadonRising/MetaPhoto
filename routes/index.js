@@ -58,5 +58,5 @@ router.route("/register").post(userController.createUser);
 
 router.route("/user").get(userController.getUser);
 router.route("/logout").get(userController.logout);
-router.route("/api/favorite").post(userController.addFavorite);
+// router.route("/api/favorite").post(userController.addFavorite);
 module.exports = router;

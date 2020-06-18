@@ -82,16 +82,12 @@ export default {
 
   register: function (NewUser) {
     console.log("step 2", NewUser);
-    axios({
+    return axios({
       method: "POST",
       data: NewUser,
       withCredentials: true,
       url: "http://localhost:3001/register",
-    }).then((res) => {
-      (res.data === "User Already Exists")
-        ? alert("Sorry, A user with that username already exists!")
-        : console.log(res);
-    });
+    })
   },
   login: function (loginUsername, loginPassword) {
     return axios({

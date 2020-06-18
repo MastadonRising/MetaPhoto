@@ -10,6 +10,8 @@ import {
   Divider,
   Container,
   Message,
+  Modal,
+  Image,
 } from "semantic-ui-react";
 import API from "../utils/API";
 import MenuBar from "../Components/Menu"
@@ -20,18 +22,21 @@ function LogIn() {
   const user = useContext(UserContext);
   const [loginUsername, setLoginUsername] = useState("");
   const [loginPassword, setLoginPassword] = useState("");
+  const [loginSuccess, setLoginSuccess] = useState()
   // const [user, setUser] = useState({});
   const history = useHistory();
 
   function login() {
     API.login(loginUsername, loginPassword).then((res) => {
       // console.log(user);
-      user.Login(res.data);
-      // console.log(user);
+      (res.data === "No User Exists") ?
+        setLoginSuccess(false) :
+        user.Login(res.data)
+      // console.log(res)
     });
-    history.replace("/myaccount");
+    // history.replace("/myaccount");
   }
-  
+
   return (
     <Container id='mainContainer'>
       <Header attached='top' as="h1" id="heading">
@@ -81,6 +86,14 @@ function LogIn() {
           </Message>
         </Grid.Column>
       </Grid>
+      {(loginSuccess === false) ?
+        <Modal defaultOpen onClose={() => setLoginSuccess('')}>
+
+          <Modal.Content>
+            <Container textAlign='center'>Sorry, no user found with that password.</Container>
+          </Modal.Content>
+        </Modal> :
+        null}
     </Container>
   );
 }

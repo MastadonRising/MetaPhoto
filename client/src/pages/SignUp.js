@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { Link } from "react-router-dom";
 import {
   Button,
@@ -10,8 +10,12 @@ import {
   Icon,
   Divider,
   Container,
+  Modal,
 } from "semantic-ui-react";
 import API from "../utils/API";
+import MenuBar from "../Components/Menu";
+import UserContext from "../context/userContext";
+
 
 function SignUp() {
   const [registerUsername, setRegisterUsername] = useState("");
@@ -19,10 +23,13 @@ function SignUp() {
   const [registerFirstName, setRegisterFirstName] = useState("");
   const [registerLastName, setRegisterLastName] = useState("");
   const [registerEmail, setRegisterEmail] = useState("");
+  const [signUpSuccess, setSignUpSuccess] = useState()
+  const user = useContext(UserContext);
+
 
   function register() {
 
-    console.log("registering");
+    // console.log("registering");
     let NewUser = {
       username: registerUsername,
       password: registerPassword,
@@ -30,15 +37,29 @@ function SignUp() {
       lastName: registerLastName,
       email: registerEmail,
     };
-    console.log(NewUser);
-    API.register(NewUser);
+    // console.log(NewUser);
+
+    API.register(NewUser).then(res => {
+      (res.data === "User Already Exists") ?
+        setSignUpSuccess(false) :
+        login()
+    });
   }
 
+  function login() {
+    API.login(registerUsername, registerPassword).then((res) => {
+      // console.log(user);
+      // console.log(res)
+      user.Login(res.data)
+    });
+    // history.replace("/myaccount");
+  }
   return (
     <Container id='mainContainer'>
       <Header id='heading' as='h1'>
         Register your new account
       </Header>
+      <MenuBar />
       <Grid textAlign="center" verticalAlign="middle">
         <Grid.Column style={{ maxWidth: 450 }}>
           <Divider horizontal hidden />
@@ -98,6 +119,14 @@ function SignUp() {
           </Message>
         </Grid.Column>
       </Grid>
+      {(signUpSuccess === false) ?
+        <Modal defaultOpen onClose={() => setSignUpSuccess('')}>
+
+          <Modal.Content>
+            <Container textAlign='center'>Sorry, an account with that username already exists.</Container>
+          </Modal.Content>
+        </Modal> :
+        null}
     </Container>
   );
 }

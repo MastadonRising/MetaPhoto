@@ -42,7 +42,7 @@ function Users() {
   return (
     <Container id="mainContainer">
       <Header as="h1" id="heading" attached="top">
-        {upperCaser(user.user.username)}'s Account
+        {(user.user.username) ? upperCaser(user.user.username) : 'User'}'s Account
       </Header>
       <MenuBar />
       <Divider />
@@ -53,6 +53,7 @@ function Users() {
             <Image
               src={user.user.profile_photo ? user.user.profile_photo : null}
               alt="user pic"
+              style={{maxHeight: '250px'}}
             />
             <Card.Header as="h1">
               Hello,{" "}
@@ -88,14 +89,14 @@ function Users() {
                       text: `Photos :  ${
                         user.user.favorites ? user.user.favorites.length : ""
                       }`,
-                      onClick: () => console.log(user),
+                      onClick: () => setUserPhotos(user.user.favorites.filter(photo => photo.type === 'photo' ? photo : null)),
                     },
                     {
                       key: 2,
                       text: `Routes :  ${
                         user.user.favorites ? user.user.favorites.length : ""
                       }`,
-                      onClick: () => console.log("GET user favorites ROUTES"),
+                      // onClick: () => console.log("GET user favorites ROUTES"),
                     },
                   ]}
                   item

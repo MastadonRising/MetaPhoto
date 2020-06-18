@@ -77,7 +77,7 @@ function Upload() {
                 });
               });
             } else {
-              console.log("No EXIF data found in image");
+              // console.log("No EXIF data found in image");
               API.updatePhoto(photo._id, {
                 routes: ["No GPS Data Found."],
               }).then(() => {

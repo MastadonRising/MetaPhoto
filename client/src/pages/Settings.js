@@ -31,7 +31,7 @@ function Settings() {
     // onOpen: () => {}, //Called when the UI is mounted.
     onUploadDone: (files) => {
       // Called when all files have been uploaded.
-      console.log(files);
+      // console.log(files);
       setNewAvatar(files.filesUploaded[0].url);
       API.updateUserProfilePic(UserData.user._id, {
         profile_photo: files.filesUploaded[0].url,
@@ -68,7 +68,7 @@ function Settings() {
           ></Image>
           <Button
             onClick={() => {
-              console.log(`clicky clicky`);
+              // console.log(`clicky clicky`);
               window.location.href = "/myaccount"
             }}
             style={{ margin: "0 2rem 0 1rem" }}

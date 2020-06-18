@@ -9,7 +9,7 @@ const RouteCard = (props) => {
 
   function handleVoting(evt, type) {
     if (type === "up") {
-      console.log(`♥‿♥`, userData.user._id);
+      // console.log(`♥‿♥`, userData.user._id);
       API.postLike(userData.user._id, {
         typeOf: "like",
         userID: userData.id,
@@ -17,7 +17,7 @@ const RouteCard = (props) => {
         setNewUpdate({ ...newUpdate }); // "tricking" it to refresh photoratings
       });
     } else {
-      console.log(`(ಥ⌣ಥ)`);
+      // console.log(`(ಥ⌣ಥ)`);
       API.postLike(userData.user._id, {
         typeOf: "dislike",
         userID: userData.id,
@@ -40,20 +40,20 @@ const RouteCard = (props) => {
           corner="left"
           as="a"
           icon={{ name: "heart" }}
-          onClick={() => console.log("cricket")}
+          // onClick={() => console.log("cricket")}
         />
       </Card.Content>
       <Card.Content style={{ maxHeight: "140px" }}>
         <Card.Header>{props.name} </Card.Header>
         <Card.Description>
           {props.desc ? (
-            <p>{props.desc}</p>
+            <div>{props.desc}</div>
           ) : (
-            <p>
+            <div>
               {props.rating} || {props.stars} 
               <Icon name="star outline" />{" "} || {(props.type) ? 'Type: ' + props.type : null}  
               {(props.proximity) ? <List.Item>{props.proximity.toFixed(2)} Miles Away</List.Item> : null}
-            </p>
+            </div>
           )}
           {props.location ? (
             <List>
