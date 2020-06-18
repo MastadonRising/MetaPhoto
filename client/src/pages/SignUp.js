@@ -30,7 +30,7 @@ function SignUp() {
       email: registerEmail,
     };
     API.register(NewUser);
-    history.replace("/");
+    history.replace("/login");
   }
 
   return (
