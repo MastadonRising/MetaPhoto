@@ -1,4 +1,5 @@
 import axios from "axios";
+const baseURL = "https://metaphotojs.herokuapp.com/";
 
 export default {
   // Gets all routes by lat,lon
@@ -9,7 +10,7 @@ export default {
   getRoutesbySearch: function (searchTerm) {
     const geoCodeKey = "jmu2hzM4mHMBWSGPseb1cGFiAZ4CSPKI";
     const url =
-      "http://www.mapquestapi.com/geocoding/v1/address?key=" +
+      "https://www.mapquestapi.com/geocoding/v1/address?key=" +
       geoCodeKey +
       "&location=" +
       searchTerm.toLowerCase();
@@ -86,7 +87,7 @@ export default {
       method: "POST",
       data: NewUser,
       withCredentials: true,
-      url: "http://localhost:3001/register",
+      url: `${baseURL}register`,
     })
   },
   login: function (loginUsername, loginPassword) {
@@ -97,7 +98,7 @@ export default {
         password: loginPassword,
       },
       withCredentials: true,
-      url: "http://localhost:3001/login",
+      url: `${baseURL}login`,
     });
   },
   logout: function () {
@@ -108,7 +109,7 @@ export default {
     axios({
       method: "GET",
       withCredentials: true,
-      url: "http://localhost:3001/user",
+      url: `${baseURL}user`,
     }).then((res) => {
       setData(res.data);
       // console.log(res);
@@ -116,7 +117,7 @@ export default {
   },
 
   getUserById: function (userID) {
-    return axios.get(`/api/user${userID}`)
+    return axios.get(`/api/user${userID}`);
   },
 
   getPhotoInformation: function () {

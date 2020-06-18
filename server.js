@@ -24,7 +24,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(
   cors({
-    origin: "http://localhost:3000", // <-- location of the react app were connecting to
+    origin: "https://metaphotojs.herokuapp.com/", // <-- location of the react app were connecting to
     credentials: true,
   })
 );
@@ -47,9 +47,9 @@ app.use(compression());
 app.use(routes);
 // Send every request to the React app
 // Define any API routes before this runs
-// app.get("*", function (req, res) {
-//   res.sendFile(path.join(__dirname, "./client/build/index.html"));
-// });
+app.get("*", function (req, res) {
+  res.sendFile(path.join(__dirname, "./client/build/index.html"));
+});
 
 mongoose.connect(
   process.env.MONGODB_URI || "mongodb://localhost/reactMetaPhotodb",

@@ -2,7 +2,8 @@ const mongoose = require("mongoose");
 const db = require("../models");
 
 mongoose.connect(
-  process.env.MONGODB_URI || "mongodb://localhost/reactMetaPhotodb"
+  process.env.MONGODB_URI ||
+    "mongodb://user:password1@ds031948.mlab.com:31948/heroku_tmwz9gv0"
 );
 
 const resourceSeed = [

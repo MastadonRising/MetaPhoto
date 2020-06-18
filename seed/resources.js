@@ -4,7 +4,8 @@ const db = require("../models");
 // This file empties the Books collection and inserts the books below
 
 mongoose.connect(
-  process.env.MONGODB_URI || "mongodb://localhost/reactMetaPhotodb"
+  process.env.MONGODB_URI ||
+    "mongodb://user:password1@ds031948.mlab.com:31948/heroku_tmwz9gv0"
 );
 
 const resourceSeed = [

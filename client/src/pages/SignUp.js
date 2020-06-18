@@ -55,8 +55,8 @@ function SignUp() {
     // history.replace("/myaccount");
   }
   return (
-    <Container id='mainContainer'>
-      <Header id='heading' as='h1'>
+    <Container id="mainContainer">
+      <Header id="heading" as="h1">
         Register your new account
       </Header>
       <MenuBar />
@@ -65,7 +65,7 @@ function SignUp() {
           <Divider horizontal hidden />
           <Header as="h2" textAlign="center">
             <Icon name="users" size="mini" /> Register for an account
-        </Header>
+          </Header>
           <Form size="large">
             <Segment>
               <Form.Input
@@ -108,14 +108,14 @@ function SignUp() {
 
               <Button fluid basic size="large" onClick={register}>
                 Sign Up
-            </Button>
+              </Button>
             </Segment>
           </Form>
           <Message attached="bottom" style={{ width: "99%", margin: "auto" }}>
             Already a Member?
             <Button basic as={Link} to="/login" name="login">
               Log In
-          </Button>
+            </Button>
           </Message>
         </Grid.Column>
       </Grid>

@@ -1,14 +1,14 @@
 import React, { useState, useContext } from "react";
 import {
-  Card,
-  Image,
-  Button,
-  Modal,
-  Label,
-  Menu,
-  Segment,
-  Grid,
-  List,
+    Card,
+    Image,
+    Button,
+    Modal,
+    Label,
+    Menu,
+    Segment,
+    Grid,
+    List,
 } from "semantic-ui-react";
 import API from "../utils/API";
 import userContext from "../context/userContext";
@@ -16,12 +16,13 @@ import userContext from "../context/userContext";
 const ImageCard = (props) => {
   const userData = useContext(userContext);
   const [visible, setvisible] = useState({ visible: false, username: "" });
+  const [newUpdate, setNewUpdate] = useState({});
 
-  function yoirgoi() {
-    API.getUserById(props.userID).then((res) =>
-      setvisible({ visible: !visible.visible, username: res.data.username })
-    );
-  }
+    function yoirgoi() {
+        API.getUserById(props.userID).then((res) =>
+            setvisible({ visible: !visible.visible, username: res.data.username })
+        );
+    }
 
   function handleFavorite(evt, type) {
     // console.log(type)
@@ -34,6 +35,25 @@ const ImageCard = (props) => {
     });
   }
 
+  function handleVoting(evt, type, photoID) {
+    console.log(photoID);
+    if (type === "up") {
+      console.log(`♥‿♥`, evt.target);
+      API.postLike(photoID, {
+        typeOf: "like",
+        userID: userData.user._id, // needs real userID
+      }).then(() => {
+        setNewUpdate({ ...newUpdate }); // "tricking" it to refresh photoratings
+      });
+    } else {
+      console.log(`(ಥ⌣ಥ)`);
+      API.postLike(photoID, {
+        typeOf: "dislike",
+        userID: userData.user._id, // needs real userID
+      });
+      setNewUpdate({ ...newUpdate }); // "tricking" it to refresh photoratings
+    }
+  }
   // namer(props.userID)
   // console.log(props, userData.user);
   return (
@@ -82,11 +102,15 @@ const ImageCard = (props) => {
             )}
             <Menu widths="3">
               <Menu.Item
-                id={props.id}
                 position="left"
                 icon="thumbs up"
-                content="Like"
-              />
+                content={`Like(s) ${
+                  props.likes.filter((i) => i.typeOf === "like").length
+                }`}
+                onClick={(evt) => {
+                  handleVoting(evt, `up`, props._id);
+                }}
+              ></Menu.Item>
               <Menu.Item
                 content={
                   visible.visible === false
@@ -104,7 +128,12 @@ const ImageCard = (props) => {
                 id={props.id}
                 position="right"
                 icon="thumbs down"
-                content="Dislike"
+                content={`Dislike(s) ${
+                  props.likes.filter((i) => i.typeOf === "dislike").length
+                }`}
+                onClick={(evt) => {
+                  handleVoting(evt, `down`, props._id);
+                }}
               />
             </Menu>
           </Modal.Content>
