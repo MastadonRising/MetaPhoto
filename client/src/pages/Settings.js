@@ -2,7 +2,7 @@ import React, { useState, useContext } from "react";
 import API from "../utils/API";
 // import UTILS from "../utils/utils";
 import UserContext from "../context/userContext";
-import { Container, Header, Segment, Image, Grid, Divider } from "semantic-ui-react";
+import { Container, Header, Segment, Image, Grid, Divider, Button } from "semantic-ui-react";
 import MenuBar from "../Components/Menu.js"
 const client = require("filestack-js").init(
   process.env.REACT_FILESTACK_KEY || "ASqRy0SxoR0GwFXKGloCDz"
@@ -55,17 +55,18 @@ function Settings() {
       <MenuBar />
 
       {newAvatar !== null ? (
-        <>
-          <p>Confirm: </p>
-          <img
+        <Container textAlign='center'>
+          <h3>Confirm: </h3>
+          <Image
+            centered
             alt={`${"user"} profile pic`}
             src={
               newAvatar ||
               "https://cdn.filestackcontent.com/dQ3y6HCTSuXgf0chbf9e"
             }
-            style={{ clear: "both", display: "block", maxHeight: "150px" }}
-          ></img>
-          <button
+          style={{ maxHeight: '500px'}}
+          ></Image>
+          <Button
             onClick={() => {
               console.log(`clicky clicky`);
               window.location.href = "/myaccount"
@@ -73,8 +74,8 @@ function Settings() {
             style={{ margin: "0 2rem 0 1rem" }}
           >
             Set as new profile photo?
-          </button>
-        </>
+          </Button>
+        </Container>
       ) : (
           <Segment>
             <Header className="yes">Change Profile Photo:</Header>
@@ -82,22 +83,22 @@ function Settings() {
               <Grid.Column widths='8'>
                 <span>Current Photo:
                   <Divider />
-            <Image src={(UserData.user.profile_photo) ? UserData.user.profile_photo : null} />
+                  <Image src={(UserData.user.profile_photo) ? UserData.user.profile_photo : null} />
                 </span>
               </Grid.Column>
-              <Grid.Column widths='8'>Upload New Photo: 
+              <Grid.Column widths='8'>Upload New Photo:
               <Divider />
                 <button
-              onClick={() => {
-                picker.open();
-              }}
-              style={{ margin: "0 0 0 1rem" }}
-            >
-              Upload
+                  onClick={() => {
+                    picker.open();
+                  }}
+                  style={{ margin: "0 0 0 1rem" }}
+                >
+                  Upload
           </button></Grid.Column>
             </Grid>
 
-            
+
           </Segment>
         )}
     </Container>

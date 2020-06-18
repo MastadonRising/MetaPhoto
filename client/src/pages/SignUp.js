@@ -31,7 +31,7 @@ function SignUp() {
       email: registerEmail,
     };
     console.log(NewUser);
-    API.register(NewUser).then(res => console.log(res));
+    API.register(NewUser);
   }
 
   return (
