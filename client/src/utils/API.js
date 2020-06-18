@@ -1,5 +1,10 @@
 import axios from "axios";
 const baseURL = "https://metaphotojs.herokuapp.com/";
+import { useContext } from "react";
+import UserContext from "../context/userContext";
+const history = useHistory();
+const user = useContext(UserContext);
+
 export default {
   // Gets all routes by lat,lon
   getRoutesByNavigator: function (GPS, range) {
@@ -81,7 +86,7 @@ export default {
   },
 
   register: function (NewUser) {
-    console.log("step 2", NewUser);
+    // console.log("step 2", NewUser);
     axios({
       method: "POST",
       data: NewUser,
@@ -90,7 +95,10 @@ export default {
     }).then((res) => {
       res.data === "User Already Exists"
         ? alert("Sorry, A user with that username already exists!")
-        : console.log(res);
+        : this.login(NewUser.username, NewUser.password).then((res) => {
+            user.Login(res.data);
+            history.replace("/");
+          });
     });
   },
   login: function (loginUsername, loginPassword) {

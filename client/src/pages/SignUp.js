@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import {
   Button,
   Form,
@@ -19,9 +19,9 @@ function SignUp() {
   const [registerFirstName, setRegisterFirstName] = useState("");
   const [registerLastName, setRegisterLastName] = useState("");
   const [registerEmail, setRegisterEmail] = useState("");
-  function register() {
+  const history = useHistory();
 
-    console.log("registering");
+  function register() {
     let NewUser = {
       username: registerUsername,
       password: registerPassword,
@@ -29,14 +29,12 @@ function SignUp() {
       lastName: registerLastName,
       email: registerEmail,
     };
-    console.log(NewUser);
     API.register(NewUser);
- 
   }
 
   return (
-    <Container id='mainContainer'>
-      <Header id='heading' as='h1'>
+    <Container id="mainContainer">
+      <Header id="heading" as="h1">
         Register your new account
       </Header>
       <Grid textAlign="center" verticalAlign="middle">
@@ -44,7 +42,7 @@ function SignUp() {
           <Divider horizontal hidden />
           <Header as="h2" textAlign="center">
             <Icon name="users" size="mini" /> Register for an account
-        </Header>
+          </Header>
           <Form size="large">
             <Segment>
               <Form.Input
@@ -87,14 +85,14 @@ function SignUp() {
 
               <Button fluid basic size="large" onClick={register}>
                 Sign Up
-            </Button>
+              </Button>
             </Segment>
           </Form>
           <Message attached="bottom" style={{ width: "99%", margin: "auto" }}>
             Already a Member?
             <Button basic as={Link} to="/login" name="login">
               Log In
-          </Button>
+            </Button>
           </Message>
         </Grid.Column>
       </Grid>
