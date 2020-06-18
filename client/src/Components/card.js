@@ -50,15 +50,14 @@ const RouteCard = (props) => {
             <p>{props.desc}</p>
           ) : (
             <p>
-              {props.rating} || {props.stars}
-              <Icon name="star outline" />{" "}
+              {props.rating} || {props.stars} 
+              <Icon name="star outline" />{" "} || {(props.type) ? 'Type: ' + props.type : null}  
+              {(props.proximity) ? <List.Item>{props.proximity.toFixed(2)} Miles Away</List.Item> : null}
             </p>
           )}
           {props.location ? (
             <List>
               <List.Item>{props.location[1] + ", " + props.location[0]}</List.Item>
-              {(props.type) ? <List.Item>Type of Climb: {props.type}</List.Item> : null}
-              {(props.proximity) ? <List.Item>Proximity to you: {props.proximity.toFixed(2)} miles</List.Item> : null}
             </List>
           ) : null}
         </Card.Description>

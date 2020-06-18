@@ -185,8 +185,19 @@ function Explore() {
                     if (route.imgMedium !== "") {
                       Routes.push(route);
                     }
+                  }); var updatedRoutes = Routes.map((route) => {
+                    // adding a "proximity" factor to use in sorting
+                    let proximity = UTILS.calculateDistance(
+                      coordsObj.coords.latitude,
+                      coordsObj.coords.longitude,
+                      route.latitude,
+                      route.longitude,
+                      "K"
+                    );
+                    return { ...route, proximity: proximity };
                   });
-                  setLocalClimbs(Routes);
+            
+                  setLocalClimbs(updatedRoutes);
                 });
               });
             },
@@ -198,7 +209,7 @@ function Explore() {
             inline
             text={"Sort Search Results by: "}
             options={sortOptions}
-            onChange={(e, value) => setSortKey(value.value)}
+            onChange={(e, value) => (setSortKey(value.value))}
           />
           <Button
             className={getClassNamesFor(sortKey) || sortConfig.direction}

@@ -19,6 +19,7 @@ function SignUp() {
   const [registerFirstName, setRegisterFirstName] = useState("");
   const [registerLastName, setRegisterLastName] = useState("");
   const [registerEmail, setRegisterEmail] = useState("");
+
   function register() {
 
     console.log("registering");
@@ -30,8 +31,7 @@ function SignUp() {
       email: registerEmail,
     };
     console.log(NewUser);
-    API.register(NewUser);
- 
+    API.register(NewUser).then(res => console.log(res));
   }
 
   return (
